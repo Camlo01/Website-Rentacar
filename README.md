@@ -8,7 +8,7 @@ Proyecto sitio web "Rentacar"el programa de formación MisionTIC en el ciclo 3�
 <!--Imagen logo de Spring -->
 ![image](https://user-images.githubusercontent.com/96300875/166296186-23eeb329-acf1-4be2-ba91-4855a4793531.png)
 <!--Imagen logo de H2 -->
-![image](https://user-images.githubusercontent.com/96300875/166294636-82dbbedc-d191-438e-9d20-d63727862a73.png)
+![image](https://user-images.githubusercontent.com/96300875/166296367-81f4652e-3e5b-4c29-a3f9-a2ab6a34511e.png)
 
 
 En el FRONTEND se utilizó únicamente HTML y se estulizó haciendo uso CSS
