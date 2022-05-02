@@ -1,6 +1,6 @@
 # PROYECTO RENTACAR 💻🚗
 
-![image](https://user-images.githubusercontent.com/96300875/166296230-18bef1cf-1747-402a-bee9-c4be7d8d6ecb.png)
+![image](https://user-images.githubusercontent.com/96300875/166296288-80259517-ab8d-494a-a943-93041473ae5d.png)
 
 
 Proyecto sitio web "Rentacar"el programa de formación MisionTIC en el ciclo 3️⃣ [Ciclo 3, Desarrollo de Software con Lenguaje de Programación Java 🎓] con el objetivo de aprender a realizar el BACKEND con Java ☕ haciendo uso del framework Spring 🍃 utilizando una base de datos H2 
