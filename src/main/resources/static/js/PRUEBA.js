@@ -18,7 +18,6 @@ function autoInicioCategoria(){
 //Manejador GET
 function traerInformacionSkate() {
     $.ajax({
-        // url:"http://168.138.247.22:80/api/Skate/all",
         url: "http://localhost:8080/api/Skate/all",
         type: "GET",
         datatype: "JSON",
@@ -61,7 +60,6 @@ function pintarRespuestaSkate(response){
 function cargarDatosSkate(id) {
     $.ajax({
         dataType: 'json',
-        // url:"http://168.138.247.22:80/api/Skate/"+id,
         url: "http://localhost:8080/api/Skate/" + id,
         type: 'GET',
 
@@ -103,7 +101,6 @@ function agregarSkate() {
             $.ajax({
                 type: "POST",
                 contentType: "application/json",
-                // url:"http://168.138.247.22:80/api/Skate/save",
                 url: "http://localhost:8080/api/Skate/save",
                 data: dataToSend,
                 datatype: 'json',
@@ -141,7 +138,6 @@ console.log(dataToSend);
         {
             dataType: 'json',
             data: dataToSend,
-            // url:"http://168.138.247.22:80/api/Skate/"+idElemento,
             url: "http://localhost:8080/api/Skate/" + idElemento,
             type: 'DELETE',
             contentType: "application/JSON",
@@ -180,7 +176,6 @@ function actualizar(idElemento) {
             datatype: 'json',
             data: dataToSend,
             contentType: "application/JSON",
-            // url:"http://168.138.247.22:80/api/Skate/update",
             url: "http://localhost:8080/api/Skate/update",
             type: "PUT",
 
