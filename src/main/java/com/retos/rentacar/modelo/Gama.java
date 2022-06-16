@@ -3,19 +3,14 @@ package com.retos.rentacar.modelo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "gama")
-public class Gama implements Serializable {
+public class Gama {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
+//    @Column(name = "id_Gama", nullable = false, unique = true)
     private Integer idGama;
     private String name;
     private String description;
@@ -23,6 +18,9 @@ public class Gama implements Serializable {
     @OneToMany(cascade = {CascadeType.PERSIST},mappedBy="gama")
     @JsonIgnoreProperties("gama")
     private List<Car> cars;
+
+    public Gama() {
+    }
 
     public Integer getIdGama() {
         return idGama;
@@ -56,5 +54,15 @@ public class Gama implements Serializable {
         this.cars = cars;
     }
 
-    
+    public Gama(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public Gama(Integer idGama, String name, String description, List<Car> cars) {
+        this.idGama = idGama;
+        this.name = name;
+        this.description = description;
+        this.cars = cars;
+    }
 }

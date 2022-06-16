@@ -2,6 +2,7 @@
 package com.retos.rentacar.modelo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -16,18 +17,28 @@ import javax.persistence.Table;
 @Table(name = "client")
 public class Client implements Serializable {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idClient;
     private String email;
     private String password;
     private String name;
     private Integer age;
-        
-    @OneToMany(cascade = {CascadeType.PERSIST},mappedBy="client")
+
+    public Client() {
+    }
+
+    public Client(String name, String email, String password, Integer age) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.age = age;
+    }
+
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "client")
     @JsonIgnoreProperties("client")
     private List<Message> messages;
-    
-    @OneToMany(cascade = {CascadeType.PERSIST},mappedBy="client")
+
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "client")
     @JsonIgnoreProperties("client")
     private List<Reservation> reservations;
 

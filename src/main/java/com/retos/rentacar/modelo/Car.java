@@ -48,10 +48,33 @@ public class Car implements Serializable {
     Lista de mensajes generados para el vehículo
     */
     private List<Message> messages;
-    
+
+    public Car() {
+    }
+
+    public Car(String name, String brand, Integer year, String description) {
+        this.name = name;
+        this.brand = brand;
+        this.year = year;
+        this.description = description;
+    }
+
+    public Car(Integer idCar, String name, String brand, Integer year, String description, Gama gama, List<Message> messages, List<Reservation> reservations) {
+        this.idCar = idCar;
+        this.name = name;
+        this.brand = brand;
+        this.year = year;
+        this.description = description;
+        this.gama = gama;
+        this.messages = messages;
+        this.reservations = reservations;
+    }
+
     @OneToMany(cascade = {CascadeType.PERSIST},mappedBy="car")
     @JsonIgnoreProperties({"car" , "client"})
-    
+
+
+
     /*
     Lista de reservas generadas para el vehículo
     */
