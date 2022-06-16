@@ -9,14 +9,15 @@ import com.retos.rentacar.modelo.Gama;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Component
 public class GamaRepository {
-    
+
     @Autowired
     private GamaInterface crudGama;
-    
+
     public List<Gama> getAll(){
         return (List<Gama>) crudGama.findAll();
     }
@@ -28,5 +29,10 @@ public class GamaRepository {
     }
     public void delete(Gama gama){
         crudGama.delete(gama);
+    }
+    public Iterable<Gama> saveAll(List<Gama> listadeGamas){
+
+        return crudGama.saveAll(listadeGamas);
+//        return crudGama.saveAll(getAll().subList(List<Gama> gamas));
     }
 }

@@ -6,11 +6,13 @@ package com.retos.rentacar.interfaces;
 
 import com.retos.rentacar.modelo.Gama;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author USUARIO
  */
+@Repository
 public interface GamaInterface extends CrudRepository<Gama,Integer> {
-    
+
 }
