@@ -1,26 +1,20 @@
 package com.retos.rentacar;
 
-import com.retos.rentacar.interfaces.CarInterface;
-import com.retos.rentacar.interfaces.ClientInterface;
-import com.retos.rentacar.interfaces.GamaInterface;
-import com.retos.rentacar.modelo.Car;
-import com.retos.rentacar.modelo.Client;
-import com.retos.rentacar.modelo.Gama;
-import com.retos.rentacar.repositorio.GamaRepository;
+import com.retos.rentacar.interfaces.*;
+import com.retos.rentacar.modelo.*;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.SpringApplicationRunListener;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
-import javax.security.auth.login.LoginException;
+import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 
-@EntityScan(basePackages = {"com.retos.rentacar.modelo"})
+@EntityScan(basePackages = { "com.retos.rentacar.modelo" })
 @SpringBootApplication
 public class RentacarApplication implements CommandLineRunner {
 
@@ -32,7 +26,10 @@ public class RentacarApplication implements CommandLineRunner {
     private CarInterface carInterface;
     @Autowired
     private ClientInterface clientInterface;
-
+    @Autowired
+    private MessageInterface messageInterface;
+    @Autowired
+    private ReservationInterface reservationInterface;
 
     public static void main(String[] args) {
         SpringApplication.run(RentacarApplication.class, args);
@@ -41,8 +38,14 @@ public class RentacarApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         createGamaVehicles();
+        createEveryObject();
+    }
+
+    public void createEveryObject() {
         createVehicles();
         createClients();
+        createMessage();
+        createReservation();
     }
 
     public void createGamaVehicles() {
@@ -70,7 +73,8 @@ public class RentacarApplication implements CommandLineRunner {
         Car camionetaBMW = new Car("Bmx x7 Xdrive40i Pure", "BMW", 2022, "Camioneta con un hermoso azul");
         Car camionetaFord = new Car("Ford Bronco Outer Banks", "Ford", 2021, "Camioneta amarilla");
         Car carroChevrolet = new Car("Chevrolet Corvetter Stingray Z51", "Chevrolet", 2014, "Carro rojo");
-        List<Car> listOfCars = Arrays.asList(camionetaToyota, camionetaJeep, camionetaMercedes, camionetaBMW, camionetaFord, carroChevrolet);
+        List<Car> listOfCars = Arrays.asList(camionetaToyota, camionetaJeep, camionetaMercedes, camionetaBMW,
+                camionetaFord, carroChevrolet);
         try {
             carInterface.saveAll(listOfCars);
             Logger.info("Cars added to H2 DataBase");
@@ -93,6 +97,64 @@ public class RentacarApplication implements CommandLineRunner {
         } catch (Exception e) {
             Logger.info("No fue posible crear el cliente: " + e);
         }
+    }
+
+    public void createMessage() {
+
+        Message mensaje = new Message("Este carro es muy bonito");
+        Message mensaje1 = new Message("El carro es dificil de conducir");
+        Message mensaje2 = new Message("Este vehículo consume mucha gasolina");
+        Message mensaje3 = new Message("El color blanco se ensucia muy fácil");
+        Message mensaje4 = new Message("La camioneta es muy ancha");
+        Message mensaje5 = new Message("El carro me lo entregaron sucio");
+        Message mensaje6 = new Message("Me gustaría poder alquilar motos");
+        Message mensaje7 = new Message("No tienen este carro disponible en otra ciudad?");
+        Message mensaje8 = new Message("El carro estaba mal de los frenos");
+        Message mensaje9 = new Message("No recomiendo para nada este servicio");
+        Message mensaje10 = new Message("siempre los uso cuando estoy de vacaciones");
+        Message mensaje11 = new Message("Deberían tener más carros eléctricos");
+        Message mensaje12 = new Message("Este carro tiene muy mal motor");
+        Message mensaje13 = new Message("Hace falta de mantenimiento a los carros");
+        Message mensaje14 = new Message("no tienen del color que me gusta");
+
+        List<Message> list = Arrays.asList(mensaje, mensaje1, mensaje2, mensaje3, mensaje4, mensaje5, mensaje6,
+                mensaje7, mensaje8, mensaje9, mensaje10, mensaje11, mensaje12, mensaje13, mensaje14);
+
+        try {
+            messageInterface.saveAll(list);
+            Logger.info("Messages added to H2 DataBase");
+
+        } catch (Exception e) {
+            Logger.info("No fue posible crear los mensajes: " + e);
+        }
+
+    }
+
+    public void createReservation() {
+
+        Date fechaInico = Date.valueOf("2022-06-10");
+        Date fechaFinal = Date.valueOf("2022-06-12");
+
+        Date fechaInico1 = Date.valueOf("2022-06-10");
+        Date fechaFinal1 = Date.valueOf("2022-06-12");
+
+        Date fechaInico2 = Date.valueOf("2022-06-10");
+        Date fechaFinal2 = Date.valueOf("2022-06-12");
+
+        Reservation reservation = new Reservation(fechaInico, fechaFinal, "RESERVADO");
+        Reservation reservation1 = new Reservation(fechaInico1, fechaFinal1, "RESERVADO");
+        Reservation reservation2 = new Reservation(fechaInico2, fechaFinal2, "RESERVADO");
+
+        List<Reservation> list = Arrays.asList(reservation, reservation1, reservation2);
+
+        try {
+            reservationInterface.saveAll(list);
+            Logger.info("Reservations added to H2 DataBase");
+
+        } catch (Exception e) {
+            Logger.info("No fue posible crear las reservaciones: " + e);
+        }
+
     }
 
 }
