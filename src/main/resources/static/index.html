@@ -6,15 +6,15 @@
     <title>Renta Car</title>
     <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!-- <script language="JavaScript" type="text/javascript" src="js/Car.js"></script> -->
-    <script language="JavaScript" type="text/javascript" src="js/misFunciones.js"></script>
+    <!-- <script language="JavaScript" type="text/javascript" src="js/misFunciones.js"></script> -->
+    <script language="JavaScript" type="text/javascript" src="js/Car.js"></script>
     <script language="JavaScript" type="text/javascript" src="js/Gama.js"></script>
-    <!-- <script language="JavaScript" type="text/javascript" src="js/Client.js"></script> -->
-    <!-- <script language="JavaScript" type="text/javascript" src="js/Message.js"></script> -->
-    <!-- <script language="JavaScript" type="text/javascript" src="js/Reservation.js"></script> -->
-    <!-- <script language="JavaScript" type="text/javascript" src="js/reportes/reportes.js"></script> -->
+    <script language="JavaScript" type="text/javascript" src="js/Client.js"></script>
+    <script language="JavaScript" type="text/javascript" src="js/Message.js"></script>
+    <script language="JavaScript" type="text/javascript" src="js/Reservation.js"></script>
+    <script language="JavaScript" type="text/javascript" src="js/reportes/reportes.js"></script>
     <link rel="stylesheet" type="text/css" href="css/estilos.css">
-    </script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Sitio web de reservas del reto 3" />
     <meta name="keywords" content="Reto3, G1, Mastertech" />
@@ -22,6 +22,7 @@
     <meta name="copyright" content="Propietario del copyright 2021" />
 
 </head>
+
 <body>
 
     <header>
@@ -34,7 +35,7 @@
             <h2 class="Titulo-Tabla">Gama</h2>
             <h3 class="Texto-Tablas">Formulario de Gamas</h3>
             <div id="resultadoGama"> </div>
-            <script>gamaDates();</script>
+            <script>gamaData();</script>
             <div>
                 <input type="text" id="GamaName" placeholder="nombre gama">
                 <input type="text" id="GamaDescription" placeholder="descripción gama">
@@ -46,7 +47,7 @@
             <h2 class="Titulo-Tabla">Tabla Carros</h2>
             <h3 class="Texto-Tablas">Formulario de tabla Carros</h3>
             <div id="resultadoCar"></div>
-            <script type="text/javascript"> window.onload = autoInicioCar();</script>
+            <script>carData()</script>
             <div>
                 <input type="text" id="CarName" placeholder="nombre">
                 <input type="text" id="CarBrand" placeholder="marca">
@@ -65,7 +66,7 @@
             <h3 class="Texto-Tablas">Formulario de tabla Clientes</h3>
             <br><br>
             <div id="resultadoClient"> </div>
-            <script type="text/javascript"> window.onload = autoInicioClient(); </script>
+            <script>clientData()</script>
             <div>
                 <input type="text" id="ClientEmail" placeholder="Email">
                 <input type="text" id="ClientPassword" placeholder="Contraseña">
@@ -84,7 +85,7 @@
             <h3 class="Texto-Tablas">Formulario de tabla Mensajes</h3>
             <br><br>
             <div id="resultadoMessage"> </div>
-            <script type="text/javascript"> window.onload = autoInicioMessage(); </script>
+            <script>messageData()</script>
             <div>
                 <input type-="text" id="messageText" placeholder="messageText">
                 <p>Cliente:</p>
@@ -102,7 +103,7 @@
                 <h3 class="Texto-Tablas">Formulario de tabla Reservaciones</h3>
                 <br><br>
                 <div id="resultadoReservation"> </div>
-                <script type="text/javascript"> window.onload = autoInicioReservation(); </script>
+                <script>reservationData()</script>
                 <div>
                     <input type="date" id="startDate" placeholder="inicio">
                     <input type="date" id="devolutionDate" placeholder="final">
@@ -128,4 +129,5 @@
                 <div id="resultadoClientes"></div>
             </div>
 </body>
+
 </html>
