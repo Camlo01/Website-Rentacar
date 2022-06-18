@@ -5,6 +5,7 @@
 package com.retos.rentacar.modelo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -27,26 +28,23 @@ Entidad clase vehículo (tabla Car)
 @Entity
 @Table(name = "car")
 public class Car implements Serializable {
-    
-    
+
+
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCar;
     private String name;
     private String brand;
     private Integer year;
     private String description;
     @ManyToOne
-    @JoinColumn(name ="idGama")
+    @JoinColumn(name = "idGama")
     @JsonIgnoreProperties("cars")
     private Gama gama;
 
-    @OneToMany(cascade = {CascadeType.PERSIST},mappedBy="car")
-    @JsonIgnoreProperties({"car" , "client"})
-    
-    /*
-    Lista de mensajes generados para el vehículo
-    */
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "car")
+    @JsonIgnoreProperties({"car", "client"})
+
     private List<Message> messages;
 
     public Car() {
@@ -70,14 +68,9 @@ public class Car implements Serializable {
         this.reservations = reservations;
     }
 
-    @OneToMany(cascade = {CascadeType.PERSIST},mappedBy="car")
-    @JsonIgnoreProperties({"car" , "client"})
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "car")
+    @JsonIgnoreProperties({"car", "client"})
 
-
-
-    /*
-    Lista de reservas generadas para el vehículo
-    */
     private List<Reservation> reservations;
 
     public Integer getIdCar() {
@@ -144,6 +137,6 @@ public class Car implements Serializable {
         this.reservations = reservations;
     }
 
-    
+
 }
     
