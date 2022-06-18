@@ -1,22 +1,12 @@
-function autoInicioReservation() {
-  console.log("se esta ejecutando tabla Reservation");
-  $.ajax({
-    url: "http://localhost:8080/api/Reservation/all",
-    type: "GET",
-    datatype: "JSON",
-    success: function (respuesta) {
-      console.log(respuesta);
-      pintarRespuestaReservation(respuesta);
-      let $select = $("#Select-Reservation");
-      $.each(respuesta, function (_id, name) {
-        $select.append(
-          "<option value=" + name.id + ">" + name.name + "</option>"
-        );
-        console.log("select " + name.id);
-      });
-    },
-  });
+function reservationData() {
+  fetch("http://localhost:8080/api/Reservation/all")
+    .then((response) => response.json())
+    .then(function (data) {
+      pintarRespuestaReservation(data);
+    })
+    .catch((error) => console.log("Problema al mostrar reservation: " + error));
 }
+
 
 function pintarRespuestaReservation(respuesta) {
   let myTable = "<table>";

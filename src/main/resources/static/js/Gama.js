@@ -1,4 +1,4 @@
-function gamaDates() {
+function gamaData() {
   fetch("http://localhost:8080/api/Gama/all")
     .then((response) => response.json())
     .then(function (data) {

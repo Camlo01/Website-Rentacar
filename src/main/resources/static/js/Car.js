@@ -1,21 +1,10 @@
-function autoInicioCar() {
-  console.log("se esta ejecutando tabla Car");
-  $.ajax({
-    url: "http://localhost:8080/api/Car/all",
-    type: "GET",
-    datatype: "JSON",
-    success: function (respuesta) {
-      console.log(respuesta);
-      pintarRespuestaCar(respuesta);
-      let $select = $("#Select-Car");
-      $.each(respuesta, function (id, name) {
-        $select.append(
-          "<option value=" + name.id + ">" + name.name + "</option>"
-        );
-        console.log("select " + name.id);
-      });
-    },
-  });
+function carData() {
+  fetch("http://localhost:8080/api/Car/all")
+    .then((response) => response.json())
+    .then(function (data) {
+      pintarRespuestaCar(data);
+    })
+    .catch((error) => console.log("Problema al traer dator Car: " + error));
 }
 
 function pintarRespuestaCar(respuesta) {
