@@ -1,9 +1,12 @@
+// import { addInSelect } from "./utils";
+
 function clientData() {
   fetch("http://localhost:8080/api/Client/all")
     .then((response) => response.json())
     .then(function (data) {
       console.log(data);
       pintarRespuestaClient(data);
+      addInSelect(data, "Select-Client");
     })
     .catch((error) => console.log("Problema al traer datos client" + error));
 }
@@ -110,4 +113,11 @@ function borrarClient(idElemento) {
       alert("Se ha borrado correctamente el client");
     },
   });
+}
+
+function addInSelect(data, selectName) {
+  let selector = document.getElementById(selectName);
+  for (let i = 0; i < data.length; i++) {
+    selector.options[i] = new Option(data[i].name);
+  }
 }

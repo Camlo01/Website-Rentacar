@@ -3,6 +3,7 @@ function gamaData() {
     .then((response) => response.json())
     .then(function (data) {
       pintarRespuestaGama(data);
+      addInSelect(data, "Select-Gama");
     })
     .catch((error) => console.log("Problema al mostrar la gama: " + error));
 }
@@ -102,4 +103,11 @@ function borrarGama(idElemento) {
       alert("Se ha Eliminado.");
     },
   });
+}
+
+function addInSelect(data, selectName) {
+  let selector = document.getElementById(selectName);
+  for (let i = 0; i < data.length; i++) {
+    selector.options[i] = new Option(data[i].name);
+  }
 }

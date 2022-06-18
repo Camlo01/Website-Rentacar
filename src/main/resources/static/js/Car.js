@@ -1,8 +1,11 @@
+// import { addInSelect } from "./utils";
+
 function carData() {
   fetch("http://localhost:8080/api/Car/all")
     .then((response) => response.json())
     .then(function (data) {
       pintarRespuestaCar(data);
+      addInSelect(data, "Select-Car");
     })
     .catch((error) => console.log("Problema al traer dator Car: " + error));
 }
@@ -110,4 +113,11 @@ function borrarCar(idElemento) {
       alert("Se ha borrado correctamente el vehículo");
     },
   });
+}
+
+function addInSelect(data, selectName) {
+  let selector = document.getElementById(selectName);
+  for (let i = 0; i < data.length; i++) {
+    selector.options[i] = new Option(data[i].name);
+  }
 }
