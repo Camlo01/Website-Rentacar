@@ -30,6 +30,20 @@ public class Message implements Serializable {
     @JsonIgnoreProperties({"messages", "reservations", "client"})
     private Client client;
 
+    public Message() {
+    }
+
+    public Message(String messageText) {
+        this.messageText = messageText;
+    }
+
+    public Message(Integer idMessage, String messageText, Car car, Client client) {
+        this.idMessage = idMessage;
+        this.messageText = messageText;
+        this.car = car;
+        this.client = client;
+    }
+
     public Integer getIdMessage() {
         return idMessage;
     }
@@ -61,7 +75,4 @@ public class Message implements Serializable {
     public void setClient(Client client) {
         this.client = client;
     }
-
-
-
 }

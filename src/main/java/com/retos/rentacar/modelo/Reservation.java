@@ -34,7 +34,26 @@ public class Reservation implements Serializable {
     private Client client;
     
     @OneToOne
-    private Score score;    
+    private Score score;
+
+    public Reservation() {
+    }
+
+    public Reservation(Date startDate, Date devolutionDate, String status) {
+        this.startDate = startDate;
+        this.devolutionDate = devolutionDate;
+        this.status = status;
+    }
+
+    public Reservation(Integer idReservation, Date startDate, Date devolutionDate, String status, Car car, Client client, Score score) {
+        this.idReservation = idReservation;
+        this.startDate = startDate;
+        this.devolutionDate = devolutionDate;
+        this.status = status;
+        this.car = car;
+        this.client = client;
+        this.score = score;
+    }
 
     public Integer getIdReservation() {
         return idReservation;
@@ -91,9 +110,4 @@ public class Reservation implements Serializable {
     public void setScore(Score score) {
         this.score = score;
     }
-
-
-    
-
-        
 }
