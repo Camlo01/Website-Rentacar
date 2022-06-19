@@ -22,19 +22,35 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/Reservation")
-@CrossOrigin(origins = "*", methods={RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
+        RequestMethod.DELETE })
 public class ReservationWebRepository {
-    @GetMapping("/holaMundoReservation")
-    public String saludad(){
-    return "Hola Mundo Reservation";
-    }
-    
     @Autowired
     private ReservationServices servicios;
+
+    @GetMapping("/report-status")
+    public StatusReservas getReservas() {
+        return servicios.reporteStatusServicio();
+    }
+
+    @GetMapping("/report-dates/{dateOne}/{dateTwo}")
+    public List<Reservation> getReservasTiempo(@PathVariable("dateOne") String dateOne,
+            @PathVariable("dateTwo") String dateTwo) {
+        return servicios.reporteTiempoServicio(dateOne, dateTwo);
+    }
+
+    @GetMapping("/report-clients")
+    public List<CountClients> getClientes() {
+        return servicios.reporteClientesServicio();
+    }
+
+
+    
     @GetMapping("/all")
-    public List <Reservation> getReservation(){
+    public List<Reservation> getReservation() {
         return servicios.getAll();
     }
+
     @GetMapping("/{id}")
     public Optional<Reservation> getReservation(@PathVariable("id") int idReservation) {
         return servicios.getReservation(idReservation);
@@ -45,29 +61,11 @@ public class ReservationWebRepository {
     public Reservation save(@RequestBody Reservation reservation) {
         return servicios.save(reservation);
     }
-    
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean delete(@PathVariable ("id") int idReservation) {
+    public boolean delete(@PathVariable("id") int idReservation) {
         return servicios.deleteReservation(idReservation);
     }
-
-    @GetMapping("/report-status")
-    public StatusReservas getReservas(){
-        return servicios.reporteStatusServicio();
-    }
-    
-    @GetMapping("/report-dates/{dateOne}/{dateTwo}")
-     public List<Reservation> getReservasTiempo (@PathVariable("dateOne")String dateOne, @PathVariable("dateTwo")String dateTwo ){
-         return servicios.reporteTiempoServicio(dateOne, dateTwo);
-     }
-     
-     @GetMapping("/report-clients")
-     public List<CountClients> getClientes(){
-         return servicios.reporteClientesServicio();
-     }
-    
-     
-     
 
 }
