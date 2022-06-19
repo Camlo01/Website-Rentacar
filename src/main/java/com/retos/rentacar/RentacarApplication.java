@@ -14,7 +14,7 @@ import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 
-@EntityScan(basePackages = { "com.retos.rentacar.modelo" })
+@EntityScan(basePackages = {"com.retos.rentacar.modelo"})
 @SpringBootApplication
 public class RentacarApplication implements CommandLineRunner {
 
