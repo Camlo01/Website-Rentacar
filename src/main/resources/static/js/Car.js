@@ -1,11 +1,13 @@
-// import { addInSelect } from "./utils";
-
 function carData() {
   fetch("http://localhost:8080/api/Car/all")
     .then((response) => response.json())
     .then(function (data) {
+      data.forEach((element) => {
+        console.log(element.messages.length);
+      });
       pintarRespuestaCar(data);
-      addInSelect(data, "Select-Car");
+      addInSelect(data, "table-message-select-car");
+      addInSelect(data, "table-reser-select-car");
     })
     .catch((error) => console.log("Problema al traer dator Car: " + error));
 }
@@ -19,21 +21,23 @@ function pintarRespuestaCar(respuesta) {
     myTable += "<td>" + respuesta[i].year + "</td>";
     myTable += "<td>" + respuesta[i].description + "</td>";
     myTable += "<td>" + respuesta[i].gama + "</td>";
+    myTable += "<td>" + respuesta[i].messages + "</td>";
     myTable +=
-      "<td> <button onclick=' actualizarCar(" +
+      "<td> <button onclick=' updateCar(" +
       respuesta[i].idCar +
       ")'>Actualizar</button>";
     myTable +=
-      "<td> <button onclick='borrarCar(" +
+      "<td> <button onclick=' deteleCar(" +
       respuesta[i].idCar +
       ")'>Borrar</button>";
     myTable += "</tr>";
   }
   myTable += "</table>";
+
   $("#resultadoCar").html(myTable);
 }
 
-function guardarCar() {
+function saveCar() {
   let var2 = {
     name: $("#CarName").val(),
     brand: $("#CarBrand").val(),
@@ -64,7 +68,7 @@ function guardarCar() {
   });
 }
 
-function actualizarCar(idElemento) {
+function updateCar(idElemento) {
   let myData = {
     idCar: idElemento,
     name: $("#CarName").val(),
@@ -95,7 +99,7 @@ function actualizarCar(idElemento) {
   });
 }
 
-function borrarCar(idElemento) {
+function deteleCar(idElemento) {
   let myData = {
     id: idElemento,
   };
@@ -113,11 +117,4 @@ function borrarCar(idElemento) {
       alert("Se ha borrado correctamente el vehículo");
     },
   });
-}
-
-function addInSelect(data, selectName) {
-  let selector = document.getElementById(selectName);
-  for (let i = 0; i < data.length; i++) {
-    selector.options[i] = new Option(data[i].name);
-  }
 }

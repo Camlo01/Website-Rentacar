@@ -1,12 +1,10 @@
-// import { addInSelect } from "./utils";
-
 function clientData() {
   fetch("http://localhost:8080/api/Client/all")
     .then((response) => response.json())
     .then(function (data) {
-      console.log(data);
       pintarRespuestaClient(data);
-      addInSelect(data, "Select-Client");
+      addInSelect(data, "table-message-select-client");
+      addInSelect(data, "table-reser-select-client");
     })
     .catch((error) => console.log("Problema al traer datos client" + error));
 }
@@ -33,7 +31,7 @@ function pintarRespuestaClient(respuesta) {
   $("#resultadoClient").html(myTable);
 }
 
-function guardarClient() {
+function saveClient() {
   let var2 = {
     email: $("#ClientEmail").val(),
     password: $("#ClientPassword").val(),
@@ -63,13 +61,7 @@ function guardarClient() {
   });
 }
 
-/**
- *
- *
- * CRUD faltante
- */
-
-function actualizarClient(idElemento) {
+function updateClient(idElemento) {
   let myData = {
     idClient: idElemento,
     email: $("#ClientEmail").val(),
@@ -96,7 +88,7 @@ function actualizarClient(idElemento) {
   });
 }
 
-function borrarClient(idElemento) {
+function deleteClient(idElemento) {
   let myData = {
     id: idElemento,
   };
@@ -113,11 +105,4 @@ function borrarClient(idElemento) {
       alert("Se ha borrado correctamente el client");
     },
   });
-}
-
-function addInSelect(data, selectName) {
-  let selector = document.getElementById(selectName);
-  for (let i = 0; i < data.length; i++) {
-    selector.options[i] = new Option(data[i].name);
-  }
 }

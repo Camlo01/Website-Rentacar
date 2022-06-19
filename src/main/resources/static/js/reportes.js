@@ -1,32 +1,40 @@
-function reportStatusData() {
+function getReportStatus() {
   fetch("http://localhost:8080/api/Reservation/report-status")
     .then((response) => response.json())
     .then(function (data) {
+      console.log(data);
       pintarRespuesta(data);
     })
     .catch((error) => console.log("Problema al mostrar el status: " + error));
 }
 
-function pintarRespuesta(respuesta) {
-  let myTable = "<table>";
-  myTable += "<tr>";
-  myTable += "<th>completadas</th>";
-  myTable += "<td>" + respuesta.completed + "</td>";
-  myTable += "<th>canceladas</th>";
-  myTable += "<td>" + respuesta.cancelled + "</td>";
-  myTable += "</tr>";
-  myTable += "</table>";
-  $("#resultadoStatus").html(myTable);
+function getReportClients() {
+  fetch("http://localhost:8080/api/Reservation/report-clients")
+    .then((response) => response.json())
+    .then(function (data) {
+      console.log(data);
+      pintarRespuestaClientes(data);
+    })
+    .catch((error) => console.log("Errors: " + error));
 }
 
-function traerReporteClientes() {
+function getReportDates() {
+  var fechaInicio = document.getElementById("RstarDate").value;
+  var fechaCierre = document.getElementById("RdevolutionDate").value;
+  console.log(fechaInicio);
+  console.log(fechaCierre);
+
   $.ajax({
-    url: "http://localhost:8080/api/Reservation/report-clients",
+    url:
+      "http://localhost:8080/api/Reservation/report-dates/" +
+      fechaInicio +
+      "/" +
+      fechaCierre,
     type: "GET",
     datatype: "JSON",
     success: function (respuesta) {
       console.log(respuesta);
-      pintarRespuestaClientes(respuesta);
+      pintarRespuestaDate(respuesta);
     },
   });
 }
@@ -66,26 +74,6 @@ function pintarRespuestaClientesReservaciones(respuesta) {
   $("#resultadoClientes").html(myTable);
 }
 
-function traerReporteDate() {
-  var fechaInicio = document.getElementById("RstarDate").value;
-  var fechaCierre = document.getElementById("RdevolutionDate").value;
-  console.log(fechaInicio);
-  console.log(fechaCierre);
-
-  $.ajax({
-    url:
-      "http://localhost:8080/api/Reservation/report-dates/" +
-      fechaInicio +
-      "/" +
-      fechaCierre,
-    type: "GET",
-    datatype: "JSON",
-    success: function (respuesta) {
-      console.log(respuesta);
-      pintarRespuestaDate(respuesta);
-    },
-  });
-}
 function pintarRespuestaDate(respuesta) {
   let myTable = "<table>";
   myTable += "<tr>";
@@ -100,4 +88,16 @@ function pintarRespuestaDate(respuesta) {
   }
   myTable += "</table>";
   $("#resultadoDate").html(myTable);
+}
+
+function pintarRespuesta(respuesta) {
+  let myTable = "<table>";
+  myTable += "<tr>";
+  myTable += "<th>completadas</th>";
+  myTable += "<td>" + respuesta.completed + "</td>";
+  myTable += "<th>canceladas</th>";
+  myTable += "<td>" + respuesta.cancelled + "</td>";
+  myTable += "</tr>";
+  myTable += "</table>";
+  $("#resultadoStatus").html(myTable);
 }

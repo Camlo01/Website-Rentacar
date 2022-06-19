@@ -2,6 +2,7 @@ function messageData() {
   fetch("http://localhost:8080/api/Message/all")
     .then((response) => response.json())
     .then(function (data) {
+      console.log(data);
       pintarRespuestaMessage(data);
     })
     .catch((error) => console.log("Problema al mostrar messages: " + error));
@@ -12,12 +13,14 @@ function pintarRespuestaMessage(respuesta) {
   for (i = 0; i < respuesta.length; i++) {
     myTable += "<tr>";
     myTable += "<td>" + respuesta[i].messageText + "</td>";
+    myTable += "<td>" + respuesta[i].car + "</td>";
+    myTable += "<td>" + respuesta[i].client + "</td>";
     myTable +=
       "<td> <button onclick=' actualizarMessage(" +
       respuesta[i].idMessage +
       ")'>Actualizar</button>";
     myTable +=
-      "<td> <button onclick='borrarMessage(" +
+      "<td> <button onclick='deleteMessage(" +
       respuesta[i].idMessage +
       ")'>Borrar</button>";
     myTable += "</tr>";
@@ -26,11 +29,11 @@ function pintarRespuestaMessage(respuesta) {
   $("#resultadoMessage").html(myTable);
 }
 
-function guardarMessage() {
+function saveMessage() {
   let var2 = {
     messageText: $("#messageText").val(),
-    idCliente: { idCliente: +$("#Select-Cliente").val() },
-    idCar: { idCar: +$("#Select-Car").val() },
+    idCliente: { idCliente: +$("#table-message-select-client").val() },
+    idCar: { idCar: +$("#table-message-select-car").val() },
   };
 
   $.ajax({
@@ -55,7 +58,7 @@ function guardarMessage() {
   });
 }
 
-function actualizarMessage(idElemento) {
+function updateMessage(idElemento) {
   let myData = {
     idMessage: idElemento,
     messageText: $("#messagetext").val(),
@@ -76,7 +79,7 @@ function actualizarMessage(idElemento) {
   });
 }
 
-function borrarMessage(idElemento) {
+function deleteMessege(idElemento) {
   let myData = {
     idMessage: idElemento,
   };

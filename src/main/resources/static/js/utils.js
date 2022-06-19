@@ -4,4 +4,3 @@ function addInSelect(data, selectName) {
     selector.options[i] = new Option(data[i].name);
   }
 }
-export { addInSelect };

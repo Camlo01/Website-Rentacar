@@ -28,7 +28,7 @@ function pintarRespuestaGama(respuesta) {
   $("#resultadoGama").html(myTable);
 }
 
-function guardarGama() {
+function saveGama() {
   let var2 = {
     name: $("#GamaName").val(),
     description: $("#GamaDescription").val(),
@@ -56,7 +56,7 @@ function guardarGama() {
   });
 }
 
-function actualizarGama(idElemento) {
+function updateGama(idElemento) {
   if (
     $("#GamaName").val().length == 0 ||
     $("#GamaDescription").val().length == 0
@@ -86,7 +86,7 @@ function actualizarGama(idElemento) {
   }
 }
 
-function borrarGama(idElemento) {
+function deleteGama(idElemento) {
   let myData = {
     id: idElemento,
   };
@@ -103,11 +103,4 @@ function borrarGama(idElemento) {
       alert("Se ha Eliminado.");
     },
   });
-}
-
-function addInSelect(data, selectName) {
-  let selector = document.getElementById(selectName);
-  for (let i = 0; i < data.length; i++) {
-    selector.options[i] = new Option(data[i].name);
-  }
 }
