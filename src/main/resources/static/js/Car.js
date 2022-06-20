@@ -2,9 +2,6 @@ function carData() {
   fetch("http://localhost:8080/api/Car/all")
     .then((response) => response.json())
     .then(function (data) {
-      data.forEach((element) => {
-        console.log(element.messages.length);
-      });
       pintarRespuestaCar(data);
       addInSelect(data, "table-message-select-car");
       addInSelect(data, "table-reser-select-car");
