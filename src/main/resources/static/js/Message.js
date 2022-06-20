@@ -2,7 +2,6 @@ function messageData() {
   fetch("http://localhost:8080/api/Message/all")
     .then((response) => response.json())
     .then(function (data) {
-      console.log(data);
       pintarRespuestaMessage(data);
     })
     .catch((error) => console.log("Problema al mostrar messages: " + error));
