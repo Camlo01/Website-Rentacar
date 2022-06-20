@@ -29,31 +29,25 @@ function pintarRespuestaGama(respuesta) {
 }
 
 function saveGama() {
-  let var2 = {
-    name: $("#GamaName").val(),
-    description: $("#GamaDescription").val(),
+  let name = document.getElementById("GamaName").value;
+  let description = " " + document.getElementById("GamaDescription").value;
+  let data = {
+    name: name,
+    description: description,
   };
-
-  $.ajax({
-    type: "POST",
-    contentType: "application/json; charset=utf-8",
-    dataType: "JSON",
-    data: JSON.stringify(var2),
-
-    url: "http://localhost:8080/api/Gama/save",
-
-    success: function (respuesta) {
-      console.log(respuesta);
-      console.log("Se guardo correctamente la gama");
-      alert("Se guardo correctamente la gama");
-      window.location.reload();
-    },
-
-    error: function (_jqXHR, _textStatus, _errorThrown) {
-      window.location.reload();
-      alert("No se guardo correctamente la gama");
-    },
-  });
+  fetch("http://localhost:8080/api/Gama/save", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  })
+    .then(function (response) {
+      if (response.status == 201) {
+        console.log("Se creó la gama correctamente");
+      }
+    })
+    .catch(function (error) {
+      console.log("Problema al guardar la gama: " + error);
+    });
 }
 
 function updateGama(idElemento) {
