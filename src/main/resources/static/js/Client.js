@@ -2,63 +2,55 @@ function clientData() {
   fetch("http://localhost:8080/api/Client/all")
     .then((response) => response.json())
     .then(function (data) {
-      pintarRespuestaClient(data);
+      innerClientData(data);
       addInSelect(data, "table-message-select-client");
       addInSelect(data, "table-reser-select-client");
     })
     .catch((error) => console.log("Problema al traer datos client" + error));
 }
 
-function pintarRespuestaClient(respuesta) {
-  let myTable = "<table>";
-  for (i = 0; i < respuesta.length; i++) {
-    myTable += "<tr>";
-    myTable += "<td>" + respuesta[i].email + "</td>";
-    myTable += "<td>" + respuesta[i].password + "</td>";
-    myTable += "<td>" + respuesta[i].name + "</td>";
-    myTable += "<td>" + respuesta[i].age + "</td>";
-    myTable +=
-      "<td> <button onclick=' actualizarClient(" +
-      respuesta[i].idClient +
-      ")'>Actualizar</button>";
-    myTable +=
-      "<td> <button onclick='borrarClient(" +
-      respuesta[i].idClient +
-      ")'>Borrar</button>";
-    myTable += "</tr>";
-  }
-  myTable += "</table>";
-  $("#resultadoClient").html(myTable);
+function innerClientData(data) {
+  let myTable = `<table>`;
+  data.forEach((client) => {
+    myTable += `<tr>`;
+    myTable += `<td> ${client.name} </td>`;
+    myTable += `<td> ${client.email} </td>`;
+    myTable += `<td> ${client.password} </td>`;
+    myTable += `<td><button onclick='updateCar(${client.idGama})'> Actualizar</button></td>`;
+    myTable += `<td><button onclick='deleteCar(${client.idGama})'> Borrar</button></td>`;
+    myTable += `</tr>`;
+  });
+  myTable += `</table>`;
+  document.getElementById(`resultadoClient`).innerHTML = myTable;
 }
 
+
 function saveClient() {
-  let var2 = {
-    email: $("#ClientEmail").val(),
-    password: $("#ClientPassword").val(),
-    name: $("#ClientName").val(),
-    age: $("#ClientAge").val(),
+  let email = document.getElementById("ClientEmail").value;
+  let password = document.getElementById("ClientPassword").value;
+  let name = document.getElementById("ClientName").value;
+  let age = document.getElementById("ClientAge").value;
+
+  let data = {
+    email: email,
+    password: password,
+    name: name,
+    age: age,
   };
 
-  $.ajax({
-    type: "POST",
-    contentType: "application/json; charset=utf-8",
-    dataType: "JSON",
-    data: JSON.stringify(var2),
-
-    url: "http://localhost:8080/api/Client/save",
-
-    success: function (_respuesta) {
-      console.log(_respuesta);
-      console.log("Se guardo correctamente la Client");
-      alert("Se guardo correctamente la Client");
-      window.location.reload();
-    },
-
-    error: function (_jqXHR, _textStatus, _errorThrown) {
-      window.location.reload();
-      alert("No se guardo correctamente el Client");
-    },
-  });
+  fetch("http://localhost:8080/api/Client/save", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  })
+    .then(function (response) {
+      if (response.status == 201) {
+        console.log("Se creó el usuario correctamente");
+      }
+    })
+    .catch(function (error) {
+      console.log("Problema al crear el cliente: " + error);
+    });
 }
 
 function updateClient(idElemento) {
