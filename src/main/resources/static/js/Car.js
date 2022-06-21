@@ -35,6 +35,35 @@ function pintarRespuestaCar(respuesta) {
 }
 
 function saveCar() {
+  let name = document.getElementById("CarName").value;
+  let brand = document.getElementById("CarBrand").value;
+  let year = document.getElementById("CarYear").value;
+  let description = document.getElementById("CarDescription").value;
+  let idGama = { idGama: document.getElementById("Select-Gama").value };
+
+  let data = {
+    name: name,
+    brand: brand,
+    year: year,
+    description: description,
+    idGama: idGama,
+  };
+  fetch("http://localhost:8080/api/Car/save", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  })
+    .then(function (response) {
+      if (response.status == 201) {
+        console.log("Se creó el carro correctamente");
+      }
+    })
+    .catch(function (error) {
+      console.log("Problema al guardar el carro: " + error);
+    });
+}
+
+function saveCarDeprecated() {
   let var2 = {
     name: $("#CarName").val(),
     brand: $("#CarBrand").val(),
