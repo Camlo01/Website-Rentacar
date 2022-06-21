@@ -12,58 +12,53 @@ import org.springframework.stereotype.Service;
 public class MessageServices {
     @Autowired
     private MessageRepository metodosCrudMessage;
-    
-    public List<Message> getAll(){
-         return metodosCrudMessage.getAll();
+
+    public List<Message> getAll() {
+        return metodosCrudMessage.getAll();
     }
-    
-    public Optional<Message> getMessage(int idMessage){
+
+    public Optional<Message> getMessage(int idMessage) {
         return metodosCrudMessage.getMessage(idMessage);
     }
-    
-    
-    public Message save(Message message){
-        if(message.getIdMessage()==null){
+
+    public Message save(Message message) {
+        if (message.getIdMessage() == null) {
             return metodosCrudMessage.save(message);
-        }else{
-            Optional<Message> evt=metodosCrudMessage.getMessage(message.getIdMessage());
-            if(evt.isEmpty()){
-            return metodosCrudMessage.save(message);
-            }else{
+        } else {
+            Optional<Message> evt = metodosCrudMessage.getMessage(message.getIdMessage());
+            if (evt.isEmpty()) {
+                return metodosCrudMessage.save(message);
+            } else {
                 return message;
             }
-        
-        
-        }
-    
-    }
-    
-            public Message update(Message message){
-        if(message.getIdMessage()!=null){
-            Optional<Message> evt=metodosCrudMessage.getMessage(message.getIdMessage());
-            if(!evt.isEmpty()){
-                if(message.getMessageText()!=null){
-                    evt.get().setMessageText(message.getMessageText());
-                    }
-                metodosCrudMessage.save(evt.get());
-                return message;
-                }
-            else{
-                return message;
-            }
-        }
-        else{
-            return message;
-                }
+
         }
 
-    
-        public boolean deleteMessage (int IdMessage) {
-        Boolean aBoolean = getMessage(IdMessage).map(message ->{
+    }
+
+    public Message update(Message message) {
+        if (message.getIdMessage() != null) {
+            Optional<Message> evt = metodosCrudMessage.getMessage(message.getIdMessage());
+            if (!evt.isEmpty()) {
+                if (message.getMessageText() != null) {
+                    evt.get().setMessageText(message.getMessageText());
+                }
+                metodosCrudMessage.save(evt.get());
+                return message;
+            } else {
+                return message;
+            }
+        } else {
+            return message;
+        }
+    }
+
+    public boolean deleteMessage(int IdMessage) {
+        Boolean aBoolean = getMessage(IdMessage).map(message -> {
             metodosCrudMessage.delete(message);
             return true;
         }).orElse(false);
         return aBoolean;
     }
-    
+
 }
