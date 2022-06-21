@@ -2,9 +2,25 @@ function messageData() {
   fetch("http://localhost:8080/api/Message/all")
     .then((response) => response.json())
     .then(function (data) {
-      pintarRespuestaMessage(data);
+      innerMessageData(data);
     })
     .catch((error) => console.log("Problema al mostrar messages: " + error));
+}
+
+function innerMessageData(data) {
+  let myTable = `<table>`;
+  data.forEach((message) => {
+    myTable += `<tr>`;
+    myTable += `<td> ${message.car.name} </td>`;
+    myTable += `<td> el Cliente: ${message.client.name} </td>`;
+    myTable += `<td> comentó sobre este carro: ${message.messageText} </td>`;
+    myTable += `<td><button onclick='updateCar(${message.idGama})'> Actualizar</button></td>`;
+    myTable += `<td><button onclick='deleteCar(${message.idGama})'> Borrar</button></td>`;
+    myTable += `</tr>`;
+  });
+  myTable += `</table>`;
+
+  document.getElementById(`resultadoMessage`).innerHTML = myTable;
 }
 
 function pintarRespuestaMessage(respuesta) {
@@ -29,6 +45,31 @@ function pintarRespuestaMessage(respuesta) {
 }
 
 function saveMessage() {
+  let messageText = document.getElementById("messageText").value;
+  let carro = document.getElementById("table-message-select-car").value;
+  let cliente = document.getElementById("table-message-select-client").value;
+  let data = {
+    messageText: messageText,
+    carro: carro,
+    client: cliente,
+  };
+
+  fetch("http://localhost:8080/api/Client/save", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  })
+    .then(function (response) {
+      if (response.status == 201) {
+        console.log("Se creó el mensaje correctamente");
+      }
+    })
+    .catch(function (error) {
+      console.log("Problema al crear el mensaje: " + error);
+    });
+}
+
+function saveMessageDeprecated() {
   let var2 = {
     messageText: $("#messageText").val(),
     idCliente: { idCliente: +$("#table-message-select-client").val() },
