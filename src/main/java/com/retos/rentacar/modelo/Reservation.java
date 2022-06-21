@@ -45,6 +45,14 @@ public class Reservation implements Serializable {
         this.status = status;
     }
 
+    public Reservation(Date startDate, Date devolutionDate, String status, Car car, Client client) {
+        this.startDate = startDate;
+        this.devolutionDate = devolutionDate;
+        this.status = status;
+        this.car = car;
+        this.client = client;
+    }
+
     public Reservation(Integer idReservation, Date startDate, Date devolutionDate, String status, Car car, Client client, Score score) {
         this.idReservation = idReservation;
         this.startDate = startDate;

@@ -37,12 +37,21 @@ public class Message implements Serializable {
         this.messageText = messageText;
     }
 
+    public Message(String messageText, Car car, Client client) {
+        this.messageText = messageText;
+        this.car = car;
+        this.client = client;
+    }
+    
+
     public Message(Integer idMessage, String messageText, Car car, Client client) {
         this.idMessage = idMessage;
         this.messageText = messageText;
         this.car = car;
         this.client = client;
     }
+
+
 
     public Integer getIdMessage() {
         return idMessage;

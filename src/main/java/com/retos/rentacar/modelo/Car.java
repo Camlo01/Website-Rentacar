@@ -5,9 +5,12 @@
 package com.retos.rentacar.modelo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.retos.rentacar.interfaces.GamaInterface;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +22,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- *
  * @author cjop1
  */
 /*
@@ -28,7 +30,6 @@ Entidad clase vehículo (tabla Car)
 @Entity
 @Table(name = "car")
 public class Car implements Serializable {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,6 +58,15 @@ public class Car implements Serializable {
         this.description = description;
     }
 
+
+    public Car(String name, String brand, Integer year, String description, Gama gama) {
+        this.name = name;
+        this.brand = brand;
+        this.year = year;
+        this.description = description;
+        this.gama = gama;
+    }
+
     public Car(Integer idCar, String name, String brand, Integer year, String description, Gama gama, List<Message> messages, List<Reservation> reservations) {
         this.idCar = idCar;
         this.name = name;
@@ -72,6 +82,7 @@ public class Car implements Serializable {
     @JsonIgnoreProperties({"car", "client"})
 
     private List<Reservation> reservations;
+
 
     public Integer getIdCar() {
         return idCar;
@@ -136,7 +147,5 @@ public class Car implements Serializable {
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
     }
-
-
 }
     
