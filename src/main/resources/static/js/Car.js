@@ -2,36 +2,29 @@ function carData() {
   fetch("http://localhost:8080/api/Car/all")
     .then((response) => response.json())
     .then(function (data) {
-      pintarRespuestaCar(data);
+      innerCarData(data);
       addInSelect(data, "table-message-select-car");
       addInSelect(data, "table-reser-select-car");
     })
     .catch((error) => console.log("Problema al traer dator Car: " + error));
 }
 
-function pintarRespuestaCar(respuesta) {
-  let myTable = "<table>";
-  for (i = 0; i < respuesta.length; i++) {
-    myTable += "<tr>";
-    myTable += "<td>" + respuesta[i].name + "</td>";
-    myTable += "<td>" + respuesta[i].brand + "</td>";
-    myTable += "<td>" + respuesta[i].year + "</td>";
-    myTable += "<td>" + respuesta[i].description + "</td>";
-    myTable += "<td>" + respuesta[i].gama + "</td>";
-    myTable += "<td>" + respuesta[i].messages + "</td>";
-    myTable +=
-      "<td> <button onclick=' updateCar(" +
-      respuesta[i].idCar +
-      ")'>Actualizar</button>";
-    myTable +=
-      "<td> <button onclick=' deteleCar(" +
-      respuesta[i].idCar +
-      ")'>Borrar</button>";
-    myTable += "</tr>";
-  }
-  myTable += "</table>";
-
-  $("#resultadoCar").html(myTable);
+function innerCarData(data) {
+  let myTable = `<table>`;
+  data.forEach((car) => {
+    myTable += `<tr>`;
+    myTable += `<td> ${car.name} </td>`;
+    myTable += `<td> ${car.brand} </td>`;
+    myTable += `<td> ${car.year} </td>`;
+    myTable += `<td> ${car.description} </td>`;
+    myTable += `<td> ${car.gama.name} </td>`;
+    // myTable += `<td> ${car.message.forEach.messageText} </td>`;
+    myTable += `<td><button onclick='updateCar(${car.idGama})'> Actualizar</button></td>`;
+    myTable += `<td><button onclick='deleteCar(${car.idGama})'> Borrar</button></td>`;
+    myTable += `</tr>`;
+  });
+  myTable += `</table>`;
+  document.getElementById(`resultadoCar`).innerHTML = myTable;
 }
 
 function saveCar() {
@@ -126,6 +119,7 @@ function updateCar(idElemento) {
 }
 
 function deteleCar(idElemento) {
+  console.log(idElemento);
   let myData = {
     id: idElemento,
   };
