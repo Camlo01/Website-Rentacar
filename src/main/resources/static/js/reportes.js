@@ -19,24 +19,13 @@ function getReportClients() {
 }
 
 function getReportDates() {
-  var fechaInicio = document.getElementById("RstarDate").value;
-  var fechaCierre = document.getElementById("RdevolutionDate").value;
-  console.log(fechaInicio);
-  console.log(fechaCierre);
-
-  $.ajax({
-    url:
-      "http://localhost:8080/api/Reservation/report-dates/" +
-      fechaInicio +
-      "/" +
-      fechaCierre,
-    type: "GET",
-    datatype: "JSON",
-    success: function (respuesta) {
-      console.log(respuesta);
-      pintarRespuestaDate(respuesta);
-    },
-  });
+  fetch("http://localhost:8080/api/Reservation/report-dates/")
+    .then((response) => response.json())
+    .then(function (data) {
+      console.log(data);
+      pintarRespuestaClientes(data);
+    })
+    .catch((error) => console.log("Errors: " + error));
 }
 
 function pintarRespuestaClientes(respuesta) {
