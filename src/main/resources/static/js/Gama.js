@@ -37,6 +37,7 @@ function saveGama() {
     .then(function (response) {
       if (response.status == 201) {
         console.log("Se creó la gama correctamente");
+        gamaData();
       }
     })
     .catch(function (error) {
@@ -53,7 +54,7 @@ function updateGama(idElemento) {
   } else {
     let name = document.getElementById("GamaName").value;
     let description = document.getElementById("GamaDescription").value;
-    
+
     let data = {
       idGama: idElemento,
       name: name,
@@ -63,12 +64,13 @@ function updateGama(idElemento) {
     fetch("http://localhost:8080/api/Gama/update", {
       method: "PUT",
       body: JSON.stringify(data),
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     })
       .then(function (response) {
-        console.log(response)
+        console.log(response);
         if (response.status == 201) {
           console.log("Se actualizó la gama");
+          gamaData();
         }
       })
       .catch(function (error) {
@@ -77,51 +79,20 @@ function updateGama(idElemento) {
   }
 }
 
-function updateGamaDeprecated(idElemento) {
-  if (
-    $("#GamaName").val().length == 0 ||
-    $("#GamaDescription").val().length == 0
-  ) {
-    alert("Todos los campos son obligatorios");
-  } else {
-    let myData = {
-      idGama: idElemento,
-      name: $("#GamaName").val(),
-      description: $("#GamaDescription").val(),
-    };
-    console.log(myData);
-    let dataToSend = JSON.stringify(myData);
-    $.ajax({
-      url: "http://localhost:8080/api/Gama/update",
-      type: "PUT",
-      data: dataToSend,
-      contentType: "application/JSON",
-      datatype: "JSON",
-      success: function (respuesta) {
-        $("#GamaName").val("");
-        $("#GamaDescription").val("");
-        autoInicioGama();
-        alert("se ha Actualizado correctamente la gama");
-      },
+function deleteGama(idGama) {
+  fetch("http://localhost:8080/api/Gama/delete/" + idGama, {
+    method: "DELETE",
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  })
+    .then(function (response) {
+      if (response.status == 500) {
+        alert("No pueder eliminar una gama que está asociada a un carro!");
+      }
+      if (response.status == 204) {
+        gamaData();
+      }
+    })
+    .catch(function (error) {
+      console.log("El error fue: " + error);
     });
-  }
-}
-
-function deleteGama(idElemento) {
-  let myData = {
-    id: idElemento,
-  };
-  let dataToSend = JSON.stringify(myData);
-  $.ajax({
-    url: "http://localhost:8080/api/Gama/" + idElemento,
-    type: "DELETE",
-    data: dataToSend,
-    contentType: "application/JSON",
-    datatype: "JSON",
-    success: function (respuesta) {
-      $("#resultadoGama").empty();
-      autoInicioGama();
-      alert("Se ha Eliminado.");
-    },
-  });
 }
