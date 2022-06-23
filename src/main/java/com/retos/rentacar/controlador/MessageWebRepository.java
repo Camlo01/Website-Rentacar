@@ -20,14 +20,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/Message")
+@RequestMapping("/api/message")
 @CrossOrigin(origins = "*", methods={RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class MessageWebRepository {
-    @GetMapping("/holaMundoMessage")
-    public String saludad(){
-    return "Hola Mundo Message";
-    }
-    
+  
     @Autowired
     private MessageServices servicios;
     @GetMapping("/all")
@@ -45,7 +41,7 @@ public class MessageWebRepository {
         return servicios.save(message);
     }
        
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean delete(@PathVariable ("id") int idMessage) {
         return servicios.deleteMessage(idMessage);

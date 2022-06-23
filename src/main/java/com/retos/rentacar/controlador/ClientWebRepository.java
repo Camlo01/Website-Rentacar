@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/Client")
+@RequestMapping("/api/client")
 @CrossOrigin(origins = "*", methods={RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class ClientWebRepository {
     @GetMapping("/holaMundoClient")
@@ -45,7 +45,7 @@ public class ClientWebRepository {
         return servicios.save(client);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean delete(@PathVariable ("id") int idClient) {
         return servicios.deleteClient(idClient);
