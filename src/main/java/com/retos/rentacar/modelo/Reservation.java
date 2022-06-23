@@ -39,6 +39,7 @@ public class Reservation implements Serializable {
     public Reservation() {
     }
 
+    
     public Reservation(Date startDate, Date devolutionDate, String status) {
         this.startDate = startDate;
         this.devolutionDate = devolutionDate;

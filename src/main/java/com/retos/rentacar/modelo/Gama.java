@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Gama {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-//    @Column(name = "id_Gama", nullable = false, unique = true)
+   @Column(name = "id_Gama", nullable = false, unique = true)
     private Integer idGama;
     private String name;
     private String description;
