@@ -6,6 +6,9 @@ package com.retos.rentacar.repositorio;
 
 import com.retos.rentacar.interfaces.GamaInterface;
 import com.retos.rentacar.modelo.Gama;
+
+import ch.qos.logback.core.net.server.Client;
+
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,25 +17,27 @@ import org.springframework.stereotype.Repository;
 
 @Component
 public class GamaRepository {
-
     @Autowired
     private GamaInterface crudGama;
 
-    public List<Gama> getAll(){
+    public List<Gama> getAll() {
         return (List<Gama>) crudGama.findAll();
     }
-    public Optional <Gama> getGama(int id){
+
+    public Optional<Gama> getGama(int id) {
         return crudGama.findById(id);
     }
-    public Gama save(Gama gama){
+
+    public Gama save(Gama gama) {
         return crudGama.save(gama);
     }
+
+    public Iterable<Gama> saveAll(List<Gama> listadeGamas) {
+        return crudGama.saveAll(listadeGamas);
+    }
+
     public void delete(Gama gama){
         crudGama.delete(gama);
     }
-    public Iterable<Gama> saveAll(List<Gama> listadeGamas){
 
-        return crudGama.saveAll(listadeGamas);
-//        return crudGama.saveAll(getAll().subList(List<Gama> gamas));
-    }
 }

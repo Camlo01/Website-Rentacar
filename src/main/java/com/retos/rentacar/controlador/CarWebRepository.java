@@ -55,8 +55,8 @@ public class CarWebRepository {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean delete(@PathVariable("id") int id) {
-        return serviciosCar.deleteCar(id);
+    public void delete(@PathVariable("id") int id) {
+        serviciosCar.deleteCar(id);
     }
 
 }
