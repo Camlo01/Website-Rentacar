@@ -77,10 +77,12 @@ public class RentacarApplication implements CommandLineRunner {
         Car camionetaBMW = new Car("Bmx x7 Xdrive40i Pure", "BMW", 2022, "Camioneta con un hermoso azul", alta);
         Car camionetaFord = new Car("Ford Bronco Outer Banks", "Ford", 2021, "Camioneta amarilla", baja);
         Car carroChevrolet = new Car("CheChevrolet Corvetter Stingray Z51", "Chevrolet", 2014, "Carro rojo", baja);
-        Car carTest = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
+        // Car carTest = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
 
         List<Car> listOfCars = Arrays.asList(camionetaToyota, camionetaJeep, camionetaMercedes, camionetaBMW,
-                camionetaFord, carroChevrolet, carTest);
+                camionetaFord, carroChevrolet
+                // , carTest
+                );
 
         for (Car car : listOfCars) {
             Logger.debug("Carro: " + car.getName() + " su gama: " + car.getGama());
@@ -133,11 +135,12 @@ public class RentacarApplication implements CommandLineRunner {
         Message mensaje12 = new Message("Este carro tiene muy mal motor", camionetaBMW, vale);
         Message mensaje13 = new Message("Hace falta de mantenimiento a los carros", camionetaFord, vale);
         Message mensaje14 = new Message("no tienen del color que me gusta", camionetaJeep, milo);
-        Message MessageTest = new Message("Mensaje de TEST");
+        // Message MessageTest = new Message("Mensaje de TEST");
 
         List<Message> listOfMessages = Arrays.asList(mensaje, mensaje1, mensaje2, mensaje3, mensaje4, mensaje5,
-                mensaje6, mensaje7, mensaje8, mensaje9, mensaje10, mensaje11, mensaje12, mensaje13, mensaje14,
-                MessageTest);
+                mensaje6, mensaje7, mensaje8, mensaje9, mensaje10, mensaje11, mensaje12, mensaje13, mensaje14
+                // ,MessageTest
+                );
 
         try {
             messageInterface.saveAll(listOfMessages);
@@ -161,9 +164,11 @@ public class RentacarApplication implements CommandLineRunner {
         Reservation reservation = new Reservation(fechaInico, fechaFinal, "RESERVADO", camionetaBMW, matt);
         Reservation reservation1 = new Reservation(fechaInico1, fechaFinal1, "RESERVADO", carroChevrolet, milo);
         Reservation reservation2 = new Reservation(fechaInico2, fechaFinal2, "RESERVADO", camionetaFord, vale);
-        Reservation ReservationTest = new Reservation(fechaInico2, fechaFinal2, "RESERVADO");
+        // Reservation ReservationTest = new Reservation(fechaInico2, fechaFinal2, "RESERVADO");
 
-        List<Reservation> listOfReservations = Arrays.asList(reservation, reservation1, reservation2, ReservationTest);
+        List<Reservation> listOfReservations = Arrays.asList(reservation, reservation1, reservation2
+        // , ReservationTest
+        );
 
         try {
             reservationInterface.saveAll(listOfReservations);
