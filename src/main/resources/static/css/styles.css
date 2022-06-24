@@ -1,0 +1,66 @@
+:root {
+    --color-Test: rgb(139, 139, 139);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+
+}
+
+/* GENERAL CONFIGURATION */
+
+
+
+html {
+    font-size: 62.5%;
+    font-family: "DM Sans", sans-serif;
+    background-color: var(--color-Test);
+    height: 3000px;
+}
+
+body {
+    padding-top: 45px;
+    background-color: rgb(232, 232, 232);
+}
+
+/* HEADER */
+
+
+.navbar a,
+.navbar p {
+    font-size: 2rem;
+    font-weight: 700;
+    color: black;
+}
+
+/* MAIN */
+main {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+/* SECTIONS  */
+
+.main-section-container {
+    width: 98vw;
+    margin: 10px auto;
+    background-color: rgb(107, 107, 107);
+    min-height: 300px;
+}
+
+
+.section-container-introduction {}
+
+/* Estilos que sirven para contenedor de tarjetas */
+/* .main-section-container {
+    display: flex;
+    background-color: rgb(243, 195, 195);
+    min-width: 280px;
+    max-width: 500px;
+    margin: 5px;
+    min-height: 250px;
+    max-height: 500px;
+} */
