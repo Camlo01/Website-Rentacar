@@ -12,8 +12,6 @@
 
 /* GENERAL CONFIGURATION */
 
-
-
 html {
     font-size: 62.5%;
     font-family: "DM Sans", sans-serif;
@@ -22,37 +20,115 @@ html {
 }
 
 body {
-    padding-top: 45px;
     background-color: rgb(232, 232, 232);
 }
 
+
 /* HEADER */
-
-
-.navbar a,
-.navbar p {
-    font-size: 2rem;
+.navbar-brand {
+    font-size: 2.4rem;
     font-weight: 700;
-    color: black;
+    color: rgb(7, 7, 212);
 }
+
+.navbar-nav a {
+    font-size: 2rem;
+    font-weight: 600;
+    color: rgb(0, 6, 159);
+}
+
+
 
 /* MAIN */
 main {
     display: flex;
-    flex-wrap: nowrap;
+    flex-direction: column;
 }
 
-/* SECTIONS  */
+/* general styles section in main  */
 
 .main-section-container {
-    width: 98vw;
+    width: 96vw;
     margin: 10px auto;
-    background-color: rgb(107, 107, 107);
-    min-height: 300px;
+    background-color: rgb(187, 187, 187);
+    min-height: 250px;
+    border-radius: 10px;
+}
+
+.main-section-container h1 {
+    font-size: 2.6rem;
+    font-weight: 700;
+    width: 280px;
+    position: relative;
+    padding-top: 25px;
+    left: calc(7%);
+    color: rgb(0, 0, 189);
+
+}
+
+.main-section-container h2 {
+
+    font-size: 2.2rem;
+    padding-top: 15px;
+    /* font-size: 1.8rem; */
+    width: 280px;
+    font-weight: 700;
+    position: relative;
+    left: calc(7%);
+    color: blue;
+}
+
+.main-section-container p {
+    text-align: justify;
+    font-size: 1.8rem;
+    font-weight: 500;
+    line-height: 2rem;
+    width: 270px;
+    position: relative;
+    margin: 0 auto;
+    line-height: 2rem;
+}
+
+/* Introduction */
+.section-container-introduction {
+    width: 100vw;
+    margin: 15px 0 15px;
+    border-radius: 0;
 }
 
 
-.section-container-introduction {}
+/* Services */
+.section-container-servicios h2 {
+    font-size: 2.2rem;
+    padding-top: 15px;
+}
+
+.section-container-servicios a {
+    color: white;
+    text-decoration: none;
+}
+
+.section-container-servicios p {
+    text-align: justify;
+    font-size: 1.8rem;
+    line-height: 2rem;
+    width: 280px;
+    margin: 0 auto;
+}
+
+.section-container-servicios button {
+    position: relative;
+    top: 60px;
+    left: calc(60%);
+}
+
+.section-container-servicios a {
+    font-size: 1.8rem;
+}
+
+/* Nosotros */
+
+
 
 /* Estilos que sirven para contenedor de tarjetas */
 /* .main-section-container {
