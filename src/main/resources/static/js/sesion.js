@@ -181,13 +181,21 @@ function createAccount() {
 }
 
 function logginAccount() {
-
   let email = document.getElementById("inputEmailLogin").value;
   let password = document.getElementById("inputPasswordLogin").value;
 
-  alert(email+password)
+  function noOneNull() {
+    if (email.length == 0 || password.length == 0) {
+      return false;
+    }
+    return true;
+  }
 
+  if (noOneNull()) {
+    alert("Ningún elemento está vacío! :D");
+  } else {
+    alert("Un elemento está vacío :0");
+  }
 }
-
 
 //Función que reciba un array y verifique que todos los elementos no son vacíos, reutilizar esta función para la creación de cuenta e inicio de sesión
