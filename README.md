@@ -35,6 +35,6 @@ haciendo uso de JavaScript y peticiones con Ajax
 
 ## Links 🖱
 
-Link: https://camlo01.github.io/Website-Rentacar/
+Link: 
 
 Mi Linkedin: https://www.linkedin.com/in/camilo-beltran-c/
