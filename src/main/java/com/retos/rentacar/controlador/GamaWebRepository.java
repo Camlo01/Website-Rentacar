@@ -58,8 +58,8 @@ public class GamaWebRepository {
     // No se puede eliminar una gama si esta se encuentra asociada
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean delete(@PathVariable("id") int idGama) {
-        return gamaServices.deleteGama(idGama);
+    public void delete(@PathVariable("id") int idGama) {
+        gamaServices.deleteGama(idGama);
     }
 
 }
