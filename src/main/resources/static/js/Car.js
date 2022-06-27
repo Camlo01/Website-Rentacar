@@ -17,10 +17,10 @@ function innerCarData(data) {
     myTable += `<td> ${car.brand} </td>`;
     myTable += `<td> ${car.year} </td>`;
     myTable += `<td> ${car.description} </td>`;
-    myTable += `<td> ${car.gama.name} </td>`;
-    // myTable += `<td> ${car.message.forEach.messageText} </td>`;
-    myTable += `<td><button onclick='updateCar(${car.idGama})'> Actualizar</button></td>`;
-    myTable += `<td><button onclick='deleteCar(${car.idGama})'> Borrar</button></td>`;
+    // myTable += `<td> ${car.gama.name} </td>`;
+    // myTable += `<td> ${car.messages.messageText}</td>`;
+    myTable += `<td><button onclick="updateCar(${car.idCar})"> Actualizar</button></td>`;
+    myTable += `<td><button onclick="deleteCar(${car.idCar})"> Borrar</button></td>`;
     myTable += `</tr>`;
   });
   myTable += `</table>`;
@@ -32,15 +32,16 @@ function saveCar() {
   let brand = document.getElementById("CarBrand").value;
   let year = document.getElementById("CarYear").value;
   let description = document.getElementById("CarDescription").value;
-  let idGama = { idGama: document.getElementById("Select-Gama").value };
+  // let idGama = { idGama: document.getElementById("Select-Gama").value };
 
   let data = {
     name: name,
     brand: brand,
     year: year,
     description: description,
-    idGama: idGama,
+    // idGama: idGama,
   };
+
   fetch("http://localhost:8080/api/Car/save", {
     method: "POST",
     body: JSON.stringify(data),
@@ -50,6 +51,7 @@ function saveCar() {
       if (response.status == 201) {
         console.log("Se creó el carro correctamente");
       }
+      carData();
     })
     .catch(function (error) {
       console.log("Problema al guardar el carro: " + error);
@@ -61,6 +63,19 @@ function updateCar(idCar) {
   let brand = document.getElementById("CarBrand").value;
   let year = document.getElementById("CarYear").value;
   let description = document.getElementById("CarDescription").value;
+
+  function noOneNull() {
+    if (
+      name.length == 0 ||
+      brand.length == 0 ||
+      year.length == 0 ||
+      description.length == 0
+    ) {
+      return false;
+    }
+    return true;
+  }
+
   let data = {
     idCar: idCar,
     name: name,
@@ -69,70 +84,39 @@ function updateCar(idCar) {
     description: description,
   };
 
-  fetch("http://localhost:8080/api/Car/update", {
-    method: "PUT",
-    body: JSON.stringify(data),
+  if (noOneNull()) {
+    fetch("http://localhost:8080/api/Car/update", {
+      method: "PUT",
+      body: JSON.stringify(data),
+      headers: { "Content-type": "application/json; charset=UTF-8" },
+    })
+      .then(function (response) {
+        console.log(response);
+        if (response.status == 201) {
+          console.log("Se actualizó el carro");
+          carData();
+        }
+      })
+      .catch(function (error) {
+        alert("error al actualizar el carro " + error);
+      });
+  } else {
+    alert("Hay campos vacíos!");
+  }
+}
+
+function deleteCar(idCar) {
+  fetch("http://localhost:8080/api/Car/delete/" + idCar, {
+    method: "DELETE",
     headers: { "Content-type": "application/json; charset=UTF-8" },
   })
     .then(function (response) {
-      if (response.status == 201) {
-        console.log("Se actualizó el carro");
+      if (response.status == 500) {
+        alert("No puedes eliminar un carro asociado");
       }
       carData();
     })
     .catch(function (error) {
-      alert("error al actualizar el carro " + error);
+      console.log("error al eliminar el carro: " + error);
     });
-}
-
-function updateCarDeprecated(idElemento) {
-  let myData = {
-    idCar: idElemento,
-    name: $("#CarName").val(),
-    brand: $("#CarBrand").val(),
-    year: $("#CarYear").val(),
-    description: $("#CarDescription").val(),
-    idGama: { idGama: +$("#Select-Gama").val() },
-  };
-  console.log(myData);
-  let dataToSend = JSON.stringify(myData);
-
-  $.ajax({
-    url: "http://localhost:8080//api/Car/update",
-    type: "PUT",
-    data: dataToSend,
-    contentType: "application/JSON",
-    datatype: "JSON",
-
-    success: function (_respuesta) {
-      $("#CarName").val("");
-      $("#CarBrand").val("");
-      $("#CarYear").val("");
-      $("#CarDescription").val("");
-      $("#Select-Gama").val("");
-      autoInicioCar();
-      alert("Se ha actualizado correctamente el vehículo");
-    },
-  });
-}
-
-function deteleCar(idElemento) {
-  console.log(idElemento);
-  let myData = {
-    id: idElemento,
-  };
-  let dataToSend = JSON.stringify(myData);
-
-  $.ajax({
-    url: "http://localhost:8080/api/Car/" + idElemento,
-    type: "DELETE",
-    data: dataToSend,
-    contentType: "application/JSON",
-    dataType: "JSON",
-    success: function (_respuesta) {
-      $("#resultadoCar").empty();
-      autoInicioCar();
-      alert("Se ha borrado correctamente el vehículo");
-    },
-  });
 }
