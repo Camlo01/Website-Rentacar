@@ -25,7 +25,7 @@ import javax.persistence.Table;
  * @author cjop1
  */
 /*
-Entidad clase vehículo (tabla Car)
+ * Entidad clase vehículo (tabla Car)
  */
 @Entity
 @Table(name = "car")
@@ -39,14 +39,13 @@ public class Car implements Serializable {
     private Integer year;
     private String description;
 
-
     @ManyToOne
     @JoinColumn(name = "idGama")
     @JsonIgnoreProperties("cars")
     private Gama gama;
 
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "car")
-    @JsonIgnoreProperties({"car", "client"})
+    @OneToMany(cascade = { CascadeType.PERSIST }, mappedBy = "car")
+    @JsonIgnoreProperties({ "car", "client" })
 
     private List<Message> messages;
 
@@ -60,7 +59,6 @@ public class Car implements Serializable {
         this.description = description;
     }
 
-
     public Car(String name, String brand, Integer year, String description, Gama gama) {
         this.name = name;
         this.brand = brand;
@@ -69,7 +67,8 @@ public class Car implements Serializable {
         this.gama = gama;
     }
 
-    public Car(Integer idCar, String name, String brand, Integer year, String description, Gama gama, List<Message> messages, List<Reservation> reservations) {
+    public Car(Integer idCar, String name, String brand, Integer year, String description, Gama gama,
+            List<Message> messages, List<Reservation> reservations) {
         this.idCar = idCar;
         this.name = name;
         this.brand = brand;
@@ -80,11 +79,10 @@ public class Car implements Serializable {
         this.reservations = reservations;
     }
 
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "car")
-    @JsonIgnoreProperties({"car", "client"})
+    @OneToMany(cascade = { CascadeType.PERSIST }, mappedBy = "car")
+    @JsonIgnoreProperties({ "car", "client" })
 
     private List<Reservation> reservations;
-
 
     public Integer getIdCar() {
         return idCar;
@@ -150,4 +148,3 @@ public class Car implements Serializable {
         this.reservations = reservations;
     }
 }
-    

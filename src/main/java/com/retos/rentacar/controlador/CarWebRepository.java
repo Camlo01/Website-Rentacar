@@ -29,34 +29,34 @@ import org.springframework.web.bind.annotation.RestController;
 public class CarWebRepository {
 
     @Autowired
-    private CarServices serviciosCar;
+    private CarServices carServices;
 
     @GetMapping("/all")
     public List<Car> getCar() {
-        return serviciosCar.getAll();
+        return carServices.getAll();
     }
 
     @GetMapping("/{id}")
     public Optional<Car> getCar(@PathVariable("id") int id) {
-        return serviciosCar.getCar(id);
+        return carServices.getCar(id);
     }
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public Car save(@RequestBody Car car) {
-        return serviciosCar.save(car);
+        return carServices.save(car);
     }
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
     public Car update(@RequestBody Car car) {
-        return serviciosCar.update(car);
+        return carServices.update(car);
     }
 
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") int id) {
-        serviciosCar.deleteCar(id);
+        carServices.deleteCar(id);
     }
 
 }

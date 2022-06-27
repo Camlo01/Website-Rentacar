@@ -12,63 +12,59 @@ import org.springframework.stereotype.Service;
 public class CarServices {
     @Autowired
     private CarRepository metodosCrudCar;
-    
-    public List<Car> getAll(){
-         return metodosCrudCar.getAll();
+
+    public List<Car> getAll() {
+        return metodosCrudCar.getAll();
     }
-    
-    public Optional<Car> getCar(int idCar){
+
+    public Optional<Car> getCar(int idCar) {
         return metodosCrudCar.getCar(idCar);
     }
-    
-    
-    public Car save(Car car){
-        if(car.getIdCar()==null){
+
+    public Car save(Car car) {
+        if (car.getIdCar() == null) {
             return metodosCrudCar.save(car);
-        }else{
-            Optional<Car> evt=metodosCrudCar.getCar(car.getIdCar());
-            if(evt.isEmpty()){
-            return metodosCrudCar.save(car);
-            }else{
+        } else {
+            Optional<Car> evt = metodosCrudCar.getCar(car.getIdCar());
+            if (evt.isEmpty()) {
+                return metodosCrudCar.save(car);
+            } else {
                 return car;
             }
-        
-        
+
         }
-    
+
     }
-    
-    public Car update(Car car){
-        if(car.getIdCar()!=null){
-            Optional<Car> evt=metodosCrudCar.getCar(car.getIdCar());
-            if(!evt.isEmpty()){
-                if(car.getName()!=null){
+
+    public Car update(Car car) {
+        if (car.getIdCar() != null) {
+            Optional<Car> evt = metodosCrudCar.getCar(car.getIdCar());
+            if (!evt.isEmpty()) {
+                if (car.getName() != null) {
                     evt.get().setName(car.getName());
-                    }
-                if(car.getBrand()!=null){
+                }
+                if (car.getBrand() != null) {
                     evt.get().setBrand(car.getBrand());
-                    }
-                if(car.getYear()!=null){
+                }
+                if (car.getYear() != null) {
                     evt.get().setYear(car.getYear());
-                    }
+                }
                 metodosCrudCar.save(evt.get());
                 return car;
-                }
-            else{
+            } else {
                 return car;
             }
-        }
-        else{
+        } else {
             return car;
-                }
         }
-        
-    public boolean deleteCar (int Id) {
-        Boolean aBoolean = getCar(Id).map(car ->{
+    }
+
+    public boolean deleteCar(int idCar) {
+        Boolean aBoolean = getCar(idCar).map(car -> {
             metodosCrudCar.delete(car);
             return true;
         }).orElse(false);
         return aBoolean;
     }
-    
+
 }

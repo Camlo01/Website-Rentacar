@@ -12,63 +12,58 @@ import org.springframework.stereotype.Service;
 public class ClientServices {
     @Autowired
     private ClientRepository metodosCrudClient;
-    
-    public List<Client> getAll(){
-         return metodosCrudClient.getAll();
+
+    public List<Client> getAll() {
+        return metodosCrudClient.getAll();
     }
-    
-    public Optional<Client> getClient(int idClient){
+
+    public Optional<Client> getClient(int idClient) {
         return metodosCrudClient.getClient(idClient);
     }
-    
-    
-    public Client save(Client client){
-        if(client.getIdClient()==null){
+
+    public Client save(Client client) {
+        if (client.getIdClient() == null) {
             return metodosCrudClient.save(client);
-        }else{
-            Optional<Client> evt=metodosCrudClient.getClient(client.getIdClient());
-            if(evt.isEmpty()){
-            return metodosCrudClient.save(client);
-            }else{
+        } else {
+            Optional<Client> evt = metodosCrudClient.getClient(client.getIdClient());
+            if (evt.isEmpty()) {
+                return metodosCrudClient.save(client);
+            } else {
                 return client;
             }
-        
-        
+
         }
-    
+
     }
-    
-            public Client update(Client client){
-        if(client.getIdClient()!=null){
-            Optional<Client> evt=metodosCrudClient.getClient(client.getIdClient());
-            if(!evt.isEmpty()){
-                if(client.getName()!=null){
+
+    public Client update(Client client) {
+        if (client.getIdClient() != null) {
+            Optional<Client> evt = metodosCrudClient.getClient(client.getIdClient());
+            if (!evt.isEmpty()) {
+                if (client.getName() != null) {
                     evt.get().setName(client.getName());
-                    }
-                if(client.getEmail()!=null){
+                }
+                if (client.getEmail() != null) {
                     evt.get().setEmail(client.getEmail());
-                    }
-                if(client.getEmail()!=null){
+                }
+                if (client.getEmail() != null) {
                     evt.get().setPassword(client.getPassword());
-                    }
-                if(client.getEmail()!=null){
+                }
+                if (client.getEmail() != null) {
                     evt.get().setAge(client.getAge());
-                    }
+                }
                 metodosCrudClient.save(evt.get());
                 return client;
-                }
-            else{
+            } else {
                 return client;
             }
-        }
-        else{
+        } else {
             return client;
-                }
         }
-    
+    }
 
-    public boolean deleteClient (int IdClient) {
-        Boolean aBoolean = getClient(IdClient).map(client ->{
+    public boolean deleteClient(int IdClient) {
+        Boolean aBoolean = getClient(IdClient).map(client -> {
             metodosCrudClient.delete(client);
             return true;
         }).orElse(false);

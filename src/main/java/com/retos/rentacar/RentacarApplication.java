@@ -77,11 +77,11 @@ public class RentacarApplication implements CommandLineRunner {
         Car camionetaBMW = new Car("Bmx x7 Xdrive40i Pure", "BMW", 2022, "Camioneta con un hermoso azul", alta);
         Car camionetaFord = new Car("Ford Bronco Outer Banks", "Ford", 2021, "Camioneta amarilla", baja);
         Car carroChevrolet = new Car("CheChevrolet Corvetter Stingray Z51", "Chevrolet", 2014, "Carro rojo", baja);
-        // Car carTest = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
+        Car carTest = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
 
         List<Car> listOfCars = Arrays.asList(camionetaToyota, camionetaJeep, camionetaMercedes, camionetaBMW,
                 camionetaFord, carroChevrolet
-                // , carTest
+                , carTest
                 );
 
         for (Car car : listOfCars) {
