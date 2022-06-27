@@ -14,34 +14,13 @@ function innerMessageData(data) {
     myTable += `<td> ${message.car.name} </td>`;
     myTable += `<td> el Cliente: ${message.client.name} </td>`;
     myTable += `<td> comentó sobre este carro: ${message.messageText} </td>`;
-    myTable += `<td><button onclick='updateCar(${message.idGama})'> Actualizar</button></td>`;
-    myTable += `<td><button onclick='deleteCar(${message.idGama})'> Borrar</button></td>`;
+    myTable += `<td><button onclick="updateMessage(${message.idMessage})"> Actualizar</button></td>`;
+    myTable += `<td><button onclick="deleteMessage(${message.idMessage})"> Borrar</button></td>`;
     myTable += `</tr>`;
   });
   myTable += `</table>`;
 
   document.getElementById(`resultadoMessage`).innerHTML = myTable;
-}
-
-function pintarRespuestaMessage(respuesta) {
-  let myTable = "<table>";
-  for (i = 0; i < respuesta.length; i++) {
-    myTable += "<tr>";
-    myTable += "<td>" + respuesta[i].messageText + "</td>";
-    myTable += "<td>" + respuesta[i].car + "</td>";
-    myTable += "<td>" + respuesta[i].client + "</td>";
-    myTable +=
-      "<td> <button onclick=' actualizarMessage(" +
-      respuesta[i].idMessage +
-      ")'>Actualizar</button>";
-    myTable +=
-      "<td> <button onclick='deleteMessage(" +
-      respuesta[i].idMessage +
-      ")'>Borrar</button>";
-    myTable += "</tr>";
-  }
-  myTable += "</table>";
-  $("#resultadoMessage").html(myTable);
 }
 
 function saveMessage() {
@@ -63,42 +42,35 @@ function saveMessage() {
       if (response.status == 201) {
         console.log("Se creó el mensaje correctamente");
       }
+      messageData();
     })
     .catch(function (error) {
       console.log("Problema al crear el mensaje: " + error);
     });
 }
 
-function saveMessageDeprecated() {
-  let var2 = {
-    messageText: $("#messageText").val(),
-    idCliente: { idCliente: +$("#table-message-select-client").val() },
-    idCar: { idCar: +$("#table-message-select-car").val() },
+function updateMessage(idMessage) {
+  let messageText = document.getElementById("messageText").value;
+
+  let data = {
+    idMessage: idMessage,
+    messageText: messageText,
   };
 
-  $.ajax({
-    type: "POST",
-    contentType: "application/json; charset=utf-8",
-    dataType: "JSON",
-    data: JSON.stringify(var2),
-
-    url: "http://localhost:8080/api/Message/save",
-
-    success: function (respuesta) {
-      console.log(respuesta);
-      console.log("Se guardo correctamente el mensaje");
-      alert("Se guardo correctamente el mensaje");
-      window.location.reload();
-    },
-
-    error: function (_jqXHR, _textStatus, _errorThrown) {
-      window.location.reload();
-      alert("No se guardo correctamente el mensaje");
-    },
-  });
+  fetch("https://localhost:8080/api/Message/update", {
+    method: "PUT",
+    body: JSON.stringify(data),
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  })
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
-function updateMessage(idElemento) {
+function updateMessageDeprecated(idElemento) {
   let myData = {
     idMessage: idElemento,
     messageText: $("#messagetext").val(),
