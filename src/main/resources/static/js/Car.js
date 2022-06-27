@@ -56,38 +56,36 @@ function saveCar() {
     });
 }
 
-function saveCarDeprecated() {
-  let var2 = {
-    name: $("#CarName").val(),
-    brand: $("#CarBrand").val(),
-    year: $("#CarYear").val(),
-    description: $("#CarDescription").val(),
-    idGama: { idGama: +$("#Select-Gama").val() },
+function updateCar(idCar) {
+  let name = document.getElementById("CarName").value;
+  let brand = document.getElementById("CarBrand").value;
+  let year = document.getElementById("CarYear").value;
+  let description = document.getElementById("CarDescription").value;
+  let data = {
+    idCar: idCar,
+    name: name,
+    brand: brand,
+    year: year,
+    description: description,
   };
-  console.log(var2);
-  $.ajax({
-    type: "POST",
-    contentType: "application/json; charset=utf-8",
-    dataType: "JSON",
-    data: JSON.stringify(var2),
 
-    url: "http://localhost:8080/api/Car/save",
-
-    success: function (respuesta) {
-      console.log(respuesta);
-      console.log("Se guardo correctamente el vehículo");
-      alert("Se guardo correctamente el vehículo");
-      window.location.reload();
-    },
-
-    error: function (_jqXHR, _textStatus, _errorThrown) {
-      window.location.reload();
-      alert("No se guardo correctamente el vehículo");
-    },
-  });
+  fetch("http://localhost:8080/api/Car/update", {
+    method: "PUT",
+    body: JSON.stringify(data),
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  })
+    .then(function (response) {
+      if (response.status == 201) {
+        console.log("Se actualizó el carro");
+      }
+      carData();
+    })
+    .catch(function (error) {
+      alert("error al actualizar el carro " + error);
+    });
 }
 
-function updateCar(idElemento) {
+function updateCarDeprecated(idElemento) {
   let myData = {
     idCar: idElemento,
     name: $("#CarName").val(),
