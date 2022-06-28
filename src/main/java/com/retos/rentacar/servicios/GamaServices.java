@@ -6,6 +6,9 @@ package com.retos.rentacar.servicios;
 
 import com.retos.rentacar.modelo.Gama;
 import com.retos.rentacar.repositorio.GamaRepository;
+
+import net.bytebuddy.implementation.bind.annotation.RuntimeType;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +30,11 @@ public class GamaServices {
 
     public Optional<Gama> getGama(int idGama) {
         return metodosCrudGama.getGama(idGama);
+    }
+
+    public Gama getGamaToBuild(int idGama) {
+        Optional<Gama> toReturn = metodosCrudGama.getGama(idGama);
+        return toReturn.get();
     }
 
     public Gama save(Gama gama) {

@@ -6,12 +6,15 @@ package com.retos.rentacar.modelo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.retos.rentacar.interfaces.GamaInterface;
+import com.retos.rentacar.servicios.GamaServices;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +23,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * @author cjop1
@@ -30,6 +34,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "car")
 public class Car implements Serializable {
+
+    @Transient //This column is ignored
+    GamaServices gamaServices;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,6 +64,14 @@ public class Car implements Serializable {
         this.brand = brand;
         this.year = year;
         this.description = description;
+    }
+
+    public Car(String name, String brand, Integer year, String description, int idGama) {
+        this.name = name;
+        this.brand = brand;
+        this.year = year;
+        this.description = description;
+        this.gama = gamaServices.getGamaToBuild(idGama);
     }
 
     public Car(String name, String brand, Integer year, String description, Gama gama) {
