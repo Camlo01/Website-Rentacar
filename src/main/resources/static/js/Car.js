@@ -3,8 +3,8 @@ function carData() {
     .then((response) => response.json())
     .then(function (data) {
       innerCarData(data);
-      addInSelect(data, "table-message-select-car");
-      addInSelect(data, "table-reser-select-car");
+      addInSelectCar(data, "table-message-select-car");
+      addInSelectCar(data, "table-reser-select-car");
     })
     .catch((error) => console.log("Problema al traer dator Car: " + error));
 }

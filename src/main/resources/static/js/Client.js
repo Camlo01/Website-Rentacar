@@ -3,8 +3,8 @@ function clientData() {
     .then((response) => response.json())
     .then(function (data) {
       innerClientData(data);
-      addInSelect(data, "table-message-select-client");
-      addInSelect(data, "table-reser-select-client");
+      addInSelectClient(data, "table-message-select-client");
+      addInSelectClient(data, "table-reser-select-client");
     })
     .catch((error) => console.log("Problema al traer datos client" + error));
 }
