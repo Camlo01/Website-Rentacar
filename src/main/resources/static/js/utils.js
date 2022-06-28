@@ -44,4 +44,9 @@ function addInSelectGama(data, selectName) {
 
 // Crear una funcion que separe el id del select con el método split()
 
+function getIdOfSelect(select) {
+  [idToReturn, nameOfElement] = select.split(" - ");
+  return idToReturn;
+}
+
 // Crear función que busca el elemento por su nombre para concatenarlo dentro de la creación del elemento
