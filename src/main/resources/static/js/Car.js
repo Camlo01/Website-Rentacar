@@ -17,8 +17,12 @@ function innerCarData(data) {
     myTable += `<td> ${car.brand} </td>`;
     myTable += `<td> ${car.year} </td>`;
     myTable += `<td> ${car.description} </td>`;
-    // myTable += `<td> ${car.gama.name} </td>`;
-    // myTable += `<td> ${car.messages.messageText}</td>`;
+    try {
+      myTable += `<td> ${car.gama.name} </td>`;
+      car.messages.forEach((mensaje) => {
+        myTable += `<td> COMENTARIO: ${mensaje.messageText}</td>`;
+      });
+    } catch (error) {}
     myTable += `<td><button onclick="updateCar(${car.idCar})"> Actualizar</button></td>`;
     myTable += `<td><button onclick="deleteCar(${car.idCar})"> Borrar</button></td>`;
     myTable += `</tr>`;
@@ -32,29 +36,38 @@ function saveCar() {
   let brand = document.getElementById("CarBrand").value;
   let year = document.getElementById("CarYear").value;
   let description = document.getElementById("CarDescription").value;
-  // let idGama = { idGama: document.getElementById("Select-Gama").value };
+  let gama = document.getElementById("Select-Gama").value;
+  let idGama = parseInt(getIdOfSelect(gama));
 
-  let data = {
-    name: name,
-    brand: brand,
-    year: year,
-    description: description,
-    // idGama: idGama,
-  };
-
-  fetch("http://localhost:8080/api/Car/save", {
-    method: "POST",
-    body: JSON.stringify(data),
+  fetch("http://localhost:8080/api/Gama/" + idGama, {
+    method: "GET",
     headers: { "Content-type": "application/json; charset=UTF-8" },
   })
-    .then(function (response) {
-      if (response.status == 201) {
-        console.log("Se creó el carro correctamente");
-      }
-      carData();
-    })
-    .catch(function (error) {
-      console.log("Problema al guardar el carro: " + error);
+    .then((response) => response.json())
+    .then(function (gama) {
+      let data = {
+        name: name,
+        brand: brand,
+        year: year,
+        description: description,
+        gama: gama,
+      };
+
+      console.log(data);
+      fetch("http://localhost:8080/api/Car/save", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+      })
+        .then(function (response) {
+          if (response.status == 201) {
+            console.log("Se creó el carro correctamente");
+          }
+          carData();
+        })
+        .catch(function (error) {
+          console.log("Problema al guardar el carro: " + error);
+        });
     });
 }
 
