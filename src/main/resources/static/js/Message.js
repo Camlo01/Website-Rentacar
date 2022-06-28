@@ -11,8 +11,8 @@ function innerMessageData(data) {
   let myTable = `<table>`;
   data.forEach((message) => {
     myTable += `<tr>`;
-    myTable += `<td> ${message.car.name} </td>`;
-    myTable += `<td> el Cliente: ${message.client.name} </td>`;
+    // myTable += `<td> ${message.car.name} </td>`;
+    // myTable += `<td> el Cliente: ${message.client.name} </td>`;
     myTable += `<td> comentó sobre este carro: ${message.messageText} </td>`;
     myTable += `<td><button onclick="updateMessage(${message.idMessage})"> Actualizar</button></td>`;
     myTable += `<td><button onclick="deleteMessage(${message.idMessage})"> Borrar</button></td>`;
@@ -25,12 +25,12 @@ function innerMessageData(data) {
 
 function saveMessage() {
   let messageText = document.getElementById("messageText").value;
-  let carro = document.getElementById("table-message-select-car").value;
-  let cliente = document.getElementById("table-message-select-client").value;
+  // let carro = document.getElementById("table-message-select-car").value;
+  // let cliente = document.getElementById("table-message-select-client").value;
   let data = {
     messageText: messageText,
-    carro: carro,
-    client: cliente,
+    // carro: carro,
+    // client: cliente,
   };
 
   fetch("http://localhost:8080/api/Client/save", {
@@ -39,10 +39,11 @@ function saveMessage() {
     headers: { "Content-type": "application/json; charset=UTF-8" },
   })
     .then(function (response) {
+      console.log(response);
       if (response.status == 201) {
         console.log("Se creó el mensaje correctamente");
+        messageData();
       }
-      messageData();
     })
     .catch(function (error) {
       console.log("Problema al crear el mensaje: " + error);
@@ -70,43 +71,17 @@ function updateMessage(idMessage) {
     });
 }
 
-function updateMessageDeprecated(idElemento) {
-  let myData = {
-    idMessage: idElemento,
-    messageText: $("#messagetext").val(),
-  };
-  console.log(myData);
-  let dataToSend = JSON.stringify(myData);
-  $.ajax({
-    url: "http://localhost:8080/api/Message/update",
-    type: "PUT",
-    data: dataToSend,
-    contentType: "application/JSON",
-    datatype: "JSON",
-    success: function (_respuesta) {
-      $("#messageText").val("");
-      autoInicioMessage();
-      alert("se ha Actualizado correctamente el Mensaje");
-    },
-  });
-}
-
-function deleteMessege(idElemento) {
-  let myData = {
-    idMessage: idElemento,
-  };
-  let dataToSend = JSON.stringify(myData);
-
-  $.ajax({
-    url: "http://localhost:8080/api/Message/" + idElemento,
-    type: "DELETE",
-    data: dataToSend,
-    contentType: "application/JSON",
-    datatype: "JSON",
-    success: function (_respuesta) {
-      $("#resultadoMessage").empty();
-      autoInicioMessage();
-      alert("Se ha Eliminado el mensaje");
-    },
-  });
+function deleteMessage(idMessage) {
+  fetch("http://localhost:8080/api/Message/delete/" + idMessage, {
+    method: "DELETE",
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  })
+    .then((response) => {
+      if (response.status == 204) {
+        messageData();
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
