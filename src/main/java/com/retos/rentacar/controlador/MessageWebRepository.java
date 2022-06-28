@@ -26,15 +26,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/Message")
-@CrossOrigin(origins = "*", methods={RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
+        RequestMethod.DELETE })
 public class MessageWebRepository {
-  
+
     @Autowired
     private MessageServices services;
+
     @GetMapping("/all")
-    public List <Message> getMessage(){
+    public List<Message> getMessage() {
         return services.getAll();
     }
+
     @GetMapping("/{id}")
     public Optional<Message> getMessage(@PathVariable("id") int idMessage) {
         return services.getMessage(idMessage);
@@ -48,13 +51,13 @@ public class MessageWebRepository {
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
-    public Message update(@RequestBody Message message){
+    public Message update(@RequestBody Message message) {
         return services.update(message);
     }
-       
+
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean delete(@PathVariable ("id") int idMessage) {
+    public boolean delete(@PathVariable("id") int idMessage) {
         return services.deleteMessage(idMessage);
     }
 }
