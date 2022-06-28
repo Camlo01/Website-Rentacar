@@ -1,10 +1,12 @@
 
 package com.retos.rentacar.servicios;
 
+import com.retos.rentacar.modelo.Gama;
 import com.retos.rentacar.modelo.Message;
 import com.retos.rentacar.repositorio.MessageRepository;
 
 import antlr.debug.MessageAdapter;
+import antlr.debug.MessageEvent;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,48 +36,35 @@ public class MessageServices {
             } else {
                 return message;
             }
-
         }
-
     }
 
-    // public Message update(Message message) {
-    // if (message.getIdMessage() != null) {
-    // Optional<Message> evt =
-    // metodosCrudMessage.getMessage(message.getIdMessage());
-    // if (!evt.isEmpty()) {
-    // if (message.getMessageText() != null) {
-    // evt.get().setMessageText(message.getMessageText());
-    // }
-    // metodosCrudMessage.save(evt.get());
-    // return message;
-    // } else {
-    // return message;
-    // }
-    // } else {
-    // return message;
-    // }
-    // }
     public Message update(Message message) {
 
-        Optional<Message> mensaje = Optional.of(message);
-
-        if (!mensaje.isEmpty()) {
-            metodosCrudMessage.save(message);
-            return message;
+        if (message.getIdMessage() != null) {
+            Optional<Message> evt = metodosCrudMessage.getMessage(message.getIdMessage());
+            if (!evt.isEmpty()) {
+                if (message.getMessageText() != null) {
+                    evt.get().setMessageText(message.getMessageText());
+                }
+                metodosCrudMessage.save(evt.get());
+                return message;
+            } else {
+                return message;
+            }
         } else {
             return message;
         }
 
-        // return message;
-
     }
 
-    public boolean deleteMessage(int IdMessage) {
-        Boolean aBoolean = getMessage(IdMessage).map(message -> {
-            metodosCrudMessage.delete(message);
+    public boolean deleteMessage(int idMessage) {
+
+        Boolean aBoolean = getMessage(idMessage).map(msg -> {
+            metodosCrudMessage.delete(msg);
             return true;
         }).orElse(false);
+
         return aBoolean;
     }
 

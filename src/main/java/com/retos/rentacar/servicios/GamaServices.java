@@ -43,10 +43,17 @@ public class GamaServices {
     }
 
     public Gama update(Gama gama) {
+
         if (gama.getIdGama() != null) {
             Optional<Gama> evt = metodosCrudGama.getGama(gama.getIdGama());
             if (!evt.isEmpty()) {
-               
+                if (gama.getName() != null) {
+                    evt.get().setName(gama.getName());
+                }
+                if (gama.getDescription() != null) {
+                    evt.get().setDescription(gama.getDescription());
+                }
+                metodosCrudGama.save(evt.get());
                 return gama;
             } else {
                 return gama;

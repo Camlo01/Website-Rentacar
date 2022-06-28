@@ -49,6 +49,9 @@ public class CarServices {
                 if (car.getYear() != null) {
                     evt.get().setYear(car.getYear());
                 }
+                if (car.getDescription() != null) {
+                    evt.get().setDescription(car.getDescription());
+                }
                 metodosCrudCar.save(evt.get());
                 return car;
             } else {
