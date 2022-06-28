@@ -11,9 +11,11 @@ function innerMessageData(data) {
   let myTable = `<table>`;
   data.forEach((message) => {
     myTable += `<tr>`;
-    // myTable += `<td> ${message.car.name} </td>`;
-    // myTable += `<td> el Cliente: ${message.client.name} </td>`;
-    myTable += `<td> comentó sobre este carro: ${message.messageText} </td>`;
+    try {
+      myTable += `<td> CARRO: ${message.car.name} </td>`;
+      myTable += `<td> CLIENTE: ${message.client.name} </td>`;
+    } catch {}
+    myTable += `<td> COMENTARIO: ${message.messageText} </td>`;
     myTable += `<td><button onclick="updateMessage(${message.idMessage})"> Actualizar</button></td>`;
     myTable += `<td><button onclick="deleteMessage(${message.idMessage})"> Borrar</button></td>`;
     myTable += `</tr>`;
@@ -30,10 +32,9 @@ function saveMessage() {
   let data = {
     messageText: messageText,
     // carro: carro,
-    // client: cliente,
   };
-
-  fetch("http://localhost:8080/api/Client/save", {
+  // client: cliente,
+  fetch("http://localhost:8080/api/Message/save", {
     method: "POST",
     body: JSON.stringify(data),
     headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -52,19 +53,19 @@ function saveMessage() {
 
 function updateMessage(idMessage) {
   let messageText = document.getElementById("messageText").value;
-
   let data = {
     idMessage: idMessage,
     messageText: messageText,
   };
 
-  fetch("https://localhost:8080/api/Message/update", {
+  fetch("http://localhost:8080/api/Message/update", {
     method: "PUT",
     body: JSON.stringify(data),
     headers: { "Content-type": "application/json; charset=UTF-8" },
   })
     .then((response) => {
       console.log(response);
+      messageData();
     })
     .catch((error) => {
       console.log(error);
