@@ -3,7 +3,7 @@ function gamaData() {
     .then((response) => response.json())
     .then(function (data) {
       innerGamaData(data);
-      addInSelect(data, "Select-Gama");
+      addInSelectGama(data, "Select-Gama");
     })
     .catch((error) => console.log("Problema al mostrar la gama: " + error));
 }
@@ -46,37 +46,32 @@ function saveGama() {
 }
 
 function updateGama(idElemento) {
-  if (
-    document.getElementById("GamaName").value.length == 0 ||
-    document.getElementById("GamaDescription").value.length == 0
-  ) {
-    alert("hay campos vacíos");
-  } else {
-    let name = document.getElementById("GamaName").value;
-    let description = document.getElementById("GamaDescription").value;
+  let name = document.getElementById("GamaName").value;
+  let description = document.getElementById("GamaDescription").value;
 
-    let data = {
-      idGama: idElemento,
-      name: name,
-      description: description,
-    };
+  let data = {
+    idGama: idElemento,
+    name: name,
+    description: description,
+  };
 
-    fetch("http://localhost:8080/api/Gama/update", {
-      method: "PUT",
-      body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" },
+  console.log(data);
+
+  fetch("http://localhost:8080/api/Gama/update", {
+    method: "PUT",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" },
+  })
+    .then((response) => {
+      console.log(response);
+      if (response.status == 201) {
+        console.log("Se actualizó la gama");
+      }
+      gamaData();
     })
-      .then(function (response) {
-        console.log(response);
-        if (response.status == 201) {
-          console.log("Se actualizó la gama");
-          gamaData();
-        }
-      })
-      .catch(function (error) {
-        console.log("Problema al actualizar la gama: " + error);
-      });
-  }
+    .catch((error) => {
+      console.log("Problema al actualizar la gama: " + error);
+    });
 }
 
 function deleteGama(idGama) {
