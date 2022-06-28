@@ -34,9 +34,6 @@ public class Message implements Serializable {
     public Message() {
     }
 
-    public Message(String messageText) {
-        this.messageText = messageText;
-    }
 
     public Message(Integer idMessage, String messageText) {
         this.idMessage = idMessage;
