@@ -3,6 +3,8 @@ package com.retos.rentacar.modelo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.Optional;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,12 +34,12 @@ public class Message implements Serializable {
     public Message() {
     }
 
-    public Message(Integer idMessage, String messageText) {
-        this.idMessage = idMessage;
+    public Message(String messageText) {
         this.messageText = messageText;
     }
 
-    public Message(String messageText) {
+    public Message(Integer idMessage, String messageText) {
+        this.idMessage = idMessage;
         this.messageText = messageText;
     }
 
@@ -84,5 +86,9 @@ public class Message implements Serializable {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public Optional<Message> map(Object object) {
+        return null;
     }
 }

@@ -30,31 +30,31 @@ import org.springframework.web.bind.annotation.RestController;
 public class MessageWebRepository {
   
     @Autowired
-    private MessageServices servicios;
+    private MessageServices services;
     @GetMapping("/all")
     public List <Message> getMessage(){
-        return servicios.getAll();
+        return services.getAll();
     }
     @GetMapping("/{id}")
     public Optional<Message> getMessage(@PathVariable("id") int idMessage) {
-        return servicios.getMessage(idMessage);
+        return services.getMessage(idMessage);
     }
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public Message save(@RequestBody Message message) {
-        return servicios.save(message);
+        return services.save(message);
     }
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
     public Message update(@RequestBody Message message){
-        return servicios.update(message);
+        return services.update(message);
     }
        
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean delete(@PathVariable ("id") int idMessage) {
-        return servicios.deleteMessage(idMessage);
+        return services.deleteMessage(idMessage);
     }
 }
