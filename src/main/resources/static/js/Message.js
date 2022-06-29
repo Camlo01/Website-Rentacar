@@ -27,27 +27,48 @@ function innerMessageData(data) {
 
 function saveMessage() {
   let messageText = document.getElementById("messageText").value;
-  // let carro = document.getElementById("table-message-select-car").value;
-  // let cliente = document.getElementById("table-message-select-client").value;
-  let data = {
-    messageText: messageText,
-    // carro: carro,
-  };
-  // client: cliente,
-  fetch("http://localhost:8080/api/Message/save", {
-    method: "POST",
-    body: JSON.stringify(data),
+  let carro = document.getElementById("table-message-select-car").value;
+  let cliente = document.getElementById("table-message-select-client").value;
+
+  let idCar = parseInt(getIdOfSelect(carro));
+  let idClient = parseInt(getIdOfSelect(cliente));
+
+  fetch("http://localhost:8080/api/Car/" + idCar, {
+    method: "GET",
     headers: { "Content-type": "application/json; charset=UTF-8" },
   })
-    .then(function (response) {
-      console.log(response);
-      if (response.status == 201) {
-        console.log("Se creó el mensaje correctamente");
-        messageData();
-      }
-    })
-    .catch(function (error) {
-      console.log("Problema al crear el mensaje: " + error);
+    .then((response) => response.json())
+    .then((car) => {
+      let carGetted = car;
+      fetch("http://localhost:8080/api/Client/" + idClient, {
+        method: "GET",
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+      })
+        .then((response) => response.json())
+        .then((client) => {
+          let clientGetted = client;
+
+          let data = {
+            messageText: messageText,
+            car: carGetted,
+            client: clientGetted,
+          };
+          fetch("http://localhost:8080/api/Message/save/", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: { "Content-type": "application/json; charset=UTF-8" },
+          })
+            .then(function (response) {
+              console.log(response);
+              if (response.status == 201) {
+                console.log("Se creó el mensaje correctamente");
+                messageData();
+              }
+            })
+            .catch(function (error) {
+              console.log("Problema al crear el mensaje: " + error);
+            });
+        });
     });
 }
 
