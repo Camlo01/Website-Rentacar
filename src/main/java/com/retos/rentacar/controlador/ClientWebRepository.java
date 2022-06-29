@@ -36,7 +36,7 @@ public class ClientWebRepository {
     }
 
     @GetMapping("/{id}")
-    public Optional<Client> getClient(@PathVariable("idClient") int idClient) {
+    public Optional<Client> getClient(@PathVariable("id") int idClient) {
         return servicios.getClient(idClient);
     }
 
