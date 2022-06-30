@@ -30,7 +30,7 @@ function sesionNavbar() {
     </div>
 
     <div class="mb-3 row">
-        <label for="inputDateRegister" class="col-sm-2 col-form-label">Contraseña</label>
+        <label for="inputDateRegister" class="col-sm-2 col-form-label">Nacimiento</label>
         <div class="col-sm-10">
           <input type="date" class="form-control" id="inputDateRegister">
         </div>
@@ -160,7 +160,7 @@ function createAccount() {
       name: name,
       age: age,
     };
-    console.log(age);
+    console.log("!!!La edad se está calculado: "+age);
 
     fetch("http://localhost:8080/api/Client/save", {
       method: "POST",
@@ -190,9 +190,21 @@ function logginAccount() {
     }
     return true;
   }
-
   if (noOneNull()) {
-    alert("Ningún elemento está vacío! :D");
+    fetch(`http://localhost:8080/api/Client/login/${email}/${password}`, {
+      method: "GET",
+      // body: JSON.stringify(data),
+      headers: { "Content-type": "application/json; charset=UTF-8" },
+    })
+      .then((response) => {
+        if (response.status == 403) {
+          console.log("La respuesta fue 403");
+        }
+        if (response.status == 200) {
+          console.log("La respuesta fue 200");
+        }
+      })
+      .catch((error) => alert("El problema obtenido fue: " + error));
   } else {
     alert("Un elemento está vacío :0");
   }
