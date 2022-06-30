@@ -49,4 +49,14 @@ function getIdOfSelect(select) {
   return idToReturn;
 }
 
+function NoOneFieldNull(array) {
+  for (let i = 0; i < array.length; i++) {
+    const element = array[i];
+    if (element == 0 || element == null) {
+      return false;
+    }
+  }
+  return true;
+}
+
 // Crear función que busca el elemento por su nombre para concatenarlo dentro de la creación del elemento
