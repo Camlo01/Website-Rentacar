@@ -2,11 +2,18 @@
 package com.retos.rentacar.servicios;
 
 import com.retos.rentacar.modelo.Client;
+import com.retos.rentacar.modelo.Gama;
 import com.retos.rentacar.repositorio.ClientRepository;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Service
 public class ClientServices {
@@ -39,7 +46,7 @@ public class ClientServices {
     public Client update(Client client) {
         if (client.getIdClient() != null) {
             Optional<Client> evt = metodosCrudClient.getClient(client.getIdClient());
-            if (!evt.isEmpty()) {
+            if (evt.isPresent()) {
                 if (client.getName() != null) {
                     evt.get().setName(client.getName());
                 }
@@ -53,20 +60,25 @@ public class ClientServices {
                     evt.get().setAge(client.getAge());
                 }
                 metodosCrudClient.save(evt.get());
-                return client;
-            } else {
-                return client;
             }
-        } else {
-            return client;
         }
+        return client;
     }
 
     public boolean deleteClient(int IdClient) {
-        Boolean aBoolean = getClient(IdClient).map(client -> {
+        return getClient(IdClient).map(client -> {
             metodosCrudClient.delete(client);
             return true;
         }).orElse(false);
-        return aBoolean;
+    }
+
+    public boolean canLogging(Client clientToVerify) {
+        Client clientGetted = metodosCrudClient.getElementForLoginValidation(clientToVerify.getEmail());
+
+        boolean hasSameEmail =  Objects.equals(clientGetted.getEmail(), clientToVerify.getEmail());
+        boolean hasSamePassword = Objects.equals(clientGetted.getPassword(), clientToVerify.getPassword());
+
+        return hasSameEmail && hasSamePassword;
+
     }
 }
