@@ -80,9 +80,7 @@ public class RentacarApplication implements CommandLineRunner {
         Car carTest = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
 
         List<Car> listOfCars = Arrays.asList(camionetaToyota, camionetaJeep, camionetaMercedes, camionetaBMW,
-                camionetaFord, carroChevrolet
-                , carTest
-                );
+                camionetaFord, carroChevrolet, carTest);
 
         for (Car car : listOfCars) {
             Logger.debug("Carro: " + car.getName() + " su gama: " + car.getGama());
@@ -139,8 +137,8 @@ public class RentacarApplication implements CommandLineRunner {
 
         List<Message> listOfMessages = Arrays.asList(mensaje, mensaje1, mensaje2, mensaje3, mensaje4, mensaje5,
                 mensaje6, mensaje7, mensaje8, mensaje9, mensaje10, mensaje11, mensaje12, mensaje13, mensaje14
-                // ,MessageTest
-                );
+        // ,MessageTest
+        );
 
         try {
             messageInterface.saveAll(listOfMessages);
@@ -164,7 +162,8 @@ public class RentacarApplication implements CommandLineRunner {
         Reservation reservation = new Reservation(fechaInico, fechaFinal, "RESERVADO", camionetaBMW, matt);
         Reservation reservation1 = new Reservation(fechaInico1, fechaFinal1, "RESERVADO", carroChevrolet, milo);
         Reservation reservation2 = new Reservation(fechaInico2, fechaFinal2, "RESERVADO", camionetaFord, vale);
-        // Reservation ReservationTest = new Reservation(fechaInico2, fechaFinal2, "RESERVADO");
+        // Reservation ReservationTest = new Reservation(fechaInico2, fechaFinal2,
+        // "RESERVADO");
 
         List<Reservation> listOfReservations = Arrays.asList(reservation, reservation1, reservation2
         // , ReservationTest
