@@ -61,17 +61,14 @@ public class ClientWebRepository {
     }
 
     @GetMapping("/login/{email}/{password}")
-    public ResponseEntity<String> logging(
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<Client> logging(
             @PathVariable("email") String email,
             @PathVariable("password") String password) {
 
         Client client = new Client(email, password);
-
-        if (servicios.canLogging(client)) {
-            return new ResponseEntity<String>(HttpStatus.OK);
-        }
-        return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
-
+        System.out.println(servicios.loggin(client));
+        return servicios.loggin(client);
     }
 
 }
