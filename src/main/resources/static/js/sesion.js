@@ -1,7 +1,25 @@
-function sesionNavbar() {
-  let isLogged = false;
+/**
+ * Valores de LocalStorage
+ *
+ * "logged"   |   "si" / "no"
+ * "email"    |   "email getted" / "null"
+ *
+ *
+ */
 
-  if (!isLogged) {
+localStorage.setItem("logged", "no");
+// var isLogged = false;
+
+function isLogged() {
+  if (localStorage.getItem("logged") == "si") {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function sesionNavbar() {
+  if (!isLogged()) {
     //<button type="button" class="btn btn-primary" data-bs-target="#modalRegister"> Iniciar sesión </button>
 
     let button = `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearCuenta">Acceder</button>`;
@@ -87,7 +105,7 @@ function sesionNavbar() {
         </div>
         <div class="modal-footer">
         <button type="button" class="btn btn-warning" data-bs-target="#crearCuenta" data-bs-toggle="modal">Crear cuenta</button>
-        <button type="button" class="btn btn-success" onclick="logginAccount()" >Iniciar sesión</button>
+        <button type="button" class="btn btn-success"  data-bs-target="#" data-bs-toggle="modal" onclick="logginAccount()" >Iniciar sesión</button>
         <button type="button" class="btn btn-danger" data-bs-target="#" data-bs-toggle="modal">Cancelar</button>
         </div>
       </div>
@@ -118,7 +136,7 @@ function sesionNavbar() {
        ${MyAccount}
         </div>
         <div class="modal-footer">
-        <p>Lugar para colocar botones</p>
+        <button type="button" class="btn btn-danger"  data-bs-target="#" data-bs-toggle="modal" onclick="logOut()" >Cerrar sesión</button>
         </div>
       </div>
     </div>
@@ -160,7 +178,7 @@ function createAccount() {
       name: name,
       age: age,
     };
-    console.log("!!!La edad se está calculado: "+age);
+    console.log("!!!La edad se está calculado: " + age);
 
     fetch("http://localhost:8080/api/Client/save", {
       method: "POST",
@@ -193,15 +211,28 @@ function logginAccount() {
   if (noOneNull()) {
     fetch(`http://localhost:8080/api/Client/login/${email}/${password}`, {
       method: "GET",
-      // body: JSON.stringify(data),
       headers: { "Content-type": "application/json; charset=UTF-8" },
     })
       .then((response) => {
         if (response.status == 403) {
-          console.log("La respuesta fue 403");
+          alert(`Contraseña incorrecta`);
         }
         if (response.status == 200) {
-          console.log("La respuesta fue 200");
+          localStorage.removeItem("logged");
+          localStorage.setItem("logged", "si");
+          console.log(`Iniciaste sesión!`);
+          sesionNavbar();
+          welcome();
+
+          let modalToHide = document.getElementsByClassName("modal-backdrop");
+          modalToHide.innerHTML = `.modal-backdrop {
+            display: none;
+          }`;
+        }
+        if (response.status == 500) {
+          alert(
+            `Verifica que el correo y la contraseña ingresados son los correctos`
+          );
         }
       })
       .catch((error) => alert("El problema obtenido fue: " + error));
@@ -210,4 +241,20 @@ function logginAccount() {
   }
 }
 
-//Función que reciba un array y verifique que todos los elementos no son vacíos, reutilizar esta función para la creación de cuenta e inicio de sesión
+function logOut() {
+  localStorage.removeItem("logged");
+  localStorage.removeItem("email");
+  sesionNavbar();
+  welcome();
+  // localStorage.removeItem()
+}
+
+function welcome() {
+  if (isLogged()) {
+    let nombre = (document.getElementById("wherePrintName").innerHTML =
+      "nombre");
+  } else {
+    let nombre = (document.getElementById("wherePrintName").innerHTML =
+      "Invitado");
+  }
+}
