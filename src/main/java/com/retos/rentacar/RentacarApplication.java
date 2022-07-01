@@ -95,12 +95,13 @@ public class RentacarApplication implements CommandLineRunner {
 
         // ------- Creating Clients Objects
 
+        Client a = new Client("a", "a", "a", 18);
         Client milo = new Client("Camilo", "Camilo@gmail.com", "12345*", 18);
         Client matt = new Client("Matthew", "Mattew@gmail.com", "*54321", 22);
         Client vale = new Client("Valeria", "Valeria@gmail.com", "C0ntra?se(*a", 19);
         Client ClientTest = new Client("ClientTest", "TestClient@gmail.com",
                 "Cl13Nt3_?", 25);
-        List<Client> listOfClients = Arrays.asList(milo, matt, vale, ClientTest);
+        List<Client> listOfClients = Arrays.asList(milo, matt, vale, ClientTest, a);
 
         for (Client client : listOfClients) {
             Logger.debug(
