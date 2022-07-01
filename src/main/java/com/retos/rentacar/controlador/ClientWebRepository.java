@@ -67,7 +67,6 @@ public class ClientWebRepository {
 
         Client client = new Client(email, password);
 
-        System.out.println("Controller: " + servicios.canLogging(client));
         if (servicios.canLogging(client)) {
             return new ResponseEntity<String>(HttpStatus.OK);
         }
