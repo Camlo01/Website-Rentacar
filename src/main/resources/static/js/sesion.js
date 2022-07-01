@@ -1,14 +1,10 @@
 /**
  * Valores de LocalStorage
  *
- * "logged"   |   "si" / "no"
+ * "logged"   |   "si"
  * "email"    |   "email getted" / "null"
  *
- *
  */
-
-localStorage.setItem("logged", "no");
-// var isLogged = false;
 
 function isLogged() {
   if (localStorage.getItem("logged") == "si") {
@@ -125,6 +121,25 @@ function sesionNavbar() {
     CONTENIDO DE MI CUENTA
     `;
 
+    let myAccountInfo = `
+    <table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Contraseña</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>${localStorage.getItem("name")}</td>
+            <td>${localStorage.getItem("email")}</td>
+            <td>${localStorage.getItem("password")}</td>
+        </tr>
+    </tbody>
+</table>
+    `;
+
     let modal = ` <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -133,7 +148,7 @@ function sesionNavbar() {
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-       ${MyAccount}
+        ${myAccountInfo}
         </div>
         <div class="modal-footer">
         <button type="button" class="btn btn-danger"  data-bs-target="#" data-bs-toggle="modal" onclick="logOut()" >Cerrar sesión</button>
@@ -213,14 +228,13 @@ function logginAccount() {
       method: "GET",
       headers: { "Content-type": "application/json; charset=UTF-8" },
     })
-      .then((response) => {
-        if (response.status == 403) {
-          alert(`Contraseña incorrecta`);
-        }
-        if (response.status == 200) {
-          localStorage.removeItem("logged");
+      .then((Response) => Response.json())
+      .then((data) => {
+        if (!(data.idClient == null)) {
           localStorage.setItem("logged", "si");
-          console.log(`Iniciaste sesión!`);
+          localStorage.setItem("name", data.name);
+          localStorage.setItem("email", data.email);
+          localStorage.setItem("password", data.password);
           sesionNavbar();
           welcome();
 
@@ -228,11 +242,6 @@ function logginAccount() {
           modalToHide.innerHTML = `.modal-backdrop {
             display: none;
           }`;
-        }
-        if (response.status == 500) {
-          alert(
-            `Verifica que el correo y la contraseña ingresados son los correctos`
-          );
         }
       })
       .catch((error) => alert("El problema obtenido fue: " + error));
@@ -243,7 +252,9 @@ function logginAccount() {
 
 function logOut() {
   localStorage.removeItem("logged");
+  localStorage.removeItem("name");
   localStorage.removeItem("email");
+  localStorage.removeItem("password");
   sesionNavbar();
   welcome();
   // localStorage.removeItem()
@@ -252,7 +263,7 @@ function logOut() {
 function welcome() {
   if (isLogged()) {
     let nombre = (document.getElementById("wherePrintName").innerHTML =
-      "nombre");
+      localStorage.getItem("name"));
   } else {
     let nombre = (document.getElementById("wherePrintName").innerHTML =
       "Invitado");
