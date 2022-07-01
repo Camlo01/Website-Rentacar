@@ -1,6 +1,7 @@
 
 package com.retos.rentacar.servicios;
 
+import com.jayway.jsonpath.Option;
 import com.retos.rentacar.modelo.Client;
 import com.retos.rentacar.modelo.Gama;
 import com.retos.rentacar.repositorio.ClientRepository;
@@ -72,13 +73,18 @@ public class ClientServices {
         }).orElse(false);
     }
 
-    public boolean canLogging(Client clientToVerify) {
-        Client clientGetted = metodosCrudClient.getElementForLoginValidation(clientToVerify.getEmail());
+    public Optional<Client> loggin(Client clientToVerify) {
+        Optional<Client> clientGetted = metodosCrudClient.getElementForLoginValidation(clientToVerify.getEmail());
 
-        boolean hasSameEmail =  Objects.equals(clientGetted.getEmail(), clientToVerify.getEmail());
-        boolean hasSamePassword = Objects.equals(clientGetted.getPassword(), clientToVerify.getPassword());
+        boolean hasSameEmail = Objects.equals(clientGetted.get().getEmail(), clientToVerify.getEmail());
+        boolean hasSamePassword = Objects.equals(clientGetted.get().getPassword(), clientToVerify.getPassword());
 
-        return hasSameEmail && hasSamePassword;
+        Optional<Client> clientNull = Optional.of(new Client());
 
+        if (hasSameEmail && hasSamePassword) {
+            return clientGetted;
+        } else {
+            return clientNull;
+        }
     }
 }
