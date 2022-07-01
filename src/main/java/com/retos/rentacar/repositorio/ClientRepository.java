@@ -28,9 +28,7 @@ public class ClientRepository {
         crudClient.delete(client);
     }
 
-    public Client getElementForLoginValidation(String email) {
-        Client clientGetted = crudClient.findClientByEmail(email).get();
-        Client clientToCompare = new Client(clientGetted.getEmail(), clientGetted.getPassword());
-        return clientToCompare;
+    public Optional<Client> getElementForLoginValidation(String email) {
+        return crudClient.findClientByEmail(email);
     }
 }
