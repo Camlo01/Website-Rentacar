@@ -67,7 +67,6 @@ public class ClientWebRepository {
             @PathVariable("password") String password) {
 
         Client client = new Client(email, password);
-        System.out.println(servicios.loggin(client));
         return servicios.loggin(client);
     }
 
