@@ -37,8 +37,7 @@ body {
     color: rgb(0, 6, 159);
 }
 
-#navbar-text-to-input-sesion 
-
+#navbar-text-to-input-sesion
 
 /* MAIN */
 main {
@@ -71,6 +70,7 @@ main {
 
     font-size: 2.2rem;
     padding-top: 15px;
+    margin-bottom: 10px;
     /* font-size: 1.8rem; */
     width: 280px;
     font-weight: 700;
@@ -95,6 +95,43 @@ main {
     width: 100vw;
     margin: 15px 0 15px;
     border-radius: 0;
+}
+
+/* Vehiculos */
+.section-container-vehicle {
+    padding-bottom: 40px;
+}
+
+.vehicle-container-cards {
+    display: flex;
+    overflow-x: scroll;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+}
+
+.vehicle-container-cards {
+    background-color: rgb(205, 242, 255);
+}
+
+.vehicle-card {
+    background-color: rgb(177, 163, 255);
+    width: 220px;
+    margin: 10px;
+    border-radius: 7px;
+    padding: 10px;
+}
+
+.s-img-vehicle {
+    background-color: rgb(96, 92, 92);
+    width: 200px;
+    height: 180px;
+    /* margin: 10px auto 10px; */
+    border-radius: 10px;
+}
+
+.vehicle-card p {
+    font-size: 1.6rem;
+    width: 200px;
 }
 
 
