@@ -14,6 +14,7 @@
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
         crossorigin="anonymous"></script>
     <script src="js/sesion.js"></script>
+    <script src="js/loadCars.js"></script>
 
     <!-- own styles -->
 
@@ -36,7 +37,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
-
+                        <li class="nav-item">
+                            <a class="nav-link" href="#vehiculos">Vehículos</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#servicios">Servicios</a>
                         </li>
@@ -61,34 +64,18 @@
         <section class="main-section-container section-container-introduction">
             <div class="introduction-title">
                 <h1>Website Renta Car</h1>
-                <h2>¡Bienvenido! <div  id="wherePrintName"></div> Reserva tu vehículo</h2>
+                <h2>¡Bienvenido! <div id="wherePrintName"></div> Reserva tu vehículo</h2>
                 <script>welcome()</script>
                 <p>Te brindamos la posibilidad de encontrar el vehículo que busque y lo reserve según tu gusto o
                     necesidad</p>
             </div>
-            <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Launch demo modal
-            </button>
-
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Esto es una etiqueta de texto
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
+        </section>
+        <!-- ------------------------------------------------------------- -->
+        <section class="main-section-container section-container-vehicle" id="vehiculos">
+            <h2>Vehículos</h2>
+            <section id="whereToLoadCars" class="vehicle-container-cards">
+            </section>
+            <script>loadAllCars()</script>
 
         </section>
         <!-- ------------------------------------------------------------- -->
