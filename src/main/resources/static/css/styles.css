@@ -37,6 +37,38 @@ body {
     color: rgb(0, 6, 159);
 }
 
+.tittles-modals-forms {
+    font-size: 2.4rem;
+}
+.modal-body{
+    padding-top: 25px;
+    padding-bottom: 23px;
+}
+@media (min-width: 576px) {
+    .div-label-input-form {
+        margin-left: 50px;
+    }
+
+    .label--form {
+        font-size: 1.8rem;
+    }
+
+    .input--modal {
+        font-size: 1.8rem;
+        /* width: 300px; */
+        margin-left: 40px;
+
+    }
+}
+
+.navbar--btn {
+    font-size: 1.8rem;
+}
+
+.botones-navbars {
+    font-size: 1.6rem;
+}
+
 #navbar-text-to-input-sesion
 
 /* MAIN */
@@ -92,7 +124,7 @@ main {
 
 /* Introduction */
 .section-container-introduction {
-    width: 100vw;
+    width: 100%;
     margin: 15px 0 15px;
     border-radius: 0;
 }
