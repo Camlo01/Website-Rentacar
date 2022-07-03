@@ -45,6 +45,8 @@ public class RentacarApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         createEveryObject();
+        Logger.info("INICIADO CORRECTAMENTE! :D");
+
     }
 
     public void createEveryObject() {
@@ -98,7 +100,7 @@ public class RentacarApplication implements CommandLineRunner {
         Client a = new Client("a", "a", "a", 18);
         Client milo = new Client("Camilo", "Camilo@gmail.com", "12345*", 18);
         Client matt = new Client("Matthew", "Mattew@gmail.com", "*54321", 22);
-        Client vale = new Client("Valeria", "Valeria@gmail.com", "C0ntra?se(*a", 19);
+        Client vale = new Client("Valeria", "Valeria@gmail.com", "password", 19);
         Client ClientTest = new Client("ClientTest", "TestClient@gmail.com",
                 "Cl13Nt3_?", 25);
         List<Client> listOfClients = Arrays.asList(milo, matt, vale, ClientTest, a);
@@ -178,8 +180,8 @@ public class RentacarApplication implements CommandLineRunner {
             Logger.info("No fue posible crear las reservaciones: " + e);
         }
 
-        Iterable<Client> listaDeClientes = clientInterface.findAll();
-        listaDeClientes.forEach(client -> Logger.info(client));
+        // Iterable<Client> listaDeClientes = clientInterface.findAll();
+        // listaDeClientes.forEach(client -> Logger.info(client));
 
     }
 
