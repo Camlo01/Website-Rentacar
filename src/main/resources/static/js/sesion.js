@@ -14,101 +14,119 @@ function isLogged() {
   }
 }
 
+/**
+ * Se inserta ---------------------->
+ *
+ * SÍ está registrado: -------->
+ * - botón "Mi cuenta"
+ * - LET Formulario de crear cuenta
+ * - LET form de login
+ *
+ * - variable "modal" que contiene ambos modales con los formularios insertados
+ *
+ * NO estár registrado: -------->
+ *
+ * - boton "Acceder"
+ * - LET myAccountInfo = tabla con la información de la cuenta
+ * - modal que incluye myAccountInfo
+ *
+ * -------->
+ *
+ * y finalmente se inserta en el div con el id = "navbar-text-to-input-sesion"
+ *
+ */
 function sesionNavbar() {
   if (!isLogged()) {
-    //<button type="button" class="btn btn-primary" data-bs-target="#modalRegister"> Iniciar sesión </button>
-
-    let button = `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearCuenta">Acceder</button>`;
-
+    let button = `<button type="button" class="btn btn-primary navbar--btn" data-bs-toggle="modal" data-bs-target="#crearCuenta">Acceder</button>`;
     let formRegister = ` 
 
-    <div class="mb-3 row">
-        <label for="inputNameRegister" class="col-sm-2 col-form-label">Nombre</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="inputNameRegister" placeholder="Tu nombre">
-        </div class="mb-3 row">
-    </div>
+      <div class="mb-3 row div-label-input-form">
+          <label for="inputNameRegister" class="col-sm-2 col-form-label label--form">Nombre:</label>
+          <div class="col-6">
+              <input type="text" class="form-control input--modal" id="inputNameRegister" placeholder="Tu nombre">
+          </div class="mb-3 row">
+      </div>
 
-    <div class="mb-3 row">
-        <label for="inputEmailRegister" class="col-sm-2 col-form-label">Correo</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="inputEmailRegister" placeholder="Correo@mail.com">
-        </div class="mb-3 row">
-    </div>
+      <div class="mb-3 row div-label-input-form">
+          <label for="inputEmailRegister" class="col-sm-2 col-form-label label--form">Correo: </label>
+          <div class="col-6">
+              <input type="text" class="form-control input--modal" id="inputEmailRegister" placeholder="Correo@mail.com">
+          </div class="mb-3 row">
+      </div>
 
-    <div class="mb-3 row">
-        <label for="inputPasswordRegister" class="col-sm-2 col-form-label">Contraseña</label>
-        <div class="col-sm-10">
-            <input type="password" class="form-control" id="inputPasswordRegister" placeHolder="contraseña">
-        </div>
-    </div>
+      <div class="mb-3 row div-label-input-form">
+          <label for="inputPasswordRegister" class="col-sm-2 col-form-label label--form">Contraseña: </label>
+          <div class="col-6">
+              <input type="password" class="form-control input--modal" id="inputPasswordRegister" placeHolder="contraseña">
+          </div>
+      </div>
 
-    <div class="mb-3 row">
-        <label for="inputDateRegister" class="col-sm-2 col-form-label">Nacimiento</label>
-        <div class="col-sm-10">
-          <input type="date" class="form-control" id="inputDateRegister">
-        </div>
-    </div>
-    `;
+      <div class="mb-3 row div-label-input-form">
+          <label for="inputDateRegister" class="col-sm-2 col-form-label label--form">Nacimiento: </label>
+          <div class="col-6">
+            <input type="date" class="form-control input--modal" id="inputDateRegister">
+          </div>
+      </div>
+      `;
 
     //       <input size="16" type="date" class="form-control">
     let logIn = `
 
-    <div class="mb-3 row">
-        <label for="inputEmailLogin" class="col-sm-2 col-form-label">Correo</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="inputEmailLogin" placeholder="Correo@mail.com">
-        </div>
-    </div>
-    <div class="mb-3 row">
-        <label for="inputPasswordLogin" class="col-sm-2 col-form-label">Contraseña</label>
-        <div class="col-sm-10">
-            <input type="password" class="form-control" id="inputPasswordLogin" placeHolder="contraseña">
-        </div>
-    </div>
+      <div class="mb-3 row div-label-input-form">
+          <label for="inputEmailLogin" class="col-sm-2 col-form-label label--form">Correo: </label>
+          <div class="col-6">
+              <input type="text" class="form-control input--modal" id="inputEmailLogin" placeholder="Correo@mail.com">
+          </div>
+      </div>
+      <div class="mb-3 row div-label-input-form">
+          <label for="inputPasswordLogin" class="col-sm-2 col-form-label label--form">Contraseña: </label>
+          <div class="col-6">
+              <input type="password" class="form-control input--modal" id="inputPasswordLogin" placeHolder="contraseña">
+          </div>
+      </div>
 
-  
-  `;
+    
+    `;
 
     let modal = `<div class="modal fade" id="crearCuenta" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalToggleLabel">Crear cuenta</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-        ${formRegister}
-        </div>
-        <div class="modal-footer">
-        <button type="button" class="btn btn-success" onclick="createAccount()">Crear cuenta</button>
-          <button class="btn btn-primary" data-bs-target="#LoginAccount" data-bs-toggle="modal">Tengo una cuenta</button>
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title tittles-modals-forms" id="exampleModalToggleLabel">Crear cuenta</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          ${formRegister}
+          </div>
+          <div class="modal-footer">
+          <button type="button" class="btn btn-success botones-navbars" onclick="createAccount()">Crear cuenta</button>
+            <button class="btn btn-primary botones-navbars" data-bs-target="#LoginAccount" data-bs-toggle="modal">Tengo una cuenta</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  
-  <div class="modal fade" id="LoginAccount" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalToggleLabel2">Inicar Sesión</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-        ${logIn}
-        </div>
-        <div class="modal-footer">
-        <button type="button" class="btn btn-warning" data-bs-target="#crearCuenta" data-bs-toggle="modal">Crear cuenta</button>
-        <button type="button" class="btn btn-success"  data-bs-target="#" data-bs-toggle="modal" onclick="logginAccount()" >Iniciar sesión</button>
-        <button type="button" class="btn btn-danger" data-bs-target="#" data-bs-toggle="modal">Cancelar</button>
+    
+    <div class="modal fade" id="LoginAccount" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title tittles-modals-forms" id="exampleModalToggleLabel2">Inicar Sesión</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          ${logIn}
+          </div>
+          <div class="modal-footer">
+          <button type="button" class="btn btn-warning botones-navbars" data-bs-target="#crearCuenta" data-bs-toggle="modal">Crear cuenta</button>
+          <button type="button" class="btn btn-success botones-navbars"  data-bs-target="#" data-bs-toggle="modal" onclick="logginAccount()" >Iniciar sesión</button>
+          <button type="button" class="btn btn-danger botones-navbars"  data-bs-target="#" data-bs-toggle="modal">Cancelar</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-        
-    `;
+          
+      `;
 
     let buttonAndForm = `${button}${modal}`;
 
@@ -117,45 +135,41 @@ function sesionNavbar() {
   } else if (isLogged) {
     let button = `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Mi cuenta</button>`;
 
-    let MyAccount = `
-    CONTENIDO DE MI CUENTA
-    `;
-
     let myAccountInfo = `
-    <table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Nombre</th>
-            <th scope="col">Correo</th>
-            <th scope="col">Contraseña</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>${localStorage.getItem("name")}</td>
-            <td>${localStorage.getItem("email")}</td>
-            <td>${localStorage.getItem("password")}</td>
-        </tr>
-    </tbody>
-</table>
-    `;
+      <table class="table">
+      <thead>
+          <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Correo</th>
+              <th scope="col">Contraseña</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td>${localStorage.getItem("name")}</td>
+              <td>${localStorage.getItem("email")}</td>
+              <td>${localStorage.getItem("password")}</td>
+          </tr>
+      </tbody>
+  </table>
+      `;
 
     let modal = ` <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Mi cuenta</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-        ${myAccountInfo}
-        </div>
-        <div class="modal-footer">
-        <button type="button" class="btn btn-danger"  data-bs-target="#" data-bs-toggle="modal" onclick="logOut()" >Cerrar sesión</button>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Mi cuenta</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          ${myAccountInfo}
+          </div>
+          <div class="modal-footer">
+          <button type="button" class="btn btn-danger"  data-bs-target="#" data-bs-toggle="modal" onclick="logOut()" >Cerrar sesión</button>
+          </div>
         </div>
       </div>
-    </div>
-  </div>`;
+    </div>`;
 
     let buttonAndForm = `${button}${modal}`;
 
@@ -164,6 +178,21 @@ function sesionNavbar() {
   }
 }
 
+/**
+ * Logica para crear cuenta ---------------------->
+ *
+ * - Toma los valores de los distintos inputs
+ * - Se verifia que todos los campos se hayan llenado
+ *
+ * SÍ están completos todos los campos: ----->
+ *
+ * - se hace una petición POST
+ *
+ * NO están completos los campos: ----------->
+ *
+ * se lanza una alerta diciendo que hay campos vacíos
+ *
+ */
 function createAccount() {
   let actualYear = new Date().getFullYear();
 
@@ -213,6 +242,11 @@ function createAccount() {
   }
 }
 
+/**
+ *  función que hace el inicio de sesión la cual para por la url el correo y la contraseña,
+ * en caso de coincidir retornará el objeto con la información completa, y si no, devolverá un objeto vacío
+ *
+ */
 function logginAccount() {
   let email = document.getElementById("inputEmailLogin").value;
   let password = document.getElementById("inputPasswordLogin").value;
@@ -250,11 +284,11 @@ function logginAccount() {
   }
 }
 
+/**
+ * Función que borra todo todo el localStorage
+ */
 function logOut() {
-  localStorage.removeItem("logged");
-  localStorage.removeItem("name");
-  localStorage.removeItem("email");
-  localStorage.removeItem("password");
+  localStorage.clear();
   sesionNavbar();
   welcome();
   // localStorage.removeItem()
