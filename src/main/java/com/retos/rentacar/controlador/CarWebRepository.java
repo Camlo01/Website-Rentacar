@@ -41,11 +41,8 @@ public class CarWebRepository {
         return carServices.getCar(id);
     }
 
-    @GetMapping("lastCarAdded")
-    public Optional<Car> getLastCarAdded(){
-
-        return carServices.getLastCarAdded();
-    }
+    @GetMapping("/lastCarAdded")
+    public Optional<Car> getLastCarAdded(){ return carServices.getLastCarAdded(); }
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
