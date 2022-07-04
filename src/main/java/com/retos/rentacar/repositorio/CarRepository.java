@@ -20,6 +20,8 @@ public class CarRepository {
         return crudCar.findById(id);
     }
 
+    public Optional<Car> getLastCarAdded() { return crudCar.getLastCarAdded(); }
+
     public Car save(Car car) {
         return crudCar.save(car);
     }
@@ -27,6 +29,5 @@ public class CarRepository {
     public void delete(Car car) {
         crudCar.delete(car);
     }
-
 
 }

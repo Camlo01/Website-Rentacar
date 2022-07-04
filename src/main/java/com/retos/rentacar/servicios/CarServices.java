@@ -35,6 +35,9 @@ public class CarServices {
         }
 
     }
+    public Optional<Car> getLastCarAdded() {
+        return metodosCrudCar.getLastCarAdded();
+    }
 
     public Car update(Car car) {
         if (car.getIdCar() != null) {

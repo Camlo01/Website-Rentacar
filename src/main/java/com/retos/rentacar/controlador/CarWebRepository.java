@@ -41,6 +41,12 @@ public class CarWebRepository {
         return carServices.getCar(id);
     }
 
+    @GetMapping("lastCarAdded")
+    public Optional<Car> getLastCarAdded(){
+
+        return carServices.getLastCarAdded();
+    }
+
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public Car save(@RequestBody Car car) {
@@ -58,5 +64,7 @@ public class CarWebRepository {
     public void delete(@PathVariable("id") int id) {
         carServices.deleteCar(id);
     }
+
+
 
 }

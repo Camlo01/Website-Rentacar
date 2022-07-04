@@ -17,6 +17,10 @@ import org.springframework.data.repository.CrudRepository;
  * @author USUARIO
  */
 public interface CarInterface extends CrudRepository<Car, Integer> {
-;
+
+    @Query(value = "SELECT * FROM car ORDER BY id_car DESC LIMIT 1",
+    nativeQuery= true)
+    Optional<Car> getLastCarAdded();
+
 
 }
