@@ -86,40 +86,41 @@ public class RentacarApplication implements CommandLineRunner {
         Car carroEW212 = new Car("E W212", "Mercedes-benz", 2016, "blanco, se ensucia facil");
         Car carroQ530 = new Car("Q5 3.0 Supercharged", "Audi", 2015, "camioneta lujosa");
         Car carroJetta = new Car("Jetta 2.0", "Volkswagen", 2014, "versión Europa");
-        Car carTest = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest2 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest3 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest4 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest5 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest6 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest7 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest8 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest9 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest10 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest11 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest12 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest13 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest14 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest15 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest16 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest17 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest18 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest19 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest20 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest21 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest22 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest23 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest24 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest25 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest26 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
-        Car carTest27 = new Car("Car of TEST brand", "TEST Brand", 1111, "Car of description");
+        Car carTest = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest2 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest3 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest4 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest5 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest6 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest7 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest8 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest9 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest10 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest11 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest12 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest13 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest14 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest15 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest16 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest17 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest18 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest19 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest20 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest21 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest22 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest23 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest24 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest25 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest26 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest27 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car lastCarAdded = new Car("Ferrari", "Ferrari", 2022, "The latest car added", alta);
 
         List<Car> listOfCars = Arrays.asList(camionetaToyota, camionetaJeep, camionetaMercedes, camionetaBMW,
                 camionetaFord, carroChevrolet, carroChevroletBlue, carroSanderoUsado, carroSparkPequeño, carroSwiftGray,
                 carroEW212, carroQ530, carroJetta, carTest, carTest2, carTest3, carTest4, carTest5, carTest6, carTest7,
                 carTest8, carTest9, carTest10, carTest11, carTest12, carTest13, carTest14, carTest15, carTest16,
                 carTest17, carTest18, carTest19, carTest20, carTest21,
-                carTest22, carTest23, carTest24, carTest25, carTest26, carTest27);
+                carTest22, carTest23, carTest24, carTest25, carTest26, carTest27, lastCarAdded);
 
         for (Car car : listOfCars) {
             Logger.debug("Carro: " + car.getName() + " su gama: " + car.getGama());
