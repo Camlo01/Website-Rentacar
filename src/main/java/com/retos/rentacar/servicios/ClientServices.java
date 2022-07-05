@@ -75,16 +75,19 @@ public class ClientServices {
     }
 
     public Optional<Client> login(Client clientToLogin) {
+        try {
+            Optional<Client> clientGetted = metodosCrudClient.getClientByEmail(clientToLogin.getEmail());
 
-        Optional<Client> clientGetted = metodosCrudClient.getClientByEmail(clientToLogin.getEmail());
+            boolean hasSameEmail = Objects.equals(clientGetted.get().getEmail(), clientToLogin.getEmail());
+            boolean hasSamePassword = Objects.equals(clientGetted.get().getPassword(), clientToLogin.getPassword());
 
-        boolean hasSameEmail = Objects.equals(clientGetted.get().getEmail(), clientToLogin.getEmail());
-        boolean hasSamePassword = Objects.equals(clientGetted.get().getPassword(), clientToLogin.getPassword());
-
-        if (hasSameEmail && hasSamePassword) {
-            return clientGetted;
-        } else {
-            return Optional.of(new Client());
+            if (hasSameEmail && hasSamePassword) {
+                return clientGetted;
+            } else {
+                return Optional.of(new Client("Hubo un problema! Verifica que la contraseña sea la correcta"));
+            }
+        } catch (Exception exception) {
+            return Optional.of(new Client("Oops! Verifia que el correo sea el correcto o crea una cuenta"));
         }
 
     }
