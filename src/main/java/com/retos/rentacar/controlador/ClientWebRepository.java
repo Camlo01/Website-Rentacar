@@ -51,11 +51,6 @@ public class ClientWebRepository {
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.CREATED)
     public Client login(@RequestBody Client clientRecived) {
-
-        Optional<Client> account = servicios.login(clientRecived);
-        if (account.isEmpty()) {
-            return new Client();
-        }
         return servicios.login(clientRecived).get();
     }
 
