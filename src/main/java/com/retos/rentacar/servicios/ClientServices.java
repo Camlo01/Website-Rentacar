@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties.ClientType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -73,18 +74,19 @@ public class ClientServices {
         }).orElse(false);
     }
 
-    public Optional<Client> loggin(Client clientToVerify) {
-        Optional<Client> clientGetted = metodosCrudClient.getElementForLoginValidation(clientToVerify.getEmail());
+    public Optional<Client> login(Client clientToLogin) {
 
-        boolean hasSameEmail = Objects.equals(clientGetted.get().getEmail(), clientToVerify.getEmail());
-        boolean hasSamePassword = Objects.equals(clientGetted.get().getPassword(), clientToVerify.getPassword());
+        Optional<Client> clientGetted = metodosCrudClient.getClientByEmail(clientToLogin.getEmail());
 
-        Optional<Client> clientNull = Optional.of(new Client());
+        boolean hasSameEmail = Objects.equals(clientGetted.get().getEmail(), clientToLogin.getEmail());
+        boolean hasSamePassword = Objects.equals(clientGetted.get().getPassword(), clientToLogin.getPassword());
 
         if (hasSameEmail && hasSamePassword) {
             return clientGetted;
         } else {
-            return clientNull;
+            return Optional.of(new Client());
         }
+
     }
+
 }

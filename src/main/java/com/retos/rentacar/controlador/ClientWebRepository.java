@@ -48,6 +48,17 @@ public class ClientWebRepository {
         return servicios.save(client);
     }
 
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Client login(@RequestBody Client clientRecived) {
+
+        Optional<Client> account = servicios.login(clientRecived);
+        if (account.isEmpty()) {
+            return new Client();
+        }
+        return servicios.login(clientRecived).get();
+    }
+
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
     public Client update(@RequestBody Client client) {
@@ -58,16 +69,6 @@ public class ClientWebRepository {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean delete(@PathVariable("id") int idClient) {
         return servicios.deleteClient(idClient);
-    }
-
-    @GetMapping("/login/{email}/{password}")
-    @ResponseStatus(HttpStatus.OK)
-    public Optional<Client> logging(
-            @PathVariable("email") String email,
-            @PathVariable("password") String password) {
-
-        Client client = new Client(email, password);
-        return servicios.loggin(client);
     }
 
 }
