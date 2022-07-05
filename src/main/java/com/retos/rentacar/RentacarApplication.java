@@ -174,12 +174,9 @@ public class RentacarApplication implements CommandLineRunner {
         Message mensaje12 = new Message("Este carro tiene muy mal motor", camionetaBMW, vale);
         Message mensaje13 = new Message("Hace falta de mantenimiento a los carros", camionetaFord, vale);
         Message mensaje14 = new Message("no tienen del color que me gusta", camionetaJeep, milo);
-        // Message MessageTest = new Message("Mensaje de TEST");
 
         List<Message> listOfMessages = Arrays.asList(mensaje, mensaje1, mensaje2, mensaje3, mensaje4, mensaje5,
-                mensaje6, mensaje7, mensaje8, mensaje9, mensaje10, mensaje11, mensaje12, mensaje13, mensaje14
-        // ,MessageTest
-        );
+                mensaje6, mensaje7, mensaje8, mensaje9, mensaje10, mensaje11, mensaje12, mensaje13, mensaje14);
 
         try {
             messageInterface.saveAll(listOfMessages);
