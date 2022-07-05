@@ -99,7 +99,7 @@ function sesionNavbar() {
           ${formRegister}
           </div>
           <div class="modal-footer">
-          <button type="button" class="btn btn-success botones-navbars" onclick="createAccount()">Crear cuenta</button>
+          <button type="button" id="crearCuentaButton" class="btn btn-success botones-navbars" data-bs-target="#" data-bs-toggle="modal" onclick="createAccount()">Crear cuenta</button>
             <button class="btn btn-primary botones-navbars" data-bs-target="#LoginAccount" data-bs-toggle="modal">Tengo una cuenta</button>
           </div>
         </div>
@@ -133,7 +133,7 @@ function sesionNavbar() {
     document.getElementById("navbar-text-to-input-sesion").innerHTML =
       buttonAndForm;
   } else if (isLogged) {
-    let button = `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Mi cuenta</button>`;
+    let button = `<button type="button" class="btn btn-primary navbar--btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Mi cuenta</button>`;
 
     let myAccountInfo = `
       <table class="table">
@@ -158,14 +158,14 @@ function sesionNavbar() {
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Mi cuenta</h5>
+            <h5 class="modal-title tittles-modals-forms" id="exampleModalLabel">Mi cuenta</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
           ${myAccountInfo}
           </div>
           <div class="modal-footer">
-          <button type="button" class="btn btn-danger"  data-bs-target="#" data-bs-toggle="modal" onclick="logOut()" >Cerrar sesión</button>
+          <button type="button" class="btn btn-danger botones-navbars"  data-bs-target="#" data-bs-toggle="modal" onclick="logOut()" >Cerrar sesión</button>
           </div>
         </div>
       </div>
@@ -232,11 +232,25 @@ function createAccount() {
       .then(function (response) {
         if (response.status == 201) {
           alert("Tu cuenta fue creada!");
+          let account = {
+            email: email,
+            password: password,
+          };
+          fetch(`http://localhost:8080/api/Client/login`, {
+            method: "POST",
+            body: JSON.stringify(account),
+            headers: { "Content-type": "application/json; charset=UTF-8" },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              loginLogic(data);
+            });
         }
       })
       .catch(function (error) {
         console.log("Problema al crear el cliente: " + error);
       });
+    clearInputs();
   } else if (isEmptySomeInput()) {
     alert("Hay campos vacíos!");
   }
@@ -270,24 +284,14 @@ function logginAccount() {
     })
       .then((Response) => Response.json())
       .then((data) => {
-        if (!(data.idClient == null)) {
-          localStorage.setItem("logged", "si");
-          localStorage.setItem("name", data.name);
-          localStorage.setItem("email", data.email);
-          localStorage.setItem("password", data.password);
-          sesionNavbar();
-          welcome();
-
-          let modalToHide = document.getElementsByClassName("modal-backdrop");
-          modalToHide.innerHTML = `.modal-backdrop {
-            display: none;
-          }`;
-        }
-      })
-      .catch((error) => alert("El problema obtenido fue: " + error));
+        loginLogic(data);
+      });
+    // .catch((error) => alert("El problema obtenido fue: " + error));
   } else {
     alert("Un elemento está vacío :0");
   }
+
+  clearInputs();
 }
 
 /**
@@ -308,4 +312,30 @@ function welcome() {
     let nombre = (document.getElementById("wherePrintName").innerHTML =
       "Invitado");
   }
+  inputNameRegister;
+}
+
+function loginLogic(data) {
+  if (!(data.idClient == null)) {
+    localStorage.setItem("logged", "si");
+    localStorage.setItem("name", data.name);
+    localStorage.setItem("email", data.email);
+    localStorage.setItem("password", data.password);
+    sesionNavbar();
+    welcome();
+  } else {
+    alert(data.email);
+  }
+}
+
+/**
+ * Clear inputs before press a button
+ */
+function clearInputs() {
+  document.getElementById("inputNameRegister").value = null;
+  document.getElementById("inputEmailRegister").value = null;
+  document.getElementById("inputPasswordRegister").value = null;
+  document.getElementById("inputDateRegister").value = null;
+  document.getElementById("inputEmailLogin").value = null;
+  document.getElementById("inputPasswordLogin").value = null;
 }
