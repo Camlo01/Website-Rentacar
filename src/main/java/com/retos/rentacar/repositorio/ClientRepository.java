@@ -28,7 +28,7 @@ public class ClientRepository {
         crudClient.delete(client);
     }
 
-    public Optional<Client> getElementForLoginValidation(String email) {
+    public Optional<Client> getClientByEmail(String email) {
         return crudClient.findClientByEmail(email);
     }
 }

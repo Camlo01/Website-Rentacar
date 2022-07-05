@@ -57,6 +57,10 @@ public class Car implements Serializable {
     private List<Message> messages;
 
     public Car() {
+        this.name = null;
+        this.brand = null;
+        this.year = null;
+        this.description = null;
     }
 
     public Car(String name, String brand, Integer year, String description) {

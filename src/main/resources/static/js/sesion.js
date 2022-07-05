@@ -258,8 +258,14 @@ function logginAccount() {
     return true;
   }
   if (noOneNull()) {
-    fetch(`http://localhost:8080/api/Client/login/${email}/${password}`, {
-      method: "GET",
+    let data = {
+      email: email,
+      password: password,
+    };
+
+    fetch(`http://localhost:8080/api/Client/login`, {
+      method: "POST",
+      body: JSON.stringify(data),
       headers: { "Content-type": "application/json; charset=UTF-8" },
     })
       .then((Response) => Response.json())
