@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.yaml.snakeyaml.emitter.Emitable;
+
 @Entity
 @Table(name = "client")
 public class Client implements Serializable {
@@ -35,6 +37,10 @@ public class Client implements Serializable {
     private List<Reservation> reservations;
 
     public Client() {
+    }
+
+    public Client(String email) {
+        this.email = email;
     }
 
     public Client(String email, String password) {
