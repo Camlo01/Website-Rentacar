@@ -203,23 +203,19 @@ function createAccount() {
   const [year, day, month] = birthday.split("-");
   let age = actualYear - year;
 
-  // function isEmptySomeInput() {
-  //   if (
-  //     name.length == 0 ||
-  //     email.length == 0 ||
-  //     password.length == 0 ||
-  //     birthday.length == 0
-  //   ) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
+  function isEmptySomeInput() {
+    if (
+      name.length == 0 ||
+      email.length == 0 ||
+      password.length == 0 ||
+      birthday.length == 0
+    ) {
+      return true;
+    }
+    return false;
+  }
 
-  if (
-    // !isEmptySomeInput() &&
-    validateEmailAndPassword(email, password)
-  ) {
-    console.log("Entra");
+  if (!isEmptySomeInput()) {
     let data = {
       email: email,
       password: password,
@@ -333,10 +329,6 @@ function loginLogic(data) {
 }
 
 /**
- * ----- UTILITIES ---------------------
- */
-
-/**
  * Clear inputs before press a button
  */
 function clearInputs() {
@@ -346,24 +338,4 @@ function clearInputs() {
   document.getElementById("inputDateRegister").value = null;
   document.getElementById("inputEmailLogin").value = null;
   document.getElementById("inputPasswordLogin").value = null;
-}
-
-function validateEmailAndPassword(email, password) {
-  let emailRule = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
-  let passwordRule = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{8,}$/;
-
-  if (emailRule.test(email)) {
-    console.log("El correo fue validado correctamente");
-    if (passwordRule.test(password)) {
-      console.log("Contraseña fue validada correctamente");
-      return true;
-    } else {
-      alert(
-        "La contraseña es insegura, intenta agregando letras y números y que seá más de 8 carácteres sin colocar espacios"
-      );
-    }
-  } else {
-    alert("Escribe un correo válido");
-  }
-  return false;
 }
