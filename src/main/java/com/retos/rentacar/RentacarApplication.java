@@ -39,6 +39,7 @@ public class RentacarApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
         createEveryObject();
         Logger.info("INICIADO CORRECTAMENTE! :D");
 
@@ -130,12 +131,14 @@ public class RentacarApplication implements CommandLineRunner {
 
         // ------- Creating Clients Objects
 
-        Client a = new Client("a", "a", "a", 18);
-        Client milo = new Client("Camilo", "Camilo@gmail.com", "12345*", 18);
-        Client matt = new Client("Matthew", "Mattew@gmail.com", "*54321", 22);
-        Client vale = new Client("Valeria", "Valeria@gmail.com", "password", 19);
+        //          Format of date YYYY-MM-DD
+        Date dateReusable = Date.valueOf("2004-07-24");
+        Client a = new Client("a", "a", "a", dateReusable);
+        Client milo = new Client("Camilo", "Camilo@gmail.com", "12345*", dateReusable);
+        Client matt = new Client("Matthew", "Mattew@gmail.com", "*54321", dateReusable);
+        Client vale = new Client("Valeria", "Valeria@gmail.com", "password", dateReusable);
         Client ClientTest = new Client("ClientTest", "TestClient@gmail.com",
-                "Cl13Nt3_?", 25);
+                "Cl13Nt3_?", dateReusable);
         List<Client> listOfClients = Arrays.asList(milo, matt, vale, ClientTest, a);
 
         for (Client client : listOfClients) {

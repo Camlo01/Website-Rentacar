@@ -5,11 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.time.LocalDate;
+
 import java.util.List;
 import javax.persistence.*;
 
-import org.yaml.snakeyaml.emitter.Emitable;
 
 @Entity
 @Table(name = "client")
@@ -17,20 +16,20 @@ public class Client implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idClient;
+    private String name;
     @Column(unique = true)
     private String email;
     private String password;
-    private String name;
 
-    @Temporal(TemporalType.DATE)
-    private LocalDate birthDay;
-//    private Integer age;
+    //    @Column(name = "birthDate", updatable = false, nullable = false)
+//    @Temporal(TemporalType.DATE)
+    private Date birthDate;
 
-    @OneToMany(cascade = { CascadeType.PERSIST }, mappedBy = "client")
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "client")
     @JsonIgnoreProperties("client")
     private List<Message> messages;
 
-    @OneToMany(cascade = { CascadeType.PERSIST }, mappedBy = "client")
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "client")
     @JsonIgnoreProperties("client")
     private List<Reservation> reservations;
 
@@ -46,15 +45,14 @@ public class Client implements Serializable {
         this.password = password;
     }
 
-
-    public Client(String email, String password, String name, String birthday) {
+    public Client(String email, String password, String name, Date birthDate) {
         this.email = email;
         this.password = password;
         this.name = name;
+        this.birthDate = birthDate;
 
-
-        this.birthDay = LocalDate.of(birthday);
     }
+
 
     public Integer getIdClient() {
         return idClient;
@@ -88,12 +86,12 @@ public class Client implements Serializable {
         this.password = password;
     }
 
-    public Integer getAge() {
-        return age;
+    public Date getbirthDate() {
+        return birthDate;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setbirthDate(Date birthDay) {
+        this.birthDate = birthDay;
     }
 
     public List<Reservation> getReservations() {
@@ -112,9 +110,5 @@ public class Client implements Serializable {
         this.messages = messages;
     }
 
-    private int[] separateNumbers(String fecha){
-        int[] dateSeparated = String.split("");
-        return
-    }
 
 }

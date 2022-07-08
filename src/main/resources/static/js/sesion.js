@@ -199,30 +199,17 @@ function createAccount() {
   let name = document.getElementById("inputNameRegister").value;
   let email = document.getElementById("inputEmailRegister").value;
   let password = document.getElementById("inputPasswordRegister").value;
-  let birthday = document.getElementById("inputDateRegister").value;
-  const [year, day, month] = birthday.split("-");
-  let age = actualYear - year;
+  let birthDate = document.getElementById("inputDateRegister").value;
 
-  function isEmptySomeInput() {
-    if (
-      name.length == 0 ||
-      email.length == 0 ||
-      password.length == 0 ||
-      birthday.length == 0
-    ) {
-      return true;
-    }
-    return false;
-  }
+  if (validateEmailAndPassword(email, password)) {
+    console.log("Entra");
 
-  if (!isEmptySomeInput()) {
     let data = {
       email: email,
       password: password,
       name: name,
-      age: age,
+      birthDate: birthDate,
     };
-    console.log("!!!La edad se está calculado: " + age);
 
     fetch("http://localhost:8080/api/Client/save", {
       method: "POST",
