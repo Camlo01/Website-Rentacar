@@ -9,27 +9,24 @@ import java.sql.Date;
 import java.util.List;
 import javax.persistence.*;
 
-
 @Entity
 @Table(name = "client")
 public class Client implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idClient;
-    private String name;
     @Column(unique = true)
     private String email;
     private String password;
+    private String name;
 
-    //    @Column(name = "birthDate", updatable = false, nullable = false)
-//    @Temporal(TemporalType.DATE)
     private Date birthDate;
 
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "client")
+    @OneToMany(cascade = { CascadeType.PERSIST }, mappedBy = "client")
     @JsonIgnoreProperties("client")
     private List<Message> messages;
 
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "client")
+    @OneToMany(cascade = { CascadeType.PERSIST }, mappedBy = "client")
     @JsonIgnoreProperties("client")
     private List<Reservation> reservations;
 
@@ -45,7 +42,7 @@ public class Client implements Serializable {
         this.password = password;
     }
 
-    public Client(String email, String password, String name, Date birthDate) {
+    public Client(String name, String email, String password, Date birthDate) {
         this.email = email;
         this.password = password;
         this.name = name;
@@ -109,6 +106,5 @@ public class Client implements Serializable {
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
-
 
 }
