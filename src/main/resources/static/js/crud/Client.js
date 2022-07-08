@@ -28,13 +28,13 @@ function saveClient() {
   let email = document.getElementById("ClientEmail").value;
   let password = document.getElementById("ClientPassword").value;
   let name = document.getElementById("ClientName").value;
-  let age = document.getElementById("ClientAge").value;
+  let birthDate = document.getElementById("ClientBirthDate").value;
 
   let data = {
     email: email,
     password: password,
     name: name,
-    age: age,
+    birthDate: birthDate,
   };
 
   fetch("http://localhost:8080/api/Client/save", {
