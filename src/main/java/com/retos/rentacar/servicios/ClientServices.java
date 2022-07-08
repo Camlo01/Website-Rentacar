@@ -58,9 +58,9 @@ public class ClientServices {
                 if (client.getEmail() != null) {
                     evt.get().setPassword(client.getPassword());
                 }
-                if (client.getEmail() != null) {
-                    evt.get().setAge(client.getAge());
-                }
+//                if (client.getEmail() != null) {
+//                    evt.get().setAge(client.getAge());
+//                }
                 metodosCrudClient.save(evt.get());
             }
         }
