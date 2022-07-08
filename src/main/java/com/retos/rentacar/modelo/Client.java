@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
 import java.sql.Date;
+
 import java.util.List;
 import javax.persistence.*;
 
@@ -49,6 +50,7 @@ public class Client implements Serializable {
         this.password = password;
         this.name = name;
         this.birthDate = birthDate;
+
     }
 
 
