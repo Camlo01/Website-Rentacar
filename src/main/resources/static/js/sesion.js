@@ -194,14 +194,12 @@ function sesionNavbar() {
  *
  */
 function createAccount() {
-  let actualYear = new Date().getFullYear();
-
   let name = document.getElementById("inputNameRegister").value;
   let email = document.getElementById("inputEmailRegister").value;
   let password = document.getElementById("inputPasswordRegister").value;
   let birthDate = document.getElementById("inputDateRegister").value;
 
-  if (validateEmailAndPassword(email, password)) {
+  if (validateEmailAndPassword(email, password) && isAgeValid(birthDate)) {
     console.log("Entra");
 
     let data = {
@@ -325,4 +323,52 @@ function clearInputs() {
   document.getElementById("inputDateRegister").value = null;
   document.getElementById("inputEmailLogin").value = null;
   document.getElementById("inputPasswordLogin").value = null;
+}
+
+function isAgeValid(birthDate) {
+  let cumpleanos = new Date(birthDate); //.toISOString();
+  let horaActual = new Date(); //.toISOString();
+
+  let miliSegundosDia = 24 * 60 * 60 * 1000;
+
+  let milisegundosTranscurridos = Math.abs(
+    cumpleanos.getTime() - horaActual.getTime()
+  );
+
+  let diasTranscurridos = Math.round(
+    milisegundosTranscurridos / miliSegundosDia
+  );
+
+  console.log("La hora local es " + horaActual.toDateString());
+  console.log("El nacimiento es " + cumpleanos.toDateString());
+  console.log(diasTranscurridos + " vs 6575");
+  if (diasTranscurridos >= 6575) {
+    console.log("Tiene 18 años");
+    return true;
+  } else {
+    alert("Lo sentimos, si eres menor de edad no puedes craer tu cuenta :(");
+    console.log("Es menor de 18 años");
+    return false;
+  }
+}
+
+function validateEmailAndPassword(email, password) {
+  let emailRule = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+  let passwordRule =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,15}$/;
+
+  if (emailRule.test(email)) {
+    console.log("El correo fue validado correctamente");
+    if (passwordRule.test(password)) {
+      console.log("Contraseña fue validada correctamente");
+      return true;
+    } else {
+      alert(
+        "La contraseña es insegura, intenta agregando letras y números y que seá más de 8 carácteres sin colocar espacios"
+      );
+    }
+  } else {
+    alert("Escribe un correo válido");
+  }
+  return false;
 }
