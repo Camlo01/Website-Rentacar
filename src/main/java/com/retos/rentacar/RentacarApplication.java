@@ -2,10 +2,7 @@ package com.retos.rentacar;
 
 import com.retos.rentacar.interfaces.*;
 import com.retos.rentacar.modelo.*;
-import com.retos.rentacar.repositorio.ClientRepository;
 
-import ch.qos.logback.classic.Logger;
-import lombok.val;
 
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -15,13 +12,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
-import java.lang.reflect.Array;
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
-@EntityScan(basePackages = { "com.retos.rentacar.modelo" })
+@EntityScan(basePackages = {"com.retos.rentacar.modelo"})
 @SpringBootApplication
 public class RentacarApplication implements CommandLineRunner {
 
@@ -204,7 +199,7 @@ public class RentacarApplication implements CommandLineRunner {
         // "RESERVADO");
 
         List<Reservation> listOfReservations = Arrays.asList(reservation, reservation1, reservation2
-        // , ReservationTest
+                // , ReservationTest
         );
 
         try {
