@@ -4,17 +4,10 @@ package com.retos.rentacar.modelo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-import org.yaml.snakeyaml.emitter.Emitable;
 
 @Entity
 @Table(name = "client")
@@ -22,17 +15,20 @@ public class Client implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idClient;
+    private String name;
     @Column(unique = true)
     private String email;
     private String password;
-    private String name;
-    private Integer age;
 
-    @OneToMany(cascade = { CascadeType.PERSIST }, mappedBy = "client")
+    //    @Column(name = "birthDate", updatable = false, nullable = false)
+//    @Temporal(TemporalType.DATE)
+    private Date birthDate;
+
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "client")
     @JsonIgnoreProperties("client")
     private List<Message> messages;
 
-    @OneToMany(cascade = { CascadeType.PERSIST }, mappedBy = "client")
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "client")
     @JsonIgnoreProperties("client")
     private List<Reservation> reservations;
 
@@ -48,12 +44,13 @@ public class Client implements Serializable {
         this.password = password;
     }
 
-    public Client(String name, String email, String password, Integer age) {
-        this.name = name;
+    public Client(String email, String password, String name, Date birthDate) {
         this.email = email;
         this.password = password;
-        this.age = age;
+        this.name = name;
+        this.birthDate = birthDate;
     }
+
 
     public Integer getIdClient() {
         return idClient;
@@ -87,12 +84,12 @@ public class Client implements Serializable {
         this.password = password;
     }
 
-    public Integer getAge() {
-        return age;
+    public Date getbirthDate() {
+        return birthDate;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setbirthDate(Date birthDay) {
+        this.birthDate = birthDay;
     }
 
     public List<Reservation> getReservations() {
@@ -110,5 +107,6 @@ public class Client implements Serializable {
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
+
 
 }
