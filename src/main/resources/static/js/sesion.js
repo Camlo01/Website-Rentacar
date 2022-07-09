@@ -200,8 +200,6 @@ function createAccount() {
   let birthDate = document.getElementById("inputDateRegister").value;
 
   if (validateEmailAndPassword(email, password) && isAgeValid(birthDate)) {
-    console.log("Entra");
-
     let data = {
       email: email,
       password: password,
@@ -216,10 +214,10 @@ function createAccount() {
     })
       .then(function (response) {
         if (response.status == 201) {
-          alert("Tu cuenta fue creada!");
           let account = {
             email: email,
             password: password,
+            birthDate: birthDate,
           };
           fetch(`http://localhost:8080/api/Client/login`, {
             method: "POST",
@@ -339,15 +337,15 @@ function isAgeValid(birthDate) {
     milisegundosTranscurridos / miliSegundosDia
   );
 
-  console.log("La hora local es " + horaActual.toDateString());
-  console.log("El nacimiento es " + cumpleanos.toDateString());
-  console.log(diasTranscurridos + " vs 6575");
+  // console.log("La hora local es " + horaActual.toDateString());
+  // console.log("El nacimiento es " + cumpleanos.toDateString());
+  // console.log(diasTranscurridos + " vs 6575");
   if (diasTranscurridos >= 6575) {
-    console.log("Tiene 18 años");
+    // console.log("Tiene 18 años");
     return true;
   } else {
     alert("Lo sentimos, si eres menor de edad no puedes craer tu cuenta :(");
-    console.log("Es menor de 18 años");
+    // console.log("Es menor de 18 años");
     return false;
   }
 }
@@ -358,9 +356,7 @@ function validateEmailAndPassword(email, password) {
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,15}$/;
 
   if (emailRule.test(email)) {
-    console.log("El correo fue validado correctamente");
     if (passwordRule.test(password)) {
-      console.log("Contraseña fue validada correctamente");
       return true;
     } else {
       alert(
