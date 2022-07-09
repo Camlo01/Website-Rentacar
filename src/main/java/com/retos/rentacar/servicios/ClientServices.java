@@ -3,19 +3,15 @@ package com.retos.rentacar.servicios;
 
 import com.jayway.jsonpath.Option;
 import com.retos.rentacar.modelo.Client;
-import com.retos.rentacar.modelo.Gama;
 import com.retos.rentacar.repositorio.ClientRepository;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties.ClientType;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Service
 public class ClientServices {
@@ -31,17 +27,12 @@ public class ClientServices {
     }
 
     public Client save(Client client) {
-        if (client.getIdClient() == null) {
-            return metodosCrudClient.save(client);
-        } else {
-            Optional<Client> evt = metodosCrudClient.getClient(client.getIdClient());
-            if (evt.isEmpty()) {
-                return metodosCrudClient.save(client);
-            } else {
-                return client;
-            }
+        boolean isOldEnough = isOldEnough(client.getbirthDate());
 
+        if (isOldEnough) {
+            return metodosCrudClient.save(client);
         }
+        return new Client();
 
     }
 
@@ -58,9 +49,9 @@ public class ClientServices {
                 if (client.getEmail() != null) {
                     evt.get().setPassword(client.getPassword());
                 }
-//                if (client.getEmail() != null) {
-//                    evt.get().setAge(client.getAge());
-//                }
+                if (client.getbirthDate() != null) {
+                    evt.get().setbirthDate(client.getbirthDate());
+                }
                 metodosCrudClient.save(evt.get());
             }
         }
@@ -75,6 +66,10 @@ public class ClientServices {
     }
 
     public Optional<Client> login(Client clientToLogin) {
+
+        if (!isOldEnough(clientToLogin.getbirthDate())) {
+            return Optional.of(new Client("Lo sentimos, tienes que ser mayor de 18 años para crear tu cuenta"));
+        }
         try {
             Optional<Client> clientGetted = metodosCrudClient.getClientByEmail(clientToLogin.getEmail());
 
@@ -89,6 +84,19 @@ public class ClientServices {
         } catch (Exception exception) {
             return Optional.of(new Client("Oops! Verifia que el correo sea el correcto o crea una cuenta"));
         }
+
+    }
+
+    public boolean isOldEnough(Date birthDate) {
+        Date actualDate = new Date();
+
+        int miliSegundosDia = 24 * 60 * 60 * 1000;
+
+        float miliSegundosTranscurridos = Math.abs(birthDate.getTime() - actualDate.getTime());
+
+        int diasTranscurridos = Math.round(miliSegundosTranscurridos / miliSegundosDia);
+
+        return diasTranscurridos >= 6575;
 
     }
 
