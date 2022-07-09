@@ -3,7 +3,7 @@ package com.retos.rentacar;
 import com.retos.rentacar.interfaces.*;
 import com.retos.rentacar.modelo.*;
 
-
+import com.retos.rentacar.servicios.ClientServices;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 
-@EntityScan(basePackages = {"com.retos.rentacar.modelo"})
+@EntityScan(basePackages = { "com.retos.rentacar.modelo" })
 @SpringBootApplication
 public class RentacarApplication implements CommandLineRunner {
 
@@ -32,6 +32,8 @@ public class RentacarApplication implements CommandLineRunner {
     private MessageInterface messageInterface;
     @Autowired
     private ReservationInterface reservationInterface;
+    @Autowired
+    private ClientServices cs;
 
     public static void main(String[] args) {
         SpringApplication.run(RentacarApplication.class, args);
@@ -131,7 +133,7 @@ public class RentacarApplication implements CommandLineRunner {
 
         // ------- Creating Clients Objects
 
-        //          Format of date YYYY-MM-DD
+        // Format of date YYYY-MM-DD
         Date dateReusable = Date.valueOf("2004-07-24");
         Client a = new Client("a", "a", "a", dateReusable);
         Client milo = new Client("Camilo", "Camilo@gmail.com", "12345*", dateReusable);
@@ -202,7 +204,7 @@ public class RentacarApplication implements CommandLineRunner {
         // "RESERVADO");
 
         List<Reservation> listOfReservations = Arrays.asList(reservation, reservation1, reservation2
-                // , ReservationTest
+        // , ReservationTest
         );
 
         try {
