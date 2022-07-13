@@ -5,16 +5,11 @@
 package com.retos.rentacar.modelo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.retos.rentacar.interfaces.GamaInterface;
 import com.retos.rentacar.servicios.GamaServices;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -45,16 +40,23 @@ public class Car implements Serializable {
     private String brand;
     private Integer year;
     private String description;
+    private CarStatus carStatus;
+
 
     @ManyToOne
     @JoinColumn(name = "idGama")
     @JsonIgnoreProperties("cars")
     private Gama gama;
 
-    @OneToMany(cascade = { CascadeType.PERSIST }, mappedBy = "car")
-    @JsonIgnoreProperties({ "car", "client" })
 
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "car")
+    @JsonIgnoreProperties({"car", "client"})
     private List<Message> messages;
+
+
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "car")
+    @JsonIgnoreProperties({"car", "client"})
+    private List<Reservation> reservations;
 
     public Car() {
         this.name = null;
@@ -68,6 +70,7 @@ public class Car implements Serializable {
         this.brand = brand;
         this.year = year;
         this.description = description;
+        this.carStatus = CarStatus.NOT_AVAILABLE;
     }
 
     public Car(String name, String brand, Integer year, String description, int idGama) {
@@ -76,6 +79,8 @@ public class Car implements Serializable {
         this.year = year;
         this.description = description;
         this.gama = gamaServices.getGamaToBuild(idGama);
+        this.carStatus = CarStatus.NOT_AVAILABLE;
+
     }
 
     public Car(String name, String brand, Integer year, String description, Gama gama) {
@@ -84,10 +89,20 @@ public class Car implements Serializable {
         this.year = year;
         this.description = description;
         this.gama = gama;
+        this.carStatus = CarStatus.NOT_AVAILABLE;
     }
 
-    public Car(Integer idCar, String name, String brand, Integer year, String description, Gama gama,
-            List<Message> messages, List<Reservation> reservations) {
+    public Car(String name, String brand, Integer year, String description, Gama gama, CarStatus status) {
+        this.name = name;
+        this.brand = brand;
+        this.year = year;
+        this.description = description;
+        this.gama = gama;
+        this.carStatus = status;
+    }
+
+
+    public Car(Integer idCar, String name, String brand, Integer year, String description, Gama gama, List<Message> messages, List<Reservation> reservations) {
         this.idCar = idCar;
         this.name = name;
         this.brand = brand;
@@ -96,12 +111,9 @@ public class Car implements Serializable {
         this.gama = gama;
         this.messages = messages;
         this.reservations = reservations;
+        this.carStatus = CarStatus.NOT_AVAILABLE;
     }
 
-    @OneToMany(cascade = { CascadeType.PERSIST }, mappedBy = "car")
-    @JsonIgnoreProperties({ "car", "client" })
-
-    private List<Reservation> reservations;
 
     public Integer getIdCar() {
         return idCar;
@@ -165,5 +177,13 @@ public class Car implements Serializable {
 
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
+    }
+
+    public CarStatus getCarStatus() {
+        return carStatus;
+    }
+
+    public void setCarStatus(CarStatus carStatus) {
+        this.carStatus = carStatus;
     }
 }
