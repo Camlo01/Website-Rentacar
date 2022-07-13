@@ -16,7 +16,7 @@ import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 
-@EntityScan(basePackages = { "com.retos.rentacar.modelo" })
+@EntityScan(basePackages = {"com.retos.rentacar.modelo"})
 @SpringBootApplication
 public class RentacarApplication implements CommandLineRunner {
 
@@ -112,16 +112,18 @@ public class RentacarApplication implements CommandLineRunner {
         Car carTest26 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
         Car carTest27 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
         Car lastCarAdded = new Car("Ferrari", "Ferrari", 2022, "The latest car added", alta);
+        Car carWithEnum = new Car("ENUM", "ENUM", 2022, "vehicle with enum", alta, CarStatus.OCCUPIED);
 
         List<Car> listOfCars = Arrays.asList(camionetaToyota, camionetaJeep, camionetaMercedes, camionetaBMW,
                 camionetaFord, carroChevrolet, carroChevroletBlue, carroSanderoUsado, carroSparkPequeño, carroSwiftGray,
                 carroEW212, carroQ530, carroJetta, carTest, carTest2, carTest3, carTest4, carTest5, carTest6, carTest7,
                 carTest8, carTest9, carTest10, carTest11, carTest12, carTest13, carTest14, carTest15, carTest16,
                 carTest17, carTest18, carTest19, carTest20, carTest21,
-                carTest22, carTest23, carTest24, carTest25, carTest26, carTest27, lastCarAdded);
+                carTest22, carTest23, carTest24, carTest25, carTest26, carTest27, lastCarAdded, carWithEnum);
 
         for (Car car : listOfCars) {
             Logger.debug("Carro: " + car.getName() + " su gama: " + car.getGama());
+            System.out.println("CAR ENUM AWDAW" + car.getCarStatus());
         }
 
         try {
@@ -197,14 +199,13 @@ public class RentacarApplication implements CommandLineRunner {
         Date fechaInico2 = Date.valueOf("2022-06-10");
         Date fechaFinal2 = Date.valueOf("2022-06-12");
 
-        Reservation reservation = new Reservation(fechaInico, fechaFinal, "RESERVADO", camionetaBMW, matt);
-        Reservation reservation1 = new Reservation(fechaInico1, fechaFinal1, "RESERVADO", carroChevrolet, milo);
-        Reservation reservation2 = new Reservation(fechaInico2, fechaFinal2, "RESERVADO", camionetaFord, vale);
-        // Reservation ReservationTest = new Reservation(fechaInico2, fechaFinal2,
-        // "RESERVADO");
+        Reservation reservation = new Reservation(fechaInico, fechaFinal, camionetaBMW, matt);
+        Reservation reservation1 = new Reservation(fechaInico1, fechaFinal1, carroChevrolet, milo);
+        Reservation reservation2 = new Reservation(fechaInico2, fechaFinal2, camionetaFord, vale);
+        Reservation ReservationTest = new Reservation(fechaInico2, fechaFinal2, carroJetta, matt);
 
         List<Reservation> listOfReservations = Arrays.asList(reservation, reservation1, reservation2
-        // , ReservationTest
+                , ReservationTest
         );
 
         try {
