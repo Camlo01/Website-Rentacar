@@ -2,6 +2,7 @@
 package com.retos.rentacar.modelo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
@@ -17,52 +18,49 @@ import javax.persistence.Table;
 @Table(name = "reservation")
 public class Reservation implements Serializable {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idReservation;
     private Date startDate;
     private Date devolutionDate;
-    private String status="created";
-    
+    private String status = "created";
+    private ReservationStatus reservationStatus;
+
     @ManyToOne
-    @JoinColumn(name ="idCar")
+    @JoinColumn(name = "idCar")
     @JsonIgnoreProperties("reservations")
     private Car car;
-    
+
     @ManyToOne
-    @JoinColumn(name ="idClient")
+    @JoinColumn(name = "idClient")
     @JsonIgnoreProperties({"reservations", "messages"})
     private Client client;
-    
+
     @OneToOne
     private Score score;
 
     public Reservation() {
     }
 
-    
-    public Reservation(Date startDate, Date devolutionDate, String status) {
-        this.startDate = startDate;
-        this.devolutionDate = devolutionDate;
-        this.status = status;
-    }
 
-    public Reservation(Date startDate, Date devolutionDate, String status, Car car, Client client) {
+    public Reservation(Date startDate, Date devolutionDate, Car car, Client client) {
         this.startDate = startDate;
         this.devolutionDate = devolutionDate;
-        this.status = status;
         this.car = car;
         this.client = client;
+        this.reservationStatus = ReservationStatus.REQUESTED;
+
     }
 
-    public Reservation(Integer idReservation, Date startDate, Date devolutionDate, String status, Car car, Client client, Score score) {
+    public Reservation(Integer idReservation, Date startDate, Date devolutionDate, Car car, Client client, Score score) {
         this.idReservation = idReservation;
         this.startDate = startDate;
         this.devolutionDate = devolutionDate;
-        this.status = status;
         this.car = car;
         this.client = client;
         this.score = score;
+        this.reservationStatus = ReservationStatus.REQUESTED;
     }
+
 
     public Integer getIdReservation() {
         return idReservation;
@@ -96,6 +94,14 @@ public class Reservation implements Serializable {
         this.status = status;
     }
 
+    public ReservationStatus getReservationStatus() {
+        return reservationStatus;
+    }
+
+    public void setReservationStatus(ReservationStatus reservationStatus) {
+        this.reservationStatus = reservationStatus;
+    }
+
     public Car getCar() {
         return car;
     }
@@ -108,6 +114,7 @@ public class Reservation implements Serializable {
         return client;
     }
 
+
     public void setClient(Client client) {
         this.client = client;
     }
@@ -119,4 +126,5 @@ public class Reservation implements Serializable {
     public void setScore(Score score) {
         this.score = score;
     }
+
 }
