@@ -226,6 +226,7 @@ function createAccount() {
           })
             .then((response) => response.json())
             .then((data) => {
+              console.log(data);
               loginLogic(data);
             });
         }
@@ -307,7 +308,7 @@ function loginLogic(data) {
     sesionNavbar();
     welcome();
   } else {
-    alert(data.email);
+    alert("Hubo un problema: " + data.email);
   }
 }
 
