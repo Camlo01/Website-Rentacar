@@ -27,3 +27,20 @@ function loadAllCars() {
       document.getElementById("whereToLoadCars").innerHTML = allCards;
     });
 }
+
+function lastCarAddedBookable() {
+  fetch("http://localhost:8080/api/Car/lastCarAdded")
+    .then((response) => response.json())
+    .then((car) => {
+      let card = `<article class="vehicle-card card-lastCarAdded">`;
+      card += ` <div class="main-lastCarAdded--card"><p>ÚLTIMO CARRO AGREGADO </p><div>`;
+      card += `  <div class="s-img-vehicle">IMAGEN DEL VEHÍCULO</div>`;
+      card += `  <p class="vehicle--card-title"><b>Nombre: </b>${car.name}</p>`;
+      card += `  <p class="vehicle--card-brand"><b>Marca: </b>${car.brand}</p>`;
+      card += `  <p class="vehicle--card-year"><b>Año: </b>${car.year}</p>`;
+      card += `  <p class="vehicle--card-description"><b>Descripción:</b>${car.description}</p>`;
+      card += `</article>`;
+  document.getElementById("whereToLoadCarAdded").innerHTML = card;
+
+    });
+}
