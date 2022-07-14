@@ -40,10 +40,12 @@ body {
 .tittles-modals-forms {
     font-size: 2.4rem;
 }
-.modal-body{
+
+.modal-body {
     padding-top: 25px;
     padding-bottom: 23px;
 }
+
 @media (min-width: 576px) {
     .div-label-input-form {
         margin-left: 50px;
@@ -76,6 +78,7 @@ main {
     display: flex;
     flex-direction: column;
 }
+
 
 /* general styles section in main  */
 
@@ -129,6 +132,46 @@ main {
     border-radius: 0;
 }
 
+.introduction-all {
+    width: 800px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.introduction--text-head {
+    width: 300px;
+}
+
+.introduction--text_card {
+    display: flex;
+    width: 600px;
+    margin: 0 auto;
+}
+
+.introduction--text_card p {
+    display: flex;
+    align-self: center;
+}
+
+.introduction--section-card {
+    /* background-color: rgb(210, 158, 158); */
+    margin: 0 auto;
+    padding: 0 45px;
+    width: max-content;
+}
+
+.main-lastCarAdded--card {
+    z-index: -111;
+    width: 100%;
+    height: 20px;
+    background-color: gold;
+}
+
+
+
 /* Vehiculos */
 .section-container-vehicle {
     padding-bottom: 40px;
@@ -148,6 +191,7 @@ main {
 .vehicle-card {
     background-color: rgb(177, 163, 255);
     width: 220px;
+    min-height: 300px;
     margin: 10px;
     border-radius: 7px;
     padding: 10px;
@@ -166,6 +210,9 @@ main {
     width: 200px;
 }
 
+.vehicle--card-description {
+    width: 100px;
+}
 
 /* Services */
 .section-container-servicios h2 {
