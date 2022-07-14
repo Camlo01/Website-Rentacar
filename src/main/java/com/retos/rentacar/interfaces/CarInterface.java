@@ -14,13 +14,12 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
- *
  * @author USUARIO
  */
 public interface CarInterface extends PagingAndSortingRepository<Car, Integer> {
 
-    @Query(value = "SELECT * FROM car ORDER BY id_car DESC LIMIT 1",
-    nativeQuery= true)
+    @Query(value = "SELECT * FROM car WHERE car_status = 0 ORDER BY id_car DESC LIMIT 1",
+            nativeQuery = true)
     Optional<Car> getLastCarAdded();
 
 
