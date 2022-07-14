@@ -3,6 +3,7 @@ package com.retos.rentacar.controlador;
 
 import com.retos.rentacar.interfaces.CarInterface;
 import com.retos.rentacar.modelo.Car;
+import com.retos.rentacar.modelo.CarStatus;
 import com.retos.rentacar.servicios.CarServices;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +35,12 @@ public class CarWebRepository {
     @GetMapping("/{id}")
     public Optional<Car> getCar(@PathVariable("id") int id) {
         return carServices.getCar(id);
+    }
+
+
+    @GetMapping("/home_cars/size={size}page={page}")
+    List<Car> getListCarsToHomePage(@PathVariable("size") int size, @PathVariable("page") int page) {
+        return (List<Car>) carInterface.getCarsWithStatusBookable(size, page);
     }
 
     @GetMapping("/pageable")
@@ -62,6 +70,5 @@ public class CarWebRepository {
     public void delete(@PathVariable("id") int id) {
         carServices.deleteCar(id);
     }
-
 
 }
