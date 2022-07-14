@@ -67,8 +67,10 @@ public class ClientServices {
 
     public Optional<Client> login(Client clientToLogin) {
 
-        if (!isOldEnough(clientToLogin.getbirthDate())) {
-            return Optional.of(new Client("Lo sentimos, tienes que ser mayor de 18 años para crear tu cuenta"));
+        if(!(clientToLogin.getbirthDate() == null)) {
+            if (!isOldEnough(clientToLogin.getbirthDate())) {
+                return Optional.of(new Client("Lo sentimos, tienes que ser mayor de 18 años para crear tu cuenta"));
+            }
         }
         try {
             Optional<Client> clientGetted = metodosCrudClient.getClientByEmail(clientToLogin.getEmail());
