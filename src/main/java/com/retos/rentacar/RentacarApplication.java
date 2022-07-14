@@ -70,15 +70,15 @@ public class RentacarApplication implements CommandLineRunner {
 
         // ------- Creating Cars Objects
 
-        Car camionetaToyota = new Car("Land Cruiser", "Toyota", 2022, "Camioneta color negro", media);
-        Car camionetaJeep = new Car("Gladiador Orverland", "Jeep", 2021, "Camioneta negra grande", alta);
+        Car camionetaToyota = new Car("Land Cruiser", "Toyota", 2022, "Camioneta color negro", media, CarStatus.BOOKABLE);
+        Car camionetaJeep = new Car("Gladiador Orverland", "Jeep", 2021, "Camioneta negra grande", alta, CarStatus.BOOKABLE);
         Car camionetaMercedes = new Car("Mercedes-Benz Clase Gls 450", "Mercedes-Benz", 2022, "Camioneta Blanca",
-                exclusiva);
-        Car camionetaBMW = new Car("Bmx x7 Xdrive40i Pure", "BMW", 2022, "Camioneta con un hermoso azul", alta);
-        Car camionetaFord = new Car("Ford Bronco Outer Banks", "Ford", 2021, "Camioneta amarilla", baja);
-        Car carroChevrolet = new Car("CheChevrolet Corvetter Stingray Z51", "Chevrolet", 2014, "Carro rojo", baja);
-        Car carroChevroletBlue = new Car("Sail 1,4 Ltz", "Chevrolet", 2018, "Carro color azul");
-        Car carroSanderoUsado = new Car("Sandero 1,6 Expression", "Renault", 2012, "Carro bastante usado");
+                exclusiva, CarStatus.BOOKABLE);
+        Car camionetaBMW = new Car("Bmx x7 Xdrive40i Pure", "BMW", 2022, "Camioneta con un hermoso azul", alta, CarStatus.BOOKABLE);
+        Car camionetaFord = new Car("Ford Bronco Outer Banks", "Ford", 2021, "Camioneta amarilla", baja, CarStatus.BOOKABLE);
+        Car carroChevrolet = new Car("CheChevrolet Corvetter Stingray Z51", "Chevrolet", 2014, "Carro rojo", baja, CarStatus.BOOKABLE);
+        Car carroChevroletBlue = new Car("Sail 1,4 Ltz", "Chevrolet", 2018, "Carro color azul", media, CarStatus.BOOKABLE);
+        Car carroSanderoUsado = new Car("Sandero 1,6 Expression", "Renault", 2012, "Carro bastante usado", media, CarStatus.BOOKABLE);
         Car carroSparkPequeño = new Car("Spark gt 1,2 Mt", "Chevrolet", 2012, "Carro pequeño");
         Car carroSwiftGray = new Car("Swift 1.2 Dzire", "Suzuki", 2020, "color gris");
         Car carroEW212 = new Car("E W212", "Mercedes-benz", 2016, "blanco, se ensucia facil");
@@ -94,21 +94,21 @@ public class RentacarApplication implements CommandLineRunner {
         Car carTest8 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
         Car carTest9 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
         Car carTest10 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
-        Car carTest11 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
-        Car carTest12 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
-        Car carTest13 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
-        Car carTest14 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
-        Car carTest15 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
-        Car carTest16 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
-        Car carTest17 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
-        Car carTest18 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
-        Car carTest19 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
-        Car carTest20 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
-        Car carTest21 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
-        Car carTest22 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
-        Car carTest23 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
-        Car carTest24 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
-        Car carTest25 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
+        Car carTest11 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description", alta, CarStatus.BOOKABLE);
+        Car carTest12 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description", alta, CarStatus.BOOKABLE);
+        Car carTest13 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description", alta, CarStatus.BOOKABLE);
+        Car carTest14 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description", alta, CarStatus.BOOKABLE);
+        Car carTest15 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description", alta, CarStatus.BOOKABLE);
+        Car carTest16 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description", alta, CarStatus.BOOKABLE);
+        Car carTest17 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description", alta, CarStatus.BOOKABLE);
+        Car carTest18 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description", alta, CarStatus.BOOKABLE);
+        Car carTest19 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description", alta, CarStatus.BOOKABLE);
+        Car carTest20 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description", alta, CarStatus.BOOKABLE);
+        Car carTest21 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description", alta, CarStatus.BOOKABLE);
+        Car carTest22 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description", alta, CarStatus.BOOKABLE);
+        Car carTest23 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description", alta, CarStatus.BOOKABLE);
+        Car carTest24 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description", alta, CarStatus.BOOKABLE);
+        Car carTest25 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description", alta, CarStatus.BOOKABLE);
         Car carTest26 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description", alta, CarStatus.BOOKABLE);
         Car carTest27 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description", alta, CarStatus.BOOKABLE);
         Car lastCarAdded = new Car("Ferrari", "Ferrari", 2022, "Thse latest car added", alta, CarStatus.BOOKABLE);
