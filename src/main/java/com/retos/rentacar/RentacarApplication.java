@@ -109,10 +109,10 @@ public class RentacarApplication implements CommandLineRunner {
         Car carTest23 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
         Car carTest24 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
         Car carTest25 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
-        Car carTest26 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
-        Car carTest27 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description");
-        Car lastCarAdded = new Car("Ferrari", "Ferrari", 2022, "The latest car added", alta);
-        Car carWithEnum = new Car("ENUM", "ENUM", 2022, "vehicle with enum", alta, CarStatus.OCCUPIED);
+        Car carTest26 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description", alta, CarStatus.BOOKABLE);
+        Car carTest27 = new Car("Car of TEST brand", "TEST Brand", 2022, "Car of description", alta, CarStatus.BOOKABLE);
+        Car lastCarAdded = new Car("Ferrari", "Ferrari", 2022, "Thse latest car added", alta, CarStatus.BOOKABLE);
+        Car carWithEnum = new Car("ENUM", "ENUM", 2022, "vehicle with enum", alta, CarStatus.BOOKABLE);
 
         List<Car> listOfCars = Arrays.asList(camionetaToyota, camionetaJeep, camionetaMercedes, camionetaBMW,
                 camionetaFord, carroChevrolet, carroChevroletBlue, carroSanderoUsado, carroSparkPequeño, carroSwiftGray,
@@ -123,7 +123,7 @@ public class RentacarApplication implements CommandLineRunner {
 
         for (Car car : listOfCars) {
             Logger.debug("Carro: " + car.getName() + " su gama: " + car.getGama());
-            System.out.println("CAR ENUM AWDAW" + car.getCarStatus());
+            System.out.println("CAR ENUM AWDAW " + car.getCarStatus());
         }
 
         try {
