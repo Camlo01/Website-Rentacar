@@ -1,8 +1,27 @@
 /**
  * Metodo que trae todos los carros y son insertados en la sección de vehiculos
  */
-function loadAllCars() {
-  fetch("http://localhost:8080/api/Car/all")
+
+let pageByDefect = 0;
+
+function selectPageVehicle(whatDo) {
+  if (whatDo == "INCREMENT") {
+    pageByDefect++;
+  } else if (whatDo == "DECREMENT") {
+    pageByDefect--;
+  }
+  if (pageByDefect < 0) {
+    pageByDefect = 0;
+  }
+  console.log(pageByDefect);
+  loadVehiclesPageableSection();
+}
+function loadVehiclesPageableSection() {
+  const size = 8;
+  let page = pageByDefect;
+  fetch(
+    `http://localhost:8080/api/Car/home_cars/size=${size}page=${page * size}`
+  )
     .then((response) => response.json())
     .then((data) => {
       // Se inicializa con una tarjeta de prueba
@@ -40,7 +59,6 @@ function lastCarAddedBookable() {
       card += `  <p class="vehicle--card-year"><b>Año: </b>${car.year}</p>`;
       card += `  <p class="vehicle--card-description"><b>Descripción:</b>${car.description}</p>`;
       card += `</article>`;
-  document.getElementById("whereToLoadCarAdded").innerHTML = card;
-
+      document.getElementById("whereToLoadCarAdded").innerHTML = card;
     });
 }
