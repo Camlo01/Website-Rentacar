@@ -69,11 +69,10 @@
                 </div>
                 <script>welcome()</script>
                 <div class="introduction--text_card">
-                        <p>Queremos brindar a tu dispoción el vehículo que gustes para que puedas reservarlo según tu
-                            necesidad. ¿¡Qué esperas por reserver!?</p>
+                    <p>Queremos brindar a tu dispoción el vehículo que gustes para que puedas reservarlo según tu
+                        necesidad. ¿¡Qué esperas por reserver!?</p>
                     <div id="whereToLoadCarAdded" class="introduction--section-card">
                         <script>lastCarAddedBookable()</script>
-
                     </div>
                 </div>
             </div>
@@ -85,8 +84,10 @@
             <h2>Vehículos</h2>
             <section id="whereToLoadCars" class="vehicle-container-cards">
 
-                <script>loadAllCars()</script>
+                <script>loadVehiclesPageableSection()</script>
             </section>
+            <button onclick="selectPageVehicle('DECREMENT')">ANTERIOR</button>
+            <button onclick="selectPageVehicle('INCREMENT')">SIGUIENTE</button>
 
         </section>
         <!-- ------------------------------------------------------------- -->
