@@ -62,19 +62,29 @@
     <main>
 
         <section class="main-section-container section-container-introduction">
-            <div class="introduction-title">
-                <h1>Website Renta Car</h1>
-                <h2>¡Bienvenido! <div id="wherePrintName"></div> Reserva tu vehículo</h2>
+            <div class="introduction-all">
+                <div class="introduction--text-head">
+                    <h1>Website Renta Car</h1>
+                    <h2>¡Bienvenido! <div id="wherePrintName"></div> Reserva tu vehículo</h2>
+                </div>
                 <script>welcome()</script>
-                <p>Te brindamos la posibilidad de encontrar el vehículo que busque y lo reserve según tu gusto o
-                    necesidad</p>
+                <div class="introduction--text_card">
+                        <p>Queremos brindar a tu dispoción el vehículo que gustes para que puedas reservarlo según tu
+                            necesidad. ¿¡Qué esperas por reserver!?</p>
+                    <div id="whereToLoadCarAdded" class="introduction--section-card">
+                        <script>lastCarAddedBookable()</script>
+
+                    </div>
+                </div>
             </div>
+
+
         </section>
         <!-- ------------------------------------------------------------- -->
         <section class="main-section-container section-container-vehicle" id="vehiculos">
             <h2>Vehículos</h2>
             <section id="whereToLoadCars" class="vehicle-container-cards">
-              
+
                 <script>loadAllCars()</script>
             </section>
 
