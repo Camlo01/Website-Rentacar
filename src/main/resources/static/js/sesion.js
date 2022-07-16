@@ -152,6 +152,7 @@ function sesionNavbar() {
           </tr>
       </tbody>
   </table>
+
       `;
 
     let modal = ` <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -163,6 +164,7 @@ function sesionNavbar() {
           </div>
           <div class="modal-body">
           ${myAccountInfo}
+          ${menuOptionsByTypeClient()}
           </div>
           <div class="modal-footer">
           <button type="button" class="btn btn-danger botones-navbars"  data-bs-target="#" data-bs-toggle="modal" onclick="logOut()" >Cerrar sesión</button>
@@ -306,7 +308,7 @@ function loginLogic(data) {
     localStorage.setItem("email", data.email);
     localStorage.setItem("password", data.password);
     localStorage.setItem("KeyClient", data.keyClient);
-    console.log(data);
+    localStorage.setItem("ClientType", data.type);
     sesionNavbar();
     welcome();
   } else {
@@ -370,4 +372,31 @@ function validateEmailAndPassword(email, password) {
     alert("Escribe un correo válido");
   }
   return false;
+}
+
+function menuOptionsByTypeClient() {
+  const typeClient = localStorage.getItem("ClientType");
+
+  let toReturn = `<p>prueba<p>`;
+
+  let menuForClient = `1`;
+  let menuForSupport = `2`;
+  let menuForAdmin = `3`;
+  let menuForDeveloper = `4`;
+
+  switch (typeClient) {
+    case "CLIENT":
+      toReturn += menuForClient;
+      break;
+    case "SUPPORT":
+      toReturn += menuForSupport;
+      break;
+    case "ADMIN":
+      toReturn += menuForAdmin;
+      break;
+    case "DEVELOPER":
+      toReturn += menuForDeveloper;
+      break;
+  }
+  return toReturn;
 }
