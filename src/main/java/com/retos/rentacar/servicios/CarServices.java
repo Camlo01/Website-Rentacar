@@ -2,14 +2,20 @@
 package com.retos.rentacar.servicios;
 
 import com.retos.rentacar.modelo.Car;
+import com.retos.rentacar.modelo.KeyClient;
 import com.retos.rentacar.repositorio.CarRepository;
+
 import java.util.List;
 import java.util.Optional;
+
+import com.retos.rentacar.repositorio.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CarServices {
+    @Autowired
+    private ClientRepository clientRepository;
     @Autowired
     private CarRepository metodosCrudCar;
 
@@ -21,6 +27,17 @@ public class CarServices {
         return metodosCrudCar.getCar(idCar);
     }
 
+
+    //Save car if the client has permissions
+    public Car saveVehicle(Car car, KeyClient keyClient) {
+        if (keyClient.hasPermissions(keyClient.getKeyClient())) {
+            save(car);
+        }
+        return car;
+    }
+
+
+    // Only use it into validations
     public Car save(Car car) {
         if (car.getIdCar() == null) {
             return metodosCrudCar.save(car);
@@ -35,6 +52,8 @@ public class CarServices {
         }
 
     }
+
+
     public Optional<Car> getLastCarAdded() {
         return metodosCrudCar.getLastCarAdded();
     }
@@ -72,5 +91,6 @@ public class CarServices {
         }).orElse(false);
         return aBoolean;
     }
+
 
 }
