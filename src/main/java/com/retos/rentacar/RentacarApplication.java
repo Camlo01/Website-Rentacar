@@ -44,7 +44,9 @@ public class RentacarApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         createEveryObject();
-        Logger.info("INICIADO CORRECTAMENTE! :D");
+        Logger.info("---------------------------");
+        Logger.info("INICIADO CORRECTAMENTE! :D ");
+        Logger.info("---------------------------");
 
     }
 
@@ -148,7 +150,6 @@ public class RentacarApplication implements CommandLineRunner {
 
         for (Car car : listOfCars) {
             Logger.debug("Carro: " + car.getName() + " su gama: " + car.getGama());
-            System.out.println("CAR ENUM AWDAW " + car.getCarStatus());
         }
 
         try {
