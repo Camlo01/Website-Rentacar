@@ -8,14 +8,21 @@ import com.retos.rentacar.modelo.Client;
 
 import java.util.Optional;
 
+import com.retos.rentacar.modelo.KeyClient;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 
 /**
- *
  * @author USUARIO
  */
-public interface ClientInterface extends CrudRepository<Client, Integer> {
+public interface ClientInterface extends PagingAndSortingRepository<Client, Integer> {
 
-    // @Query("from Client ")
     Optional<Client> findClientByEmail(String email);
+
+    @Query(value = "SELECT * FROM CLIENT WHERE KEY_CLIENT = ?1 ", nativeQuery = true)
+    Optional<Client> getClientByKeyClient(String awd);
+
 }
