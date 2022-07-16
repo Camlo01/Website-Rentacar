@@ -73,11 +73,12 @@ public class CarWebRepository {
         return carInterface.findAll(PageRequest.of(page, size)).getContent();
     }
 
-    @PostMapping("/save")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Car save(@RequestBody Car car) {
-        return carServices.save(car);
-    }
+    //Save vehicle without authentication
+//    @PostMapping("/save")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public Car save(@RequestBody Car car) {
+//        return carServices.save(car);
+//    }
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
