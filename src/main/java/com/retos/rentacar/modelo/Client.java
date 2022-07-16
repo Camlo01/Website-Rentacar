@@ -19,14 +19,15 @@ public class Client implements Serializable {
     private String email;
     private String password;
     private String name;
-
+    private ClientType type;
+    private String keyClient;
     private Date birthDate;
 
-    @OneToMany(cascade = { CascadeType.PERSIST }, mappedBy = "client")
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "client")
     @JsonIgnoreProperties("client")
     private List<Message> messages;
 
-    @OneToMany(cascade = { CascadeType.PERSIST }, mappedBy = "client")
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "client")
     @JsonIgnoreProperties("client")
     private List<Reservation> reservations;
 
@@ -37,19 +38,23 @@ public class Client implements Serializable {
         this.email = email;
     }
 
-    public Client(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
-
     public Client(String name, String email, String password, Date birthDate) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.birthDate = birthDate;
-
+        this.type = ClientType.CLIENT;
+        this.keyClient = new KeyClient().getKeyClient();
     }
 
+    public Client(String name, String email, String password, Date birthDate, ClientType clientType) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.type = clientType;
+        this.keyClient = new KeyClient().getKeyClient();
+    }
 
     public Integer getIdClient() {
         return idClient;
@@ -57,14 +62,6 @@ public class Client implements Serializable {
 
     public void setIdClient(Integer idClient) {
         this.idClient = idClient;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getEmail() {
@@ -83,21 +80,34 @@ public class Client implements Serializable {
         this.password = password;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ClientType getType() {
+        return type;
+    }
+
+    public void setType(ClientType type) {
+        this.type = type;
+    }
+
+    public String getKeyClient() {
+        return keyClient;
+    }
+
+    public Date setbirthDate(Date date) {
+        return birthDate;
+    }
+
     public Date getbirthDate() {
         return birthDate;
     }
 
-    public void setbirthDate(Date birthDay) {
-        this.birthDate = birthDay;
-    }
-
-    public List<Reservation> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
-    }
 
     public List<Message> getMessages() {
         return messages;
@@ -107,4 +117,11 @@ public class Client implements Serializable {
         this.messages = messages;
     }
 
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
 }
