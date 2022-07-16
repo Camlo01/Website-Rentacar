@@ -7,6 +7,7 @@ public enum ReservationStatus {
 
     //The car is owned by the customer
     ACTIVE,
+    
     //Canceled by system or administrator
     CANCELLED,
 
