@@ -1,19 +1,17 @@
 package com.retos.rentacar.modelo;
 
 import com.retos.rentacar.interfaces.ClientInterface;
-import com.retos.rentacar.servicios.GamaServices;
 
 import javax.persistence.Transient;
-import java.util.Optional;
 import java.util.Random;
 
 public class KeyClient {
 
-    @Transient //This column is ignored
-    ClientInterface clientInterface;
-
-
     private String keyClient;
+
+    public KeyClient(String keyClient) {
+        this.keyClient = keyClient;
+    }
 
     public KeyClient() {
         this.keyClient = generateKeyClient();
@@ -23,7 +21,7 @@ public class KeyClient {
         return keyClient;
     }
 
-    public KeyClient(String keyClient) {
+    public void setKeyClient(String keyClient) {
         this.keyClient = keyClient;
     }
 
@@ -39,15 +37,7 @@ public class KeyClient {
         return sb.toString();
     }
 
-    public Boolean hasPermissions(String key) {
-        Optional<Client> clientToEvaluate = clientInterface.getClientByKeyClient(key);
-        if (clientToEvaluate.isPresent()) {
-            Client client = clientToEvaluate.get();
-            return (client.getType() == ClientType.ADMIN) ||
-                    (client.getType() == ClientType.DEVELOPER);
-        }
-        return false;
-    }
+
 }
 
 
