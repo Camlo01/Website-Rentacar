@@ -1,7 +1,10 @@
 
 package com.retos.rentacar.servicios;
 
+import com.retos.rentacar.interfaces.ClientInterface;
 import com.retos.rentacar.modelo.Car;
+import com.retos.rentacar.modelo.Client;
+import com.retos.rentacar.modelo.ClientType;
 import com.retos.rentacar.modelo.KeyClient;
 import com.retos.rentacar.repositorio.CarRepository;
 
@@ -15,9 +18,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class CarServices {
     @Autowired
-    private ClientRepository clientRepository;
-    @Autowired
     private CarRepository metodosCrudCar;
+    @Autowired
+    private ClientInterface clientInterface;
 
     public List<Car> getAll() {
         return metodosCrudCar.getAll();
@@ -30,7 +33,7 @@ public class CarServices {
 
     //Save car if the client has permissions
     public Car saveVehicle(Car car, KeyClient keyClient) {
-        if (keyClient.hasPermissions(keyClient.getKeyClient())) {
+        if (hasPermissions(keyClient.getKeyClient())) {
             save(car);
         }
         return car;
@@ -92,5 +95,16 @@ public class CarServices {
         return aBoolean;
     }
 
+    //UTILS
+
+    public Boolean hasPermissions(String key) {
+        Optional<Client> clientToEvaluate = clientInterface.getClientByKeyClient(key);
+        if (clientToEvaluate.isPresent()) {
+            Client client = clientToEvaluate.get();
+            return (client.getType() == ClientType.ADMIN) ||
+                    (client.getType() == ClientType.DEVELOPER);
+        }
+        return false;
+    }
 
 }
