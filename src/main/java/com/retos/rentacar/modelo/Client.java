@@ -38,6 +38,18 @@ public class Client implements Serializable {
         this.email = email;
     }
 
+    public Client(Integer idClient, String email, String password, String name, ClientType type, String keyClient, Date birthDate, List<Message> messages, List<Reservation> reservations) {
+        this.idClient = idClient;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.type = type;
+        this.keyClient = keyClient;
+        this.birthDate = birthDate;
+        this.messages = messages;
+        this.reservations = reservations;
+    }
+
     public Client(String name, String email, String password, Date birthDate) {
         this.email = email;
         this.password = password;
@@ -54,6 +66,16 @@ public class Client implements Serializable {
         this.birthDate = birthDate;
         this.type = clientType;
         this.keyClient = new KeyClient().getKeyClient();
+    }
+
+    
+    public Client(String name, String email, String password, Date birthDate, ClientType clientType, String keyClient) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.type = clientType;
+        this.keyClient = keyClient;
     }
 
     public Integer getIdClient() {
