@@ -1,4 +1,4 @@
-package com.retos.rentacar.modelo.Entity.Car;
+package com.retos.rentacar.modelo.Entity.Client;
 
 import com.retos.rentacar.interfaces.ClientInterface;
 

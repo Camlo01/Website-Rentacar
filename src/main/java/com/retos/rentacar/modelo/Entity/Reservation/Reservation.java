@@ -4,7 +4,6 @@ package com.retos.rentacar.modelo.Entity.Reservation;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.retos.rentacar.modelo.Entity.Car.Car;
 import com.retos.rentacar.modelo.Entity.Client.Client;
-import com.retos.rentacar.modelo.Score;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -38,8 +37,6 @@ public class Reservation implements Serializable {
     @JsonIgnoreProperties({"reservations", "messages"})
     private Client client;
 
-    @OneToOne
-    private Score score;
 
     public Reservation() {
     }
@@ -54,13 +51,12 @@ public class Reservation implements Serializable {
 
     }
 
-    public Reservation(Integer idReservation, Date startDate, Date devolutionDate, Car car, Client client, Score score) {
+    public Reservation(Integer idReservation, Date startDate, Date devolutionDate, Car car, Client client) {
         this.idReservation = idReservation;
         this.startDate = startDate;
         this.devolutionDate = devolutionDate;
         this.car = car;
         this.client = client;
-        this.score = score;
         this.reservationStatus = ReservationStatus.REQUESTED;
     }
 
@@ -122,12 +118,5 @@ public class Reservation implements Serializable {
         this.client = client;
     }
 
-    public Score getScore() {
-        return score;
-    }
-
-    public void setScore(Score score) {
-        this.score = score;
-    }
 
 }

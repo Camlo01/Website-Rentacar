@@ -4,7 +4,7 @@ package com.retos.rentacar.controlador;
 import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
 import com.retos.rentacar.repositorio.CountClients;
 import com.retos.rentacar.servicios.ReservationServices;
-import com.retos.rentacar.servicios.StatusReservas;
+
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +28,6 @@ public class ReservationWebRepository {
     @Autowired
     private ReservationServices servicios;
 
-    @GetMapping("/report-status")
-    public StatusReservas getReservas() {
-        return servicios.reporteStatusServicio();
-    }
 
     @GetMapping("/report-dates/{dateOne}/{dateTwo}")
     public List<Reservation> getReservasTiempo(@PathVariable("dateOne") String dateOne,

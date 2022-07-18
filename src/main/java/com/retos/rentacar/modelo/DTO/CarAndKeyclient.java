@@ -1,4 +1,7 @@
-package com.retos.rentacar.modelo.Entity.Car;
+package com.retos.rentacar.modelo.DTO;
+
+import com.retos.rentacar.modelo.Entity.Car.Car;
+import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 
 public class CarAndKeyclient {
 

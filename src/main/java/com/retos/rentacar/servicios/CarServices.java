@@ -5,7 +5,7 @@ import com.retos.rentacar.interfaces.ClientInterface;
 import com.retos.rentacar.modelo.Entity.Car.Car;
 import com.retos.rentacar.modelo.Entity.Client.Client;
 import com.retos.rentacar.modelo.Entity.Client.ClientType;
-import com.retos.rentacar.modelo.Entity.Car.KeyClient;
+import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.repositorio.CarRepository;
 
 import java.util.List;
