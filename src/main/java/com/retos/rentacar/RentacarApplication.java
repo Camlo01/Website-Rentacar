@@ -47,12 +47,10 @@ public class RentacarApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
         createEveryObject();
         Logger.info("---------------------------");
         Logger.info("INICIADO CORRECTAMENTE! :D ");
         Logger.info("---------------------------");
-
     }
 
     public void createEveryObject() {
