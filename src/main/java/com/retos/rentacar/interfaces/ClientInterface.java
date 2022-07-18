@@ -23,6 +23,6 @@ public interface ClientInterface extends PagingAndSortingRepository<Client, Inte
     Optional<Client> findClientByEmail(String email);
 
     @Query(value = "SELECT * FROM CLIENT WHERE KEY_CLIENT = ?1 ", nativeQuery = true)
-    Optional<Client> getClientByKeyClient(String awd);
+    Optional<Client> getClientByKeyClient(String key);
 
 }
