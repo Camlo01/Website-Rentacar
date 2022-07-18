@@ -5,14 +5,13 @@ public class CarAndKeyclient {
     private Car car;
     private KeyClient keyClient;
 
-
-    public Car getCar() {
-        return car;
-    }
-
     public CarAndKeyclient(Car car, KeyClient keyClient) {
         this.car = car;
         this.keyClient = keyClient;
+    }
+
+    public Car getCar() {
+        return car;
     }
 
     public void setCar(Car car) {
@@ -23,5 +22,7 @@ public class CarAndKeyclient {
         return keyClient;
     }
 
-
+    public void setKeyClient(KeyClient keyClient) {
+        this.keyClient = keyClient;
+    }
 }
