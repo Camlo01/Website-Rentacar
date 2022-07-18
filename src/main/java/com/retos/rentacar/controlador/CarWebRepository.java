@@ -3,10 +3,7 @@ package com.retos.rentacar.controlador;
 
 import com.retos.rentacar.interfaces.CarInterface;
 import com.retos.rentacar.interfaces.ClientInterface;
-import com.retos.rentacar.modelo.Car;
-import com.retos.rentacar.modelo.CarStatus;
-import com.retos.rentacar.modelo.Client;
-import com.retos.rentacar.modelo.KeyClient;
+import com.retos.rentacar.modelo.*;
 import com.retos.rentacar.servicios.CarServices;
 
 import java.util.List;
@@ -50,9 +47,8 @@ public class CarWebRepository {
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Car saveVehicleWithAutoritation(@RequestBody Car car,
-                                           @RequestBody KeyClient keyClient) {
-        return carServices.saveVehicle(car, keyClient);
+    public Car saveVehicleWithAutoritation(@RequestBody CarAndKeyclient carAndKeyclient) {
+        return carServices.saveVehicle(carAndKeyclient.getCar(), carAndKeyclient.getKeyClient());
     }
 
 
