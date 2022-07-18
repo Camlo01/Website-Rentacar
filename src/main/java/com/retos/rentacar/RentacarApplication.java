@@ -163,14 +163,14 @@ public class RentacarApplication implements CommandLineRunner {
 
         // Format of date YYYY-MM-DD
         Date dateReusable = Date.valueOf("2004-07-24");
-        Client a = new Client("a", "a", "a", dateReusable);
+        Client a = new Client("a", "a", "a", dateReusable, ClientType.CLIENT, "cli");
         Client milo = new Client("Camilo", "Camilo@gmail.com", "12345*", dateReusable);
         Client matt = new Client("Matthew", "Mattew@gmail.com", "*54321", dateReusable);
         Client vale = new Client("Valeria", "Valeria@gmail.com", "password", dateReusable);
         Client clientObject = new Client("cliente", "cliente@mail.com", "cliente", dateReusable, ClientType.CLIENT);
-        Client admin = new Client("Admin", "admin", "admin", dateReusable, ClientType.ADMIN);
-        Client support = new Client("soporte", "soporte", "soporte", dateReusable, ClientType.SUPPORT);
-        Client developer = new Client("developer", "developer", "developer", dateReusable, ClientType.DEVELOPER);
+        Client admin = new Client("Admin", "admin", "admin", dateReusable, ClientType.ADMIN, "adm");
+        Client support = new Client("soporte", "soporte", "soporte", dateReusable, ClientType.SUPPORT, "sup");
+        Client developer = new Client("developer", "developer", "developer", dateReusable, ClientType.DEVELOPER, "dev");
 
 
         List<Client> listOfClients = Arrays.asList(milo, matt, vale, a, clientObject, admin, support, developer);
@@ -178,7 +178,7 @@ public class RentacarApplication implements CommandLineRunner {
         for (Client user : listOfClients) {
             Logger.debug(
                     "awdawdw Cliente: " + user.getName() + " Mensajes: " + user.getMessages() + " Reservations: "
-                            + user.getReservations());
+                            + user.getReservations() + " LLave: " + user.getKeyClient());
         }
 
         try {
