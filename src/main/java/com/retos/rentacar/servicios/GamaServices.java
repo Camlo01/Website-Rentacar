@@ -4,17 +4,12 @@
  */
 package com.retos.rentacar.servicios;
 
-import com.retos.rentacar.modelo.Gama;
+import com.retos.rentacar.modelo.Entity.Gama.Gama;
 import com.retos.rentacar.repositorio.GamaRepository;
-
-import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 
 import java.util.List;
 import java.util.Optional;
 
-import javax.print.attribute.standard.MediaSize.Other;
-
-import org.hibernate.query.criteria.internal.path.MapAttributeJoin.TreatedMapAttributeJoin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

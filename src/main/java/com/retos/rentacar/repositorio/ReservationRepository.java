@@ -1,8 +1,8 @@
 package com.retos.rentacar.repositorio;
 
 import com.retos.rentacar.interfaces.ReservationInterface;
-import com.retos.rentacar.modelo.Client;
-import com.retos.rentacar.modelo.Reservation;
+import com.retos.rentacar.modelo.Entity.Client.Client;
+import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

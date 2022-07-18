@@ -4,7 +4,7 @@
  */
 package com.retos.rentacar.interfaces;
 
-import com.retos.rentacar.modelo.Message;
+import com.retos.rentacar.modelo.Entity.Message.Message;
 import org.springframework.data.repository.CrudRepository;
 
 /**

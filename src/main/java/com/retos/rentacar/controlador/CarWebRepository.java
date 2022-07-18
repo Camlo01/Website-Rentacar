@@ -3,17 +3,15 @@ package com.retos.rentacar.controlador;
 
 import com.retos.rentacar.interfaces.CarInterface;
 import com.retos.rentacar.interfaces.ClientInterface;
-import com.retos.rentacar.modelo.*;
+import com.retos.rentacar.modelo.Entity.Car.Car;
+import com.retos.rentacar.modelo.Entity.Car.CarAndKeyclient;
 import com.retos.rentacar.servicios.CarServices;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

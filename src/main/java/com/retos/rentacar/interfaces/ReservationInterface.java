@@ -4,7 +4,7 @@
  */
 package com.retos.rentacar.interfaces;
 
-import com.retos.rentacar.modelo.Reservation;
+import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;

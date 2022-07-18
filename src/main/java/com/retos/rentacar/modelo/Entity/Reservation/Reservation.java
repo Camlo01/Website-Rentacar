@@ -1,7 +1,10 @@
 
-package com.retos.rentacar.modelo;
+package com.retos.rentacar.modelo.Entity.Reservation;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.retos.rentacar.modelo.Entity.Car.Car;
+import com.retos.rentacar.modelo.Entity.Client.Client;
+import com.retos.rentacar.modelo.Score;
 
 import java.io.Serializable;
 import java.util.Date;

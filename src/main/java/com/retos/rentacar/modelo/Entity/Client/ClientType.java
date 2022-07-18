@@ -1,4 +1,4 @@
-package com.retos.rentacar.modelo;
+package com.retos.rentacar.modelo.Entity.Client;
 
 /**
  * Permisos por tipo de usuario

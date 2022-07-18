@@ -1,7 +1,7 @@
 
 package com.retos.rentacar.servicios;
 
-import com.retos.rentacar.modelo.Reservation;
+import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
 import com.retos.rentacar.repositorio.CountClients;
 import com.retos.rentacar.repositorio.ReservationRepository;
 import java.text.ParseException;

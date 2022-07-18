@@ -1,12 +1,11 @@
 package com.retos.rentacar.repositorio;
 
 import com.retos.rentacar.interfaces.ClientInterface;
-import com.retos.rentacar.modelo.Client;
+import com.retos.rentacar.modelo.Entity.Client.Client;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.retos.rentacar.modelo.KeyClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

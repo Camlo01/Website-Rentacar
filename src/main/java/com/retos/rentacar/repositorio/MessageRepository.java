@@ -1,11 +1,10 @@
 package com.retos.rentacar.repositorio;
 
 import com.retos.rentacar.interfaces.MessageInterface;
-import com.retos.rentacar.modelo.Message;
+import com.retos.rentacar.modelo.Entity.Message.Message;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.support.CrudMethodMetadata;
 import org.springframework.stereotype.Repository;
 
 @Repository

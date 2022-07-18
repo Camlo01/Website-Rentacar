@@ -5,7 +5,7 @@
  */
 package com.retos.rentacar.repositorio;
 
-import com.retos.rentacar.modelo.Client;
+import com.retos.rentacar.modelo.Entity.Client.Client;
 
 /**
  *

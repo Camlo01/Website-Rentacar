@@ -1,8 +1,14 @@
 package com.retos.rentacar;
 
 import com.retos.rentacar.interfaces.*;
-import com.retos.rentacar.modelo.*;
 
+import com.retos.rentacar.modelo.Entity.Car.Car;
+import com.retos.rentacar.modelo.Entity.Car.CarStatus;
+import com.retos.rentacar.modelo.Entity.Client.Client;
+import com.retos.rentacar.modelo.Entity.Client.ClientType;
+import com.retos.rentacar.modelo.Entity.Gama.Gama;
+import com.retos.rentacar.modelo.Entity.Message.Message;
+import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
 import com.retos.rentacar.servicios.ClientServices;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -15,7 +21,6 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @EntityScan(basePackages = {"com.retos.rentacar.modelo"})
 @SpringBootApplication

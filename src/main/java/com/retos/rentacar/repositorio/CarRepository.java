@@ -1,7 +1,7 @@
 package com.retos.rentacar.repositorio;
 
 import com.retos.rentacar.interfaces.CarInterface;
-import com.retos.rentacar.modelo.Car;
+import com.retos.rentacar.modelo.Entity.Car.Car;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;

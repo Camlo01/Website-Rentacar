@@ -4,7 +4,7 @@
  */
 package com.retos.rentacar.interfaces;
 
-import com.retos.rentacar.modelo.Gama;
+import com.retos.rentacar.modelo.Entity.Gama.Gama;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

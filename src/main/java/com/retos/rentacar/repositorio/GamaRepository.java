@@ -5,15 +5,12 @@
 package com.retos.rentacar.repositorio;
 
 import com.retos.rentacar.interfaces.GamaInterface;
-import com.retos.rentacar.modelo.Gama;
-
-import ch.qos.logback.core.net.server.Client;
+import com.retos.rentacar.modelo.Entity.Gama.Gama;
 
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 @Component
 public class GamaRepository {

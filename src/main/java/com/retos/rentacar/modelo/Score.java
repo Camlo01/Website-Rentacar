@@ -1,6 +1,8 @@
 
 package com.retos.rentacar.modelo;
 
+import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
+
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

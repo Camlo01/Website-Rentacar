@@ -1,8 +1,7 @@
 
 package com.retos.rentacar.servicios;
 
-import com.jayway.jsonpath.Option;
-import com.retos.rentacar.modelo.Client;
+import com.retos.rentacar.modelo.Entity.Client.Client;
 import com.retos.rentacar.repositorio.ClientRepository;
 
 import java.util.Date;

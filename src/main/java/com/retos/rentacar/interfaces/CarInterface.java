@@ -4,19 +4,11 @@
  */
 package com.retos.rentacar.interfaces;
 
-import com.retos.rentacar.modelo.Car;
-import com.retos.rentacar.modelo.CarStatus;
-import com.retos.rentacar.modelo.Client;
-
-import antlr.collections.List;
+import com.retos.rentacar.modelo.Entity.Car.Car;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 

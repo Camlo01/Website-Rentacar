@@ -2,9 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.retos.rentacar.modelo;
+package com.retos.rentacar.modelo.Entity.Car;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.retos.rentacar.modelo.Entity.Gama.Gama;
+import com.retos.rentacar.modelo.Entity.Message.Message;
+import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
 import com.retos.rentacar.servicios.GamaServices;
 
 import java.io.Serializable;

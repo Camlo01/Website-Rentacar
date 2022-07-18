@@ -1,9 +1,7 @@
 package com.retos.rentacar.servicios;
 
-import com.retos.rentacar.modelo.Car;
-import com.retos.rentacar.modelo.Gama;
+import com.retos.rentacar.modelo.Entity.Car.Car;
 import com.retos.rentacar.repositorio.CarRepository;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

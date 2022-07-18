@@ -1,7 +1,7 @@
 
 package com.retos.rentacar.controlador;
 
-import com.retos.rentacar.modelo.Client;
+import com.retos.rentacar.modelo.Entity.Client.Client;
 import com.retos.rentacar.servicios.ClientServices;
 
 import java.util.List;

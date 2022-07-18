@@ -1,7 +1,8 @@
-package com.retos.rentacar.modelo;
+package com.retos.rentacar.modelo.Entity.Gama;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
+import com.retos.rentacar.modelo.Entity.Car.Car;
+
 import java.util.List;
 import javax.persistence.*;
 
@@ -9,13 +10,13 @@ import javax.persistence.*;
 @Table(name = "gama")
 public class Gama {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-   @Column(name = "id_Gama", nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_Gama", nullable = false, unique = true)
     private Integer idGama;
     private String name;
     private String description;
-     
-    @OneToMany(cascade = {CascadeType.PERSIST},mappedBy="gama")
+
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "gama")
     @JsonIgnoreProperties("gama")
     private List<Car> cars;
 
