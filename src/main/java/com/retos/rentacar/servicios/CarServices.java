@@ -19,13 +19,18 @@ public class CarServices {
     @Autowired
     private CarRepository metodosCrudCar;
     @Autowired
-    private ClientInterface clientInterface;
+    private ClientServices clientServices;
 
     // GET Methods Without Authorization
 
     public List<Car> getAll() {
         return metodosCrudCar.getAll();
     }
+
+    public Optional<Car> getLastCarAddedBookable() {
+        return metodosCrudCar.getLastCarAddedBookable();
+    }
+
 
     public Optional<Car> getLastCarAdded() {
         return metodosCrudCar.getLastCarAdded();
@@ -38,7 +43,7 @@ public class CarServices {
     // POST Method With Autorization
 
     public Car saveVehicle(Car car, KeyClient keyClient) {
-        if (hasPermissions(keyClient.getKeyClient())) {
+        if (clientServices.hasPermissions(keyClient)) {
             save(car);
         }
         return car;
@@ -47,7 +52,7 @@ public class CarServices {
     // PUT Method With Autorization
 
     public Car updateVehicle(Car car, KeyClient key) {
-        if (hasPermissions(key.getKeyClient())) {
+        if (clientServices.hasPermissions(key)) {
             return update(car);
         }
         return new Car("No se pudo actualizar el carro");
@@ -55,9 +60,9 @@ public class CarServices {
 
     // DELETE Method With Autorization
 
-    public Boolean deleteVehicle(int idCar, KeyClient key) {
-        if (hasPermissions(key.getKeyClient())) {
-            return delete(idCar);
+    public Boolean deleteVehicle(Car car, KeyClient key) {
+        if (clientServices.hasPermissions(key)) {
+            return delete(car.getIdCar());
         }
         return false;
     }
@@ -113,21 +118,5 @@ public class CarServices {
 
     }
 
-    /**
-     * Method that find user by the Client´s Key to validate if the Type of Client
-     * has permissions of ADMIN or DEVELOPER
-     * 
-     * @param key
-     * @return true if type client is ADMIN or DEVELOPER
-     */
-    private Boolean hasPermissions(String key) {
-        Optional<Client> clientToEvaluate = clientInterface.getClientByKeyClient(key);
-        if (clientToEvaluate.isPresent()) {
-            Client client = clientToEvaluate.get();
-            return (client.getType() == ClientType.ADMIN) ||
-                    (client.getType() == ClientType.DEVELOPER);
-        }
-        return false;
-    }
 
 }
