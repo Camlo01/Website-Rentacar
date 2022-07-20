@@ -33,7 +33,7 @@ import javax.persistence.Transient;
 @Table(name = "car")
 public class Car implements Serializable {
 
-    @Transient //This column is ignored
+    @Transient // This column is ignored
     GamaServices gamaServices;
 
     @Id
@@ -45,21 +45,23 @@ public class Car implements Serializable {
     private String description;
     private CarStatus carStatus;
 
-
     @ManyToOne
     @JoinColumn(name = "idGama")
     @JsonIgnoreProperties("cars")
     private Gama gama;
 
-
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "car")
-    @JsonIgnoreProperties({"car", "client"})
+    @OneToMany(cascade = { CascadeType.PERSIST }, mappedBy = "car")
+    @JsonIgnoreProperties({ "car", "client" })
     private List<Message> messages;
 
-
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "car")
-    @JsonIgnoreProperties({"car", "client"})
+    @OneToMany(cascade = { CascadeType.PERSIST }, mappedBy = "car")
+    @JsonIgnoreProperties({ "car", "client" })
     private List<Reservation> reservations;
+
+
+    public Car(String mensaje) {
+        this.name = mensaje;
+    }
 
     public Car() {
         this.name = null;
@@ -104,8 +106,8 @@ public class Car implements Serializable {
         this.carStatus = status;
     }
 
-
-    public Car(Integer idCar, String name, String brand, Integer year, String description, Gama gama, List<Message> messages, List<Reservation> reservations) {
+    public Car(Integer idCar, String name, String brand, Integer year, String description, Gama gama,
+            List<Message> messages, List<Reservation> reservations) {
         this.idCar = idCar;
         this.name = name;
         this.brand = brand;
@@ -116,7 +118,6 @@ public class Car implements Serializable {
         this.reservations = reservations;
         this.carStatus = CarStatus.NOT_AVAILABLE;
     }
-
 
     public Integer getIdCar() {
         return idCar;
