@@ -20,8 +20,11 @@ public interface CarInterface extends PagingAndSortingRepository<Car, Integer> {
 
     @Query(value = "SELECT * FROM car WHERE car_status = 0 ORDER BY id_car DESC LIMIT 1",
             nativeQuery = true)
-    Optional<Car> getLastCarAdded();
+    Optional<Car> getLastCarAddedBookable();
 
+    @Query(value = "SELECT * FROM car ORDER BY id_car DESC LIMIT 1",
+            nativeQuery = true)
+    Optional<Car> getLastCarAdded();
 
     @Query(value = "SELECT * FROM car WHERE car_status = 0 LIMIT :size OFFSET :page",
             nativeQuery = true)
