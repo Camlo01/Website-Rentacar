@@ -36,26 +36,27 @@ public class Client implements Serializable {
     public Client() {
     }
 
+    public Client(String email, String password) {
+        this.email = email;
+        this.password = password;
+        this.type = ClientType.CLIENT;
+        this.keyClient = new KeyClient().getKeyClient();
+        this.birthDate = Date.valueOf("2004-07-01");
+    }
+
+    public Client(int idClient) {
+        this.idClient = idClient;
+    }
     public Client(String email) {
         this.email = email;
     }
 
-    public Client(Integer idClient, String email, String password, String name, ClientType type, String keyClient, Date birthDate, List<Message> messages, List<Reservation> reservations) {
-        this.idClient = idClient;
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.type = type;
-        this.keyClient = keyClient;
-        this.birthDate = birthDate;
-        this.messages = messages;
-        this.reservations = reservations;
-    }
+
 
     public Client(String name, String email, String password, Date birthDate) {
+        this.name = name;
         this.email = email;
         this.password = password;
-        this.name = name;
         this.birthDate = birthDate;
         this.type = ClientType.CLIENT;
         this.keyClient = new KeyClient().getKeyClient();
@@ -78,6 +79,18 @@ public class Client implements Serializable {
         this.birthDate = birthDate;
         this.type = clientType;
         this.keyClient = keyClient;
+    }
+
+    public Client(Integer idClient, String email, String password, String name, ClientType type, String keyClient, Date birthDate, List<Message> messages, List<Reservation> reservations) {
+        this.idClient = idClient;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.type = type;
+        this.keyClient = keyClient;
+        this.birthDate = birthDate;
+        this.messages = messages;
+        this.reservations = reservations;
     }
 
     public Integer getIdClient() {
@@ -147,5 +160,20 @@ public class Client implements Serializable {
 
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "idClient=" + idClient +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", keyClient='" + keyClient + '\'' +
+                ", birthDate=" + birthDate +
+                ", messages=" + messages +
+                ", reservations=" + reservations +
+                '}';
     }
 }
