@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/Car")
-@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
-        RequestMethod.DELETE })
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
+        RequestMethod.DELETE})
 public class CarWebRepository {
 
     @Autowired
@@ -36,6 +36,11 @@ public class CarWebRepository {
     @GetMapping("/home_cars/size={size}page={page}")
     List<Car> getListCarsToHomePage(@PathVariable("size") int size, @PathVariable("page") int page) {
         return (List<Car>) carInterface.getCarsWithStatusBookable(size, page);
+    }
+
+    @GetMapping("/lastCarAddedBookable")
+    public Optional<Car> getLastCarAddedBookable() {
+        return carServices.getLastCarAddedBookable();
     }
 
     @GetMapping("/lastCarAdded")
@@ -63,9 +68,8 @@ public class CarWebRepository {
 
     @DeleteMapping("/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteVehicle(@PathVariable("id") int id,
-            @RequestBody KeyClient key) {
-        carServices.deleteVehicle(id, key);
+    public void deleteVehicle(@RequestBody CarAndKeyclient body) {
+        carServices.deleteVehicle(body.getCar(), body.getKeyClient());
     }
 
     // --- Peticiones HTTP de recurso
