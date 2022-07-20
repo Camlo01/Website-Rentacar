@@ -1,13 +1,18 @@
 
 package com.retos.rentacar.servicios;
 
+import com.retos.rentacar.interfaces.ClientInterface;
 import com.retos.rentacar.modelo.Entity.Client.Client;
-import com.retos.rentacar.repositorio.ClientRepository;
 
+import java.security.Key;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import com.retos.rentacar.modelo.Entity.Client.ClientType;
+import com.retos.rentacar.modelo.Entity.Client.KeyClient;
+import com.retos.rentacar.repositorio.ClientRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,58 +21,72 @@ import org.springframework.stereotype.Service;
 public class ClientServices {
     @Autowired
     private ClientRepository metodosCrudClient;
+    @Autowired
+    private ClientInterface clientInterface;
 
-    public List<Client> getAll() {
-        return metodosCrudClient.getAll();
-    }
 
-    public Optional<Client> getClient(int idClient) {
-        return metodosCrudClient.getClient(idClient);
-    }
+    // GET
 
-    public Client save(Client client) {
-        boolean isOldEnough = isOldEnough(client.getbirthDate());
+    public List<Client> getAllClients(KeyClient keyClient) {
 
-        if (isOldEnough) {
-            return metodosCrudClient.save(client);
+        if (hasPermissions(keyClient)) {
+            return metodosCrudClient.getAll();
         }
-        return new Client();
-
+        return null;
     }
 
-    public Client update(Client client) {
-        if (client.getIdClient() != null) {
-            Optional<Client> evt = metodosCrudClient.getClient(client.getIdClient());
-            if (evt.isPresent()) {
-                if (client.getName() != null) {
-                    evt.get().setName(client.getName());
-                }
-                if (client.getEmail() != null) {
-                    evt.get().setEmail(client.getEmail());
-                }
-                if (client.getEmail() != null) {
-                    evt.get().setPassword(client.getPassword());
-                }
-                if (client.getbirthDate() != null) {
-                    evt.get().setbirthDate(client.getbirthDate());
-                }
-                metodosCrudClient.save(evt.get());
+    public Optional<Client> getClientByid(int idCar, KeyClient key) {
+        if (hasPermissions(key)) {
+            return metodosCrudClient.getClientById(idCar);
+        }
+        return Optional.empty();
+    }
+
+    // POST
+
+    public Client saveClient(Client client, KeyClient key) {
+
+        if (hasPermissions(key)) {
+            if (client.getbirthDate() == null){
+                return metodosCrudClient.save(client);
             }
+            if (isOldEnough(client)) {
+                return metodosCrudClient.save(client);
+            }
+            return null;
         }
-        return client;
+        return null;
     }
 
-    public boolean deleteClient(int IdClient) {
-        return getClient(IdClient).map(client -> {
-            metodosCrudClient.delete(client);
-            return true;
-        }).orElse(false);
+    //PUT
+
+    public Client updateClient(Client client, KeyClient key) {
+
+
+        if (hasPermissions(key)) {
+            return update(client);
+        }
+        return new Client("No fue posible actualizar el cliente");
     }
 
+    //DELETE
+
+    public Boolean deleteClient(int idClient, KeyClient key) {
+        if (hasPermissions(key)) {
+            return metodosCrudClient.getClientById(idClient).map(clientGetted -> {
+                metodosCrudClient.delete(clientGetted);
+                return true;
+            }).orElse(false);
+        }
+        return false;
+
+    }
+
+    // LOGIN
     public Optional<Client> login(Client clientToLogin) {
 
         if (!(clientToLogin.getbirthDate() == null)) {
-            if (!isOldEnough(clientToLogin.getbirthDate())) {
+            if (!isOldEnough(clientToLogin)) {
                 return Optional.of(new Client("Lo sentimos, tienes que ser mayor de 18 años para crear tu cuenta"));
             }
         }
@@ -88,16 +107,60 @@ public class ClientServices {
 
     }
 
+    //Resources
 
-    //UTILS
+    private Client update(Client client) {
+        if (client.getIdClient() != null) {
+            Optional<Client> evt = metodosCrudClient.getClientById(client.getIdClient());
+            if (evt.isPresent()) {
+                if (client.getName() != null) {
+                    evt.get().setName(client.getName());
+                }
+                if (client.getEmail() != null) {
+                    evt.get().setEmail(client.getEmail());
+                }
+                if (client.getEmail() != null) {
+                    evt.get().setPassword(client.getPassword());
+                }
+                if (client.getbirthDate() != null) {
+                    evt.get().setbirthDate(client.getbirthDate());
+                }
+                metodosCrudClient.save(evt.get());
+            }
+        }
+        return client;
+    }
 
-    
-    private boolean isOldEnough(Date birthDate) {
+
+    //--------- UTILS
+
+
+    private boolean isOldEnough(Client client) {
+
+        Date birthDate = client.getbirthDate();
         Date actualDate = new Date();
         int miliSegundosDia = 24 * 60 * 60 * 1000;
         float miliSegundosTranscurridos = Math.abs(birthDate.getTime() - actualDate.getTime());
         int diasTranscurridos = Math.round(miliSegundosTranscurridos / miliSegundosDia);
         return diasTranscurridos >= 6575;
+    }
+
+    /**
+     * Method that find user by the Client´s Key to validate if the Type of Client
+     * has permissions of ADMIN or DEVELOPER
+     *
+     * @param toEvaluate
+     * @return true if type client is ADMIN or DEVELOPER
+     */
+    public Boolean hasPermissions(KeyClient toEvaluate) {
+        String key = toEvaluate.getKeyClient();
+        Optional<Client> clientToEvaluate = clientInterface.getClientByKeyClient(key);
+        if (clientToEvaluate.isPresent()) {
+            Client client = clientToEvaluate.get();
+            return (client.getType() == ClientType.ADMIN) ||
+                    (client.getType() == ClientType.DEVELOPER);
+        }
+        return false;
     }
 
 }
