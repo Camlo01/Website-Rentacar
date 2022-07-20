@@ -21,16 +21,22 @@ public class CarServices {
     @Autowired
     private ClientInterface clientInterface;
 
+    // GET Methods Without Authorization
+
     public List<Car> getAll() {
         return metodosCrudCar.getAll();
+    }
+
+    public Optional<Car> getLastCarAdded() {
+        return metodosCrudCar.getLastCarAdded();
     }
 
     public Optional<Car> getCar(int idCar) {
         return metodosCrudCar.getCar(idCar);
     }
 
+    // POST Method With Autorization
 
-    //Save car if the client has permissions
     public Car saveVehicle(Car car, KeyClient keyClient) {
         if (hasPermissions(keyClient.getKeyClient())) {
             save(car);
@@ -38,29 +44,35 @@ public class CarServices {
         return car;
     }
 
+    // PUT Method With Autorization
 
-    // Only use it into validations
-    public Car save(Car car) {
-        if (car.getIdCar() == null) {
-            return metodosCrudCar.save(car);
-        } else {
-            Optional<Car> evt = metodosCrudCar.getCar(car.getIdCar());
-            if (evt.isEmpty()) {
-                return metodosCrudCar.save(car);
-            } else {
-                return car;
-            }
-
+    public Car updateVehicle(Car car, KeyClient key) {
+        if (hasPermissions(key.getKeyClient())) {
+            return update(car);
         }
-
+        return new Car("No se pudo actualizar el carro");
     }
 
+    // DELETE Method With Autorization
 
-    public Optional<Car> getLastCarAdded() {
-        return metodosCrudCar.getLastCarAdded();
+    public Boolean deleteVehicle(int idCar, KeyClient key) {
+        if (hasPermissions(key.getKeyClient())) {
+            return delete(idCar);
+        }
+        return false;
     }
 
-    public Car update(Car car) {
+    // UTILS METHODS
+
+    private boolean delete(int idCar) {
+        Boolean aBoolean = getCar(idCar).map(car -> {
+            metodosCrudCar.delete(car);
+            return true;
+        }).orElse(false);
+        return aBoolean;
+    }
+
+    private Car update(Car car) {
         if (car.getIdCar() != null) {
             Optional<Car> evt = metodosCrudCar.getCar(car.getIdCar());
             if (!evt.isEmpty()) {
@@ -86,17 +98,29 @@ public class CarServices {
         }
     }
 
-    public boolean deleteCar(int idCar) {
-        Boolean aBoolean = getCar(idCar).map(car -> {
-            metodosCrudCar.delete(car);
-            return true;
-        }).orElse(false);
-        return aBoolean;
+    private Car save(Car car) {
+        if (car.getIdCar() == null) {
+            return metodosCrudCar.save(car);
+        } else {
+            Optional<Car> evt = metodosCrudCar.getCar(car.getIdCar());
+            if (evt.isEmpty()) {
+                return metodosCrudCar.save(car);
+            } else {
+                return car;
+            }
+
+        }
+
     }
 
-    //UTILS
-
-    public Boolean hasPermissions(String key) {
+    /**
+     * Method that find user by the Client´s Key to validate if the Type of Client
+     * has permissions of ADMIN or DEVELOPER
+     * 
+     * @param key
+     * @return true if type client is ADMIN or DEVELOPER
+     */
+    private Boolean hasPermissions(String key) {
         Optional<Client> clientToEvaluate = clientInterface.getClientByKeyClient(key);
         if (clientToEvaluate.isPresent()) {
             Client client = clientToEvaluate.get();
