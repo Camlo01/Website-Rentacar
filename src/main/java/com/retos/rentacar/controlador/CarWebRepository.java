@@ -4,6 +4,7 @@ package com.retos.rentacar.controlador;
 import com.retos.rentacar.interfaces.CarInterface;
 import com.retos.rentacar.interfaces.ClientInterface;
 import com.retos.rentacar.modelo.Entity.Car.Car;
+import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.modelo.DTO.CarAndKeyclient;
 import com.retos.rentacar.servicios.CarServices;
 
@@ -17,8 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/Car")
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
-        RequestMethod.DELETE})
+@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
+        RequestMethod.DELETE })
 public class CarWebRepository {
 
     @Autowired
@@ -28,9 +29,10 @@ public class CarWebRepository {
     @Autowired
     private ClientInterface awd;
 
-    //--- Peticiones HTTP Fijas
+    // --- Peticiones HTTP Fijas
 
-    //- GET
+    // - GET
+
     @GetMapping("/home_cars/size={size}page={page}")
     List<Car> getListCarsToHomePage(@PathVariable("size") int size, @PathVariable("page") int page) {
         return (List<Car>) carInterface.getCarsWithStatusBookable(size, page);
@@ -41,7 +43,7 @@ public class CarWebRepository {
         return carServices.getLastCarAdded();
     }
 
-    //- POST
+    // - POST
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
@@ -49,8 +51,24 @@ public class CarWebRepository {
         return carServices.saveVehicle(carAndKeyclient.getCar(), carAndKeyclient.getKeyClient());
     }
 
+    // - PUT
 
-    //--- Peticiones HTTP de recurso
+    @PutMapping("/update")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Car updateVehicle(@RequestBody CarAndKeyclient body) {
+        return carServices.updateVehicle(body.getCar(), body.getKeyClient());
+    }
+
+    // - DELETE
+
+    @DeleteMapping("/delete")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteVehicle(@PathVariable("id") int id,
+            @RequestBody KeyClient key) {
+        carServices.deleteVehicle(id, key);
+    }
+
+    // --- Peticiones HTTP de recurso
 
     @GetMapping("/all")
     public List<Car> getCar() {
@@ -65,25 +83,6 @@ public class CarWebRepository {
     @GetMapping("/pageable")
     List<Car> getCarPageable(@RequestParam int page, @RequestParam int size) {
         return carInterface.findAll(PageRequest.of(page, size)).getContent();
-    }
-
-    //Save vehicle without authentication
-//    @PostMapping("/save")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public Car save(@RequestBody Car car) {
-//        return carServices.save(car);
-//    }
-
-    @PutMapping("/update")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Car update(@RequestBody Car car) {
-        return carServices.update(car);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") int id) {
-        carServices.deleteCar(id);
     }
 
 }
