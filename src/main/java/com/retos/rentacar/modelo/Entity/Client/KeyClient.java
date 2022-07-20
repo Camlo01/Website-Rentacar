@@ -37,7 +37,12 @@ public class KeyClient {
         return sb.toString();
     }
 
-
+    @Override
+    public String toString() {
+        return "KeyClient{" +
+                "keyClient='" + keyClient + '\'' +
+                '}';
+    }
 }
 
 
