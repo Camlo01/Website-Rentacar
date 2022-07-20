@@ -59,6 +59,9 @@ public class Car implements Serializable {
     private List<Reservation> reservations;
 
 
+    public Car(int idCar) {
+        this.idCar = idCar;
+    }
     public Car(String mensaje) {
         this.name = mensaje;
     }
