@@ -66,7 +66,7 @@ public class ClientServices {
 
     public Optional<Client> login(Client clientToLogin) {
 
-        if(!(clientToLogin.getbirthDate() == null)) {
+        if (!(clientToLogin.getbirthDate() == null)) {
             if (!isOldEnough(clientToLogin.getbirthDate())) {
                 return Optional.of(new Client("Lo sentimos, tienes que ser mayor de 18 años para crear tu cuenta"));
             }
@@ -88,17 +88,16 @@ public class ClientServices {
 
     }
 
-    public boolean isOldEnough(Date birthDate) {
+
+    //UTILS
+
+    
+    private boolean isOldEnough(Date birthDate) {
         Date actualDate = new Date();
-
         int miliSegundosDia = 24 * 60 * 60 * 1000;
-
         float miliSegundosTranscurridos = Math.abs(birthDate.getTime() - actualDate.getTime());
-
         int diasTranscurridos = Math.round(miliSegundosTranscurridos / miliSegundosDia);
-
         return diasTranscurridos >= 6575;
-
     }
 
 }
