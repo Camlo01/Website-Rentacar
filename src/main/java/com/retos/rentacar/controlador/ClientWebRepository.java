@@ -41,7 +41,6 @@ public class ClientWebRepository {
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public Client saveClient(@RequestBody ClientAndKeyclient clientAndKey) {
-        System.out.println(clientAndKey.toString());
         return servicios.saveClient(clientAndKey.getClient(), clientAndKey.getKeyClient());
     }
 
