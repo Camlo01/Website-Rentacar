@@ -232,10 +232,10 @@ public class RentacarApplication implements CommandLineRunner {
         Date fechaInico2 = Date.valueOf("2022-06-10");
         Date fechaFinal2 = Date.valueOf("2022-06-12");
 
-        Reservation reservation = new Reservation(fechaInico, fechaFinal, camionetaBMW, matt);
-        Reservation reservation1 = new Reservation(fechaInico1, fechaFinal1, carroChevrolet, milo);
-        Reservation reservation2 = new Reservation(fechaInico2, fechaFinal2, camionetaFord, vale);
-        Reservation ReservationTest = new Reservation(fechaInico2, fechaFinal2, carroJetta, matt);
+        Reservation reservation = new Reservation(matt, camionetaBMW, fechaInico, fechaFinal);
+        Reservation reservation1 = new Reservation(milo, carroChevrolet, fechaInico1, fechaFinal1);
+        Reservation reservation2 = new Reservation(vale, camionetaFord, fechaInico2, fechaFinal2);
+        Reservation ReservationTest = new Reservation(matt, carroJetta, fechaInico2, fechaFinal2);
 
         List<Reservation> listOfReservations = Arrays.asList(reservation, reservation1, reservation2, ReservationTest);
 
