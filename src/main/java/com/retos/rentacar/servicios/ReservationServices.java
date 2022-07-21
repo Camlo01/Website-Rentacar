@@ -1,6 +1,8 @@
 
 package com.retos.rentacar.servicios;
 
+import com.retos.rentacar.modelo.DTO.ReservationAndKeyclient;
+import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
 import com.retos.rentacar.repositorio.CountClients;
 import com.retos.rentacar.repositorio.ReservationRepository;
@@ -18,27 +20,43 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReservationServices {
 
+    @Autowired
+    private ReservationRepository metodosCrudReservation;
+    @Autowired
+    private ClientServices clientServices;
+
     /**
      * Metodos crud
-     *
+     * <p>
      * - Traer todas las reservas
      * - Guardar reservation
      * - actualizar la reservacion
      * - eliminar reservación
-     *
-     ***********************
-     *
+     * <p>
+     * **********************
      * Queries
-     *
+     * <p>
      * - traer todas las reservaciones
      * - traer todas las reservaciones por status
      * - tarer reservaciones entre fechas
      * - contar cantidad de reservaciones entre fechas
-     *
      */
-    @Autowired
-    private ReservationRepository metodosCrudReservation;
 
+
+    // GET
+    public Optional<Reservation> getReservationById(ReservationAndKeyclient body) {
+        int id = body.getReservation().getIdReservation();
+        KeyClient key = body.getKeyClient();
+
+        if (clientServices.hasPermissions(key)) {
+            return metodosCrudReservation.getReservationById(id);
+        }
+
+        return Optional.empty();
+    }
+
+
+    //resources
     public List<Reservation> getAll() {
         return metodosCrudReservation.getAll();
     }
