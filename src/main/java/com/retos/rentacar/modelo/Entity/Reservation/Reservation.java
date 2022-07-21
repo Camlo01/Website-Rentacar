@@ -24,7 +24,6 @@ public class Reservation implements Serializable {
     private Integer idReservation;
     private Date startDate;
     private Date devolutionDate;
-    private String status = "created";
     private ReservationStatus reservationStatus;
 
     @ManyToOne
@@ -40,9 +39,18 @@ public class Reservation implements Serializable {
 
     public Reservation() {
     }
+    public Reservation(int idReservation) {
+        this.idReservation = idReservation;
+    }
+
+    public Reservation(String startDate, String devolutionDate){
+        this.startDate = java.sql.Date.valueOf(startDate);
+        this.devolutionDate = java.sql.Date.valueOf(devolutionDate);
+
+    }
 
 
-    public Reservation(Date startDate, Date devolutionDate, Car car, Client client) {
+    public Reservation(Client client, Car car,Date startDate, Date devolutionDate) {
         this.startDate = startDate;
         this.devolutionDate = devolutionDate;
         this.car = car;
@@ -85,13 +93,6 @@ public class Reservation implements Serializable {
         this.devolutionDate = devolutionDate;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     public ReservationStatus getReservationStatus() {
         return reservationStatus;
