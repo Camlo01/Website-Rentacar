@@ -41,6 +41,8 @@ function loadVehiclesPageableSection() {
         allCards += `  <p class="vehicle--card-brand"><b>Marca: </b>${car.brand}</p>`;
         allCards += `  <p class="vehicle--card-year"><b>Año: </b>${car.year}</p>`;
         allCards += `  <p class="vehicle--card-description"><b>Descripción:</b>${car.description}</p>`;
+        allCards += `<button onclick="reservateVehicle(${car.idCar})">Reservar!</button>`;
+        // allCards += " <button onclick='"+reservateVehicle()+"' >Reservar!</button>;
         allCards += `</article>`;
       });
       document.getElementById("whereToLoadCars").innerHTML = allCards;
@@ -61,4 +63,10 @@ function lastCarAddedBookable() {
       card += `</article>`;
       document.getElementById("whereToLoadCarAdded").innerHTML = card;
     });
+}
+
+function reservateVehicle(idCar) {
+  console.log(idCar)
+
+  reservateVehicle
 }
