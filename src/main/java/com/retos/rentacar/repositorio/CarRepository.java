@@ -27,6 +27,8 @@ public class CarRepository {
         return crudCar.getLastCarAdded();
     }
 
+    public Optional<Car> getCarByid(int id) { return crudCar.findById(id); }
+
     public Optional<Car> getLastCarAddedBookable() {
         return crudCar.getLastCarAddedBookable();
     }
