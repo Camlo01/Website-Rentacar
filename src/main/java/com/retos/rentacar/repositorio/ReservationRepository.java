@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import com.retos.rentacar.modelo.Entity.Reservation.ReservationStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +17,10 @@ import org.springframework.stereotype.Repository;
 public class ReservationRepository {
     @Autowired
     private ReservationInterface crudReservation;
+
+    public Optional<Reservation> getReservationById(int id){
+        return crudReservation.findReservationByidReservation(id);
+    }
     
     public List<Reservation> getAll(){
         return (List<Reservation>) crudReservation.findAll();
@@ -31,8 +37,8 @@ public class ReservationRepository {
     }
     
     /**************************************************/
-    public List<Reservation> ReservacionStatusRepositorio (String status){
-         return crudReservation.findAllByStatus(status);
+    public List<Reservation> ReservacionStatusRepositorio (ReservationStatus status){
+         return crudReservation.findAllByReservationStatus(status);
      }
      
      public List<Reservation> ReservacionTiempoRepositorio (Date a, Date b){
