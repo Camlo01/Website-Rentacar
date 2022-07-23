@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
         RequestMethod.DELETE})
 public class ReservationWebRepository {
     @Autowired
-    private ReservationServices servicios;
+    private ReservationServices services;
 
 
     // --- Peticiones HTTP Fijas
@@ -45,7 +45,7 @@ public class ReservationWebRepository {
     // ONLY FOR TEST
     @GetMapping("/reservation-by-id")
     public Optional<Reservation> getReservationById(@RequestBody ReservationAndKeyclient body) {
-        return servicios.getReservationById(body);
+        return services.getReservationById(body);
 
     }
 
@@ -76,8 +76,8 @@ public class ReservationWebRepository {
     }
 
     @PutMapping("/cancel-reservation")
-    public Reservation cancelReservation() {
-        return null;
+    public Reservation cancelReservation(@RequestBody ReservationAndKeyclient body) {
+        return services.cancelReservation(body.getReservation(), body.getKeyClient());
     }
 
     // - DELETE
@@ -88,35 +88,35 @@ public class ReservationWebRepository {
     @GetMapping("/report-dates/{dateOne}/{dateTwo}")
     public List<Reservation> getReservasTiempo(@PathVariable("dateOne") String dateOne,
                                                @PathVariable("dateTwo") String dateTwo) {
-        return servicios.reporteTiempoServicio(dateOne, dateTwo);
+        return services.reporteTiempoServicio(dateOne, dateTwo);
     }
 
     @GetMapping("/report-clients")
     public List<CountClients> getClientes() {
-        return servicios.reporteClientesServicio();
+        return services.reporteClientesServicio();
     }
 
 
     @GetMapping("/all")
     public List<Reservation> getReservation() {
-        return servicios.getAll();
+        return services.getAll();
     }
 
     @GetMapping("/{id}")
     public Optional<Reservation> getReservation(@PathVariable("id") int idReservation) {
-        return servicios.getReservation(idReservation);
+        return services.getReservation(idReservation);
     }
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public Reservation save(@RequestBody Reservation reservation) {
-        return servicios.save(reservation);
+        return services.save(reservation);
     }
 
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean delete(@PathVariable("id") int idReservation) {
-        return servicios.deleteReservation(idReservation);
+        return services.deleteReservation(idReservation);
     }
 
 }
