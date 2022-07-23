@@ -17,6 +17,8 @@ public enum ReservationStatus {
     //Denied by the system
     DENIED,
 
+    COMPLETED
+
 
 }
 
