@@ -29,4 +29,12 @@ public class ReservationAndKeyclient {
     public void setKeyClient(KeyClient keyClient) {
         this.keyClient = keyClient;
     }
+
+    @Override
+    public String toString() {
+        return "ReservationAndKeyclient{" +
+                "reservation=" + reservation.getClient() +
+                ", keyClient=" + keyClient.getKeyClient() +
+                '}';
+    }
 }
