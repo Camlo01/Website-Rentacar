@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import com.retos.rentacar.modelo.Entity.Client.ClientType;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
+import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
 import com.retos.rentacar.repositorio.ClientRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class ClientServices {
     public Client saveClient(Client client, KeyClient key) {
 
         if (hasPermissions(key)) {
-            if (client.getbirthDate() == null){
+            if (client.getbirthDate() == null) {
                 return metodosCrudClient.save(client);
             }
             if (isOldEnough(client)) {
