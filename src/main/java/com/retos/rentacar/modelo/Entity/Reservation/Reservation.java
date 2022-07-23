@@ -23,6 +23,7 @@ public class Reservation implements Serializable {
     private Integer idReservation;
     private Date startDate;
     private Date devolutionDate;
+    private String code;
     private ReservationStatus reservationStatus;
 
     @ManyToOne
@@ -39,6 +40,11 @@ public class Reservation implements Serializable {
     public Reservation() {
     }
 
+    public Reservation(String code) {
+        this.code = code;
+    }
+
+
     public Reservation(int idReservation) {
         this.idReservation = idReservation;
     }
@@ -46,7 +52,7 @@ public class Reservation implements Serializable {
     public Reservation(String startDate, String devolutionDate) {
         this.startDate = java.sql.Date.valueOf(startDate);
         this.devolutionDate = java.sql.Date.valueOf(devolutionDate);
-
+        this.code = new ReservationCode().generateReservationCode();
     }
 
     public Reservation(Client client, Car car, Date startDate, Date devolutionDate) {
@@ -55,7 +61,16 @@ public class Reservation implements Serializable {
         this.car = car;
         this.client = client;
         this.reservationStatus = ReservationStatus.REQUESTED;
+        this.code = new ReservationCode().generateReservationCode();
+    }
 
+    public Reservation(Client client, Car car, Date startDate, Date devolutionDate, ReservationStatus status) {
+        this.startDate = startDate;
+        this.devolutionDate = devolutionDate;
+        this.car = car;
+        this.client = client;
+        this.reservationStatus = status;
+        this.code = new ReservationCode().generateReservationCode();
     }
 
     public Reservation(Integer idReservation, Date startDate, Date devolutionDate, Car car, Client client) {
@@ -65,8 +80,20 @@ public class Reservation implements Serializable {
         this.car = car;
         this.client = client;
         this.reservationStatus = ReservationStatus.REQUESTED;
+        this.code = new ReservationCode().generateReservationCode();
     }
 
+
+    // Getters and setters
+
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public Integer getIdReservation() {
         return idReservation;
@@ -92,7 +119,6 @@ public class Reservation implements Serializable {
         this.devolutionDate = devolutionDate;
     }
 
-
     public ReservationStatus getReservationStatus() {
         return reservationStatus;
     }
@@ -113,10 +139,14 @@ public class Reservation implements Serializable {
         return client;
     }
 
-
     public void setClient(Client client) {
         this.client = client;
     }
 
-
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "client=" + client.getKeyClient() +
+                '}';
+    }
 }
