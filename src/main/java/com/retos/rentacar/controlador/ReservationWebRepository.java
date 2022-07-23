@@ -1,7 +1,9 @@
 
 package com.retos.rentacar.controlador;
 
+import com.retos.rentacar.modelo.DTO.ClientAndKeyclient;
 import com.retos.rentacar.modelo.DTO.ReservationAndKeyclient;
+import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
 import com.retos.rentacar.repositorio.CountClients;
 import com.retos.rentacar.servicios.ReservationServices;
@@ -22,22 +24,33 @@ public class ReservationWebRepository {
     private ReservationServices services;
 
 
-    // --- Peticiones HTTP Fijas
+    // --- HTTP Request fixed
 
     // - GET
 
     // Client
-    @GetMapping("/my-reservations")
-    public List<Reservation> getMyReservations(@RequestBody Reservation body) {
+    @GetMapping("/my-active-reservations")
+    public List<Reservation> getMyReservations(@RequestBody KeyClient keyClient) {
         return null;
     }
 
+
+    @GetMapping("/my-reservation-history")
+    public List<Reservation> getAllMyReservations(@RequestBody KeyClient key) {
+        return null;
+    }
 
     //--EMPLOYEES
 
     // Admin-Developer
     @GetMapping("/all-reservations")
-    public List<Reservation> getAllReservations() {
+    public List<Reservation> getAllReservations(@RequestBody KeyClient key) {
+        return services.getAllReservations(key);
+//        return null;
+    }
+
+    @GetMapping("/all-reservations-by-client")
+    public List<Reservation> getAllReservationsByClient(@RequestBody ClientAndKeyclient body) {
         return null;
     }
 
@@ -49,12 +62,12 @@ public class ReservationWebRepository {
 
     }
 
-    //Support
-    @GetMapping("/reservation-by-client")
-    public Optional<Reservation> getReservationsByClient(@RequestBody Reservation body) {
-
+    @GetMapping("/reservation-by-code")
+    public Optional<Reservation> getReservationByCode(@RequestBody ReservationAndKeyclient body) {
         return Optional.empty();
     }
+
+
 
     // reports
 
