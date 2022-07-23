@@ -52,6 +52,14 @@ public class ReservationServices {
 
         return Optional.empty();
     }
+
+
+    public List<Reservation> getAllReservations(KeyClient key) {
+        if (clientServices.hasPermissions(key)) {
+            return repository.getAll();
+        }
+        return null;
+    }
     // POST
 
 
@@ -80,9 +88,10 @@ public class ReservationServices {
         return repository.save(reservation);
     }
 
-    private Boolean sameKeyOfWhoBooked(Reservation reservation, KeyClient key) {
-        return Objects.equals(reservation.getClient().getKeyClient(), key.getKeyClient());
-
+    private Boolean sameKeyOfWhoBooked(Reservation reservationMade, KeyClient keyOfWhoBooked) {
+        String toCompare = reservationMade.getClient().getKeyClient();
+        String key = keyOfWhoBooked.getKeyClient();
+        return key.equals(toCompare);
     }
 
     //-------
