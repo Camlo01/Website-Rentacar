@@ -9,6 +9,7 @@ import com.retos.rentacar.modelo.Entity.Client.ClientType;
 import com.retos.rentacar.modelo.Entity.Gama.Gama;
 import com.retos.rentacar.modelo.Entity.Message.Message;
 import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
+import com.retos.rentacar.modelo.Entity.Reservation.ReservationStatus;
 import com.retos.rentacar.servicios.ClientServices;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -232,12 +233,30 @@ public class RentacarApplication implements CommandLineRunner {
         Date fechaInico2 = Date.valueOf("2022-06-10");
         Date fechaFinal2 = Date.valueOf("2022-06-12");
 
-        Reservation reservation = new Reservation(matt, camionetaBMW, fechaInico, fechaFinal);
-        Reservation reservation1 = new Reservation(milo, carroChevrolet, fechaInico1, fechaFinal1);
-        Reservation reservation2 = new Reservation(vale, camionetaFord, fechaInico2, fechaFinal2);
-        Reservation ReservationTest = new Reservation(matt, carroJetta, fechaInico2, fechaFinal2);
+        //MATT
+        Reservation reservation = new Reservation(matt, carTest, fechaInico, fechaFinal, ReservationStatus.REQUESTED);
+        Reservation reservation1 = new Reservation(matt, carTest2, fechaInico1, fechaFinal1, ReservationStatus.ACTIVE);
+        Reservation reservation2 = new Reservation(matt, carTest3, fechaInico2, fechaFinal2, ReservationStatus.CANCELLED);
+        Reservation reservation3 = new Reservation(matt, carTest4, fechaInico2, fechaFinal2, ReservationStatus.POSTPONED);
+        Reservation reservation4 = new Reservation(matt, carTest5, fechaInico2, fechaFinal2, ReservationStatus.DENIED);
+        Reservation reservation5 = new Reservation(matt, carTest6, fechaInico2, fechaFinal2, ReservationStatus.COMPLETED);
+        //VALE
+        Reservation reservation6 = new Reservation(vale, carTest7, fechaInico2, fechaFinal2, ReservationStatus.REQUESTED);
+        Reservation reservation7 = new Reservation(vale, carTest8, fechaInico2, fechaFinal2, ReservationStatus.ACTIVE);
+        Reservation reservation8 = new Reservation(vale, carTest9, fechaInico2, fechaFinal2, ReservationStatus.CANCELLED);
+        Reservation reservation9 = new Reservation(vale, carTest10, fechaInico2, fechaFinal2, ReservationStatus.POSTPONED);
+        Reservation reservation10 = new Reservation(vale, carTest11, fechaInico2, fechaFinal2, ReservationStatus.DENIED);
+        Reservation reservation11 = new Reservation(vale, carTest11, fechaInico2, fechaFinal2, ReservationStatus.COMPLETED);
+        //MILO
+        Reservation reservation12 = new Reservation(milo, carTest13, fechaInico2, fechaFinal2, ReservationStatus.REQUESTED);
+        Reservation reservation13 = new Reservation(milo, carTest14, fechaInico2, fechaFinal2, ReservationStatus.ACTIVE);
+        Reservation reservation14 = new Reservation(milo, carTest15, fechaInico2, fechaFinal2, ReservationStatus.CANCELLED);
+        Reservation reservation15 = new Reservation(milo, carTest16, fechaInico2, fechaFinal2, ReservationStatus.POSTPONED);
+        Reservation reservation16 = new Reservation(milo, carTest17, fechaInico2, fechaFinal2, ReservationStatus.DENIED);
+        Reservation reservation17 = new Reservation(milo, carTest18, fechaInico2, fechaFinal2, ReservationStatus.COMPLETED);
 
-        List<Reservation> listOfReservations = Arrays.asList(reservation, reservation1, reservation2, ReservationTest);
+        List<Reservation> listOfReservations = Arrays.asList(reservation, reservation1, reservation2, reservation3, reservation4, reservation5, reservation6, reservation7, reservation8, reservation9, reservation10, reservation11, reservation12, reservation13, reservation14, reservation15, reservation16, reservation17
+        );
 
         try {
             reservationInterface.saveAll(listOfReservations);
