@@ -13,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -39,18 +38,18 @@ public class Reservation implements Serializable {
 
     public Reservation() {
     }
+
     public Reservation(int idReservation) {
         this.idReservation = idReservation;
     }
 
-    public Reservation(String startDate, String devolutionDate){
+    public Reservation(String startDate, String devolutionDate) {
         this.startDate = java.sql.Date.valueOf(startDate);
         this.devolutionDate = java.sql.Date.valueOf(devolutionDate);
 
     }
 
-
-    public Reservation(Client client, Car car,Date startDate, Date devolutionDate) {
+    public Reservation(Client client, Car car, Date startDate, Date devolutionDate) {
         this.startDate = startDate;
         this.devolutionDate = devolutionDate;
         this.car = car;
