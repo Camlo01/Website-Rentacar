@@ -2,6 +2,7 @@
 package com.retos.rentacar.servicios;
 
 import com.retos.rentacar.modelo.DTO.ReservationAndKeyclient;
+import com.retos.rentacar.modelo.Entity.Client.Client;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
 import com.retos.rentacar.modelo.Entity.Reservation.ReservationStatus;
@@ -46,7 +47,7 @@ public class ReservationServices {
         int id = body.getReservation().getIdReservation();
         KeyClient key = body.getKeyClient();
 
-        if (clientServices.hasPermissions(key)) {
+        if (clientServices.hasPermissions(key, false)) {
             return repository.getReservationById(id);
         }
 
@@ -55,11 +56,24 @@ public class ReservationServices {
 
 
     public List<Reservation> getAllReservations(KeyClient key) {
-        if (clientServices.hasPermissions(key)) {
+        if (clientServices.hasPermissions(key, false)) {
             return repository.getAll();
         }
         return null;
     }
+
+    public List<Reservation> getMyReservationHistory(KeyClient key) {
+        return repository.getMyReservationHistory(key.getKeyClient());
+    }
+
+    public List<Reservation> getReservationsOfAClient(Client client, KeyClient key) {
+        if (clientServices.hasPermissions(key, true)) {
+            return repository.getAllReservationsOfClientByEmail(client.getEmail());
+        }
+        return null;
+    }
+
+
     // POST
 
 
@@ -70,7 +84,7 @@ public class ReservationServices {
         Reservation reservationToCancel = (repository.getReservationById(reservation.getIdReservation())).get();
         reservationToCancel.setReservationStatus(ReservationStatus.CANCELLED);
 
-        if (clientServices.hasPermissions(key)) {
+        if (clientServices.hasPermissions(key, false)) {
             return cancelTheReservation(reservationToCancel);
         } else if (sameKeyOfWhoBooked(reservationToCancel, key)) {
             return cancelTheReservation(reservationToCancel);
