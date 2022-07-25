@@ -30,14 +30,14 @@ public class ClientServices {
 
     public List<Client> getAllClients(KeyClient keyClient) {
 
-        if (hasPermissions(keyClient)) {
+        if (hasPermissions(keyClient, false)) {
             return metodosCrudClient.getAll();
         }
         return null;
     }
 
     public Optional<Client> getClientByid(int idCar, KeyClient key) {
-        if (hasPermissions(key)) {
+        if (hasPermissions(key, false)) {
             return metodosCrudClient.getClientById(idCar);
         }
         return Optional.empty();
@@ -47,7 +47,7 @@ public class ClientServices {
 
     public Client saveClient(Client client, KeyClient key) {
 
-        if (hasPermissions(key)) {
+        if (hasPermissions(key, false)) {
             if (client.getbirthDate() == null) {
                 return metodosCrudClient.save(client);
             }
@@ -64,7 +64,7 @@ public class ClientServices {
     public Client updateClient(Client client, KeyClient key) {
 
 
-        if (hasPermissions(key)) {
+        if (hasPermissions(key, false)) {
             return update(client);
         }
         return new Client("No fue posible actualizar el cliente");
@@ -73,7 +73,7 @@ public class ClientServices {
     //DELETE
 
     public Boolean deleteClient(int idClient, KeyClient key) {
-        if (hasPermissions(key)) {
+        if (hasPermissions(key, false)) {
             return metodosCrudClient.getClientById(idClient).map(clientGetted -> {
                 metodosCrudClient.delete(clientGetted);
                 return true;
@@ -153,15 +153,20 @@ public class ClientServices {
      * @param toEvaluate
      * @return true if type client is ADMIN or DEVELOPER
      */
-    public Boolean hasPermissions(KeyClient toEvaluate) {
+    public Boolean hasPermissions(KeyClient toEvaluate, Boolean includeSupport) {
         String key = toEvaluate.getKeyClient();
         Optional<Client> clientToEvaluate = clientInterface.getClientByKeyClient(key);
+
+        if (includeSupport) {
+            return true;
+        }
         if (clientToEvaluate.isPresent()) {
-            Client client = clientToEvaluate.get();
-            return (client.getType() == ClientType.ADMIN) ||
-                    (client.getType() == ClientType.DEVELOPER);
+            Client typeClient = clientToEvaluate.get();
+            return (typeClient.getType() == ClientType.ADMIN) ||
+                    (typeClient.getType() == ClientType.DEVELOPER);
         }
         return false;
     }
+
 
 }
