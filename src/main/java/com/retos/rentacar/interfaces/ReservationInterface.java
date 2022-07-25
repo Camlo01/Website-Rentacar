@@ -13,9 +13,10 @@ import java.util.Optional;
 import com.retos.rentacar.modelo.Entity.Reservation.ReservationStatus;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 /**
- * @author USUARIO
+ * @author Camilo
  */
 public interface ReservationInterface extends CrudRepository<Reservation, Integer> {
 
@@ -28,6 +29,12 @@ public interface ReservationInterface extends CrudRepository<Reservation, Intege
     // SELECT clientid, COUNT(*) AS total FROM reservacion group by clientid order by desc;
     @Query("SELECT c.client, COUNT(c.client) from Reservation AS c group by c.client order by COUNT(c.client)DESC")
     List<Object[]> countTotalReservationsByClient();
+
+    @Query(value = "SELECT * FROM CLIENT INNER JOIN RESERVATION ON CLIENT.ID_CLIENT=RESERVATION.ID_CLIENT WHERE CLIENT.KEY_CLIENT LIKE :key", nativeQuery = true)
+    List<Reservation> getAllReservationsByClientKey(String key);
+
+    @Query(value = "SELECT * FROM CLIENT INNER JOIN RESERVATION ON CLIENT.ID_CLIENT=RESERVATION.ID_CLIENT WHERE CLIENT.EMAIL  = ?1", nativeQuery = true)
+    List<Reservation> getAllReservationsByClientEmail(String email);
 
 
 }
