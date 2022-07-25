@@ -37,7 +37,7 @@ public class ReservationWebRepository {
 
     @GetMapping("/my-reservation-history")
     public List<Reservation> getAllMyReservations(@RequestBody KeyClient key) {
-        return null;
+        return services.getMyReservationHistory(key);
     }
 
     //--EMPLOYEES
@@ -49,9 +49,10 @@ public class ReservationWebRepository {
 //        return null;
     }
 
+    // Support
     @GetMapping("/all-reservations-by-client")
     public List<Reservation> getAllReservationsByClient(@RequestBody ClientAndKeyclient body) {
-        return null;
+        return services.getReservationsOfAClient(body.getClient(), body.getKeyClient());
     }
 
 
@@ -66,7 +67,6 @@ public class ReservationWebRepository {
     public Optional<Reservation> getReservationByCode(@RequestBody ReservationAndKeyclient body) {
         return Optional.empty();
     }
-
 
 
     // reports
