@@ -38,6 +38,14 @@ public class ReservationRepository {
     public List<Reservation> getAllReservationsOfClientByEmail(String email) {
         return crudReservation.getAllReservationsByClientEmail(email);
     }
+    public List<Reservation> getActiveClientReservation(KeyClient key){
+        return crudReservation.getActiveClientReservation(key.getKeyClient());
+    }
+
+
+    public Optional<Reservation> getReservationByCode(String code){
+        return crudReservation.findReservationByCode(code);
+    }
 
 
     public Optional<Reservation> getReservation(int id) {
