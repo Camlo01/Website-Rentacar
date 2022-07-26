@@ -30,8 +30,8 @@ public class ReservationWebRepository {
 
     // Client
     @GetMapping("/my-active-reservations")
-    public List<Reservation> getMyReservations(@RequestBody KeyClient keyClient) {
-        return null;
+    public List<Reservation> getMyReservations(@RequestBody KeyClient key) {
+        return services.getActiveReservationsOfAClient(key);
     }
 
 
@@ -46,7 +46,6 @@ public class ReservationWebRepository {
     @GetMapping("/all-reservations")
     public List<Reservation> getAllReservations(@RequestBody KeyClient key) {
         return services.getAllReservations(key);
-//        return null;
     }
 
     // Support
@@ -65,7 +64,7 @@ public class ReservationWebRepository {
 
     @GetMapping("/reservation-by-code")
     public Optional<Reservation> getReservationByCode(@RequestBody ReservationAndKeyclient body) {
-        return Optional.empty();
+        return services.getReservationByCode(body.getReservation(), body.getKeyClient());
     }
 
 
