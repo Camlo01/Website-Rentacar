@@ -26,7 +26,8 @@ public interface ReservationInterface extends CrudRepository<Reservation, Intege
 
     List<Reservation> findAllByStartDateAfterAndStartDateBefore(Date dateOne, Date dateTwo);
 
-    // SELECT clientid, COUNT(*) AS total FROM reservacion group by clientid order by desc;
+    Optional<Reservation> findReservationByCode(String code);
+
     @Query("SELECT c.client, COUNT(c.client) from Reservation AS c group by c.client order by COUNT(c.client)DESC")
     List<Object[]> countTotalReservationsByClient();
 
@@ -35,6 +36,9 @@ public interface ReservationInterface extends CrudRepository<Reservation, Intege
 
     @Query(value = "SELECT * FROM CLIENT INNER JOIN RESERVATION ON CLIENT.ID_CLIENT=RESERVATION.ID_CLIENT WHERE CLIENT.EMAIL  = ?1", nativeQuery = true)
     List<Reservation> getAllReservationsByClientEmail(String email);
+
+    @Query(value = "SELECT * FROM CLIENT INNER JOIN RESERVATION ON CLIENT.ID_CLIENT=RESERVATION.ID_CLIENT WHERE CLIENT.KEY_CLIENT LIKE :key AND RESERVATION_STATUS  = 1", nativeQuery = true)
+    List<Reservation> getActiveClientReservation(String key);
 
 
 }
