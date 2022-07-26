@@ -54,6 +54,10 @@ public class ReservationServices {
         return Optional.empty();
     }
 
+    public List<Reservation> getActiveReservationsOfAClient(KeyClient key){
+        return repository.getActiveClientReservation(key);
+    }
+
 
     public List<Reservation> getAllReservations(KeyClient key) {
         if (clientServices.hasPermissions(key, false)) {
@@ -71,6 +75,10 @@ public class ReservationServices {
             return repository.getAllReservationsOfClientByEmail(client.getEmail());
         }
         return null;
+    }
+
+    public Optional<Reservation> getReservationByCode(Reservation reservation, KeyClient key) {
+        return repository.getReservationByCode(reservation.getCode());
     }
 
 
