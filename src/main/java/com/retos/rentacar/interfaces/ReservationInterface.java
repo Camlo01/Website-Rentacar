@@ -13,12 +13,13 @@ import java.util.Optional;
 import com.retos.rentacar.modelo.Entity.Reservation.ReservationStatus;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 /**
  * @author Camilo
  */
-public interface ReservationInterface extends CrudRepository<Reservation, Integer> {
+public interface ReservationInterface extends PagingAndSortingRepository<Reservation, Integer> {
 
     Optional<Reservation> findReservationByidReservation(int idReservation);
 
@@ -27,6 +28,9 @@ public interface ReservationInterface extends CrudRepository<Reservation, Intege
     List<Reservation> findAllByStartDateAfterAndStartDateBefore(Date dateOne, Date dateTwo);
 
     Optional<Reservation> findReservationByCode(String code);
+
+//    @Query(value = "INSERT INTO RESERVATION (CODE, START_DATE, DEVOLUTION_DATE, ID_CAR, ID_CLIENT) VALUES (?1, ?2, ?3, ?4, ?5 )", nativeQuery = true)
+//    Optional<Reservation> createReservation(String code, Date start_date, Date devolution_date, int idCar, int idClient);
 
     @Query("SELECT c.client, COUNT(c.client) from Reservation AS c group by c.client order by COUNT(c.client)DESC")
     List<Object[]> countTotalReservationsByClient();

@@ -76,8 +76,8 @@ public class ReservationWebRepository {
     // client
     @PostMapping("/reserve-vehicle")
     @ResponseStatus(HttpStatus.CREATED)
-    public Reservation reserveVehicle() {
-        return null;
+    public Reservation reserveVehicle(@RequestBody Reservation reservation) {
+        return services.reservateVehicle(reservation);
     }
 
     // - PUT

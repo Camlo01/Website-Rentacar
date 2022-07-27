@@ -54,7 +54,7 @@ public class ReservationServices {
         return Optional.empty();
     }
 
-    public List<Reservation> getActiveReservationsOfAClient(KeyClient key){
+    public List<Reservation> getActiveReservationsOfAClient(KeyClient key) {
         return repository.getActiveClientReservation(key);
     }
 
@@ -83,6 +83,10 @@ public class ReservationServices {
 
 
     // POST
+
+    public Reservation reservateVehicle(Reservation reservation) {
+        return repository.save(reservation);
+    }
 
 
     // PUT
