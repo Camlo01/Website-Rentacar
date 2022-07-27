@@ -85,7 +85,7 @@ public class ReservationServices {
     // POST
 
     public Reservation reservateVehicle(Reservation reservation) {
-        return repository.save(reservation);
+        return save(reservation);
     }
 
 
