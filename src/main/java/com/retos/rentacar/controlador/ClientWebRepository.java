@@ -64,8 +64,8 @@ public class ClientWebRepository {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Client login(@RequestBody Client clientRecived) {
-        return servicios.login(clientRecived).get();
+    public Client login(@RequestBody Client clientReceived) {
+        return servicios.login(clientReceived).get();
     }
 
 
