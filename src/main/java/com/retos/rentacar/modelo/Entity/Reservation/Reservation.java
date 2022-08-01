@@ -7,23 +7,22 @@ import com.retos.rentacar.modelo.Entity.Client.Client;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "reservation")
 public class Reservation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_reservation")
     private Integer idReservation;
+    @Column(name = "start_date")
     private Date startDate;
+    @Column(name = "devolution_date")
     private Date devolutionDate;
+    @Column(name = "code")
     private String code;
+    @Column(name = "reservation_status", columnDefinition = "ENUM('REQUESTED','ACTIVE','CANCELLED','POSTPONED','DENIED','COMPLETED')")
     private ReservationStatus reservationStatus;
 
     @ManyToOne

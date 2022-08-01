@@ -13,6 +13,7 @@ import com.retos.rentacar.servicios.GamaServices;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -38,15 +39,21 @@ public class Car implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_car")
     private Integer idCar;
+    @Column(name = "name")
     private String name;
+    @Column(name = "brand")
     private String brand;
+    @Column(name = "year")
     private Integer year;
+    @Column(name = "description")
     private String description;
+    @Column(name = "car_status")
     private CarStatus carStatus;
 
     @ManyToOne
-    @JoinColumn(name = "idGama")
+    @JoinColumn(name = "id_gama")
     @JsonIgnoreProperties("cars")
     private Gama gama;
 
@@ -58,10 +65,10 @@ public class Car implements Serializable {
     @JsonIgnoreProperties({ "car", "client" })
     private List<Reservation> reservations;
 
-
     public Car(int idCar) {
         this.idCar = idCar;
     }
+
     public Car(String mensaje) {
         this.name = mensaje;
     }

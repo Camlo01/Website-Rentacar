@@ -20,6 +20,5 @@ public enum ReservationStatus {
     //When the reservation passed successful
     COMPLETED
 
-
 }
 

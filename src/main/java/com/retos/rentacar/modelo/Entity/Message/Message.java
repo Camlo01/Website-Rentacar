@@ -8,29 +8,25 @@ import com.retos.rentacar.modelo.Entity.Client.Client;
 import java.io.Serializable;
 import java.util.Optional;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "message")
 public class Message implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_message")
     private Integer idMessage;
+    @Column(name = "message_text")
     private String messageText;
 
     @ManyToOne
-    @JoinColumn(name = "idCar")
+    @JoinColumn(name = "id_car")
     @JsonIgnoreProperties({ "messages", "client", "reservations" })
     private Car car;
 
     @ManyToOne
-    @JoinColumn(name = "idClient")
+    @JoinColumn(name = "id_client")
     @JsonIgnoreProperties({ "messages", "reservations", "client" })
     private Client client;
 
