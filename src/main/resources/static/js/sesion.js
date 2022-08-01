@@ -209,7 +209,7 @@ function createAccount() {
       birthDate: birthDate,
     };
 
-    fetch("http://localhost:8080/api/Client/save", {
+    fetch(`${URL}/client/save`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -221,7 +221,7 @@ function createAccount() {
             password: password,
             birthDate: birthDate,
           };
-          fetch(`http://localhost:8080/api/Client/login`, {
+          fetch(`${URL}/client/login`, {
             method: "POST",
             body: JSON.stringify(account),
             headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -263,7 +263,7 @@ function logginAccount() {
       password: password,
     };
 
-    fetch(`http://localhost:8080/api/Client/login`, {
+    fetch(`${URL}/client/login`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: { "Content-type": "application/json; charset=UTF-8" },

@@ -20,7 +20,7 @@ function loadVehiclesPageableSection() {
   const size = 8;
   let page = pageByDefect;
   fetch(
-    `http://localhost:8080/api/Car/home_cars/size=${size}page=${page * size}`
+    `${URL}/car/home_cars/size=${size}page=${page * size}`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -50,7 +50,7 @@ function loadVehiclesPageableSection() {
 }
 
 function lastCarAddedBookable() {
-  fetch("http://localhost:8080/api/Car/lastCarAdded")
+  fetch(`${URL}/car/lastCarAdded`)
     .then((response) => response.json())
     .then((car) => {
       let card = `<article class="vehicle-card card-lastCarAdded">`;

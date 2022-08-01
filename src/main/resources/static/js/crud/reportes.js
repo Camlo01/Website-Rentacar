@@ -1,5 +1,5 @@
 function getReportStatus() {
-  fetch("http://localhost:8080/api/Reservation/report-status")
+  fetch(`${URL}/reservation/report-status`)
     .then((response) => response.json())
     .then(function (data) {
       console.log(data);
@@ -9,7 +9,7 @@ function getReportStatus() {
 }
 
 function getReportClients() {
-  fetch("http://localhost:8080/api/Reservation/report-clients")
+  fetch(`${URL}/reservation/report-clients`)
     .then((response) => response.json())
     .then(function (data) {
       console.log(data);
@@ -19,7 +19,7 @@ function getReportClients() {
 }
 
 function getReportDates() {
-  fetch("http://localhost:8080/api/Reservation/report-dates/")
+  fetch(`${URL}/reservation/report-dates/`)
     .then((response) => response.json())
     .then(function (data) {
       console.log(data);
