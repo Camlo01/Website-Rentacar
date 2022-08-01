@@ -83,8 +83,9 @@ public class ReservationWebRepository {
     // - PUT
 
     @PutMapping("/edit-reservation")
-    public Reservation editReservation() {
-        return null;
+    public Reservation editReservation(@RequestBody ReservationAndKeyclient body) {
+
+        return services.editReservation(body.getReservation(), body.getKeyClient());
     }
 
     @PutMapping("/cancel-reservation")
