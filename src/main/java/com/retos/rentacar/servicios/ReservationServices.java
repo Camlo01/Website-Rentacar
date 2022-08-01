@@ -105,6 +105,14 @@ public class ReservationServices {
 
     }
 
+    public Reservation editReservation(Reservation reservation, KeyClient key) {
+
+        if (clientServices.hasPermissions(key, true)) {
+            return update(reservation);
+        }
+        return null;
+    }
+
     // DELETE
 
 
