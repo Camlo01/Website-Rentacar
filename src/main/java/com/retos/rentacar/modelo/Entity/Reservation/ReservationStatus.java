@@ -1,5 +1,9 @@
-package com.retos.rentacar.servicios.modelo.Entity.Reservation;
+package com.retos.rentacar.modelo.Entity.Reservation;
 
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+@JsonFormat(shape = JsonFormat.Shape.STRING)
 public enum ReservationStatus {
 
     //reservation status until a response is received to reserve the vehicle

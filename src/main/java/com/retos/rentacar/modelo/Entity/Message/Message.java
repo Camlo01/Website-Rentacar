@@ -1,10 +1,10 @@
 
-package com.retos.rentacar.servicios.modelo.Entity.Message;
+package com.retos.rentacar.modelo.Entity.Message;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.retos.rentacar.servicios.modelo.Entity.Car.Car;
-import com.retos.rentacar.servicios.modelo.Entity.Client.Client;
+import com.retos.rentacar.modelo.Entity.Car.Car;
+import com.retos.rentacar.modelo.Entity.Client.Client;
 
 import java.io.Serializable;
 import java.util.Optional;
@@ -16,20 +16,20 @@ import javax.persistence.*;
 public class Message implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_message")
+    @Column(name = "id_message",nullable = false)
     private Integer idMessage;
     @Column(name = "message_text")
     private String messageText;
 
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "car_id")
     @JsonIgnoreProperties({ "messages", "client", "reservations" })
     private Car car;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "client_id")
     @JsonIgnoreProperties({ "messages", "reservations", "client" })
     private Client client;

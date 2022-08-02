@@ -1,10 +1,11 @@
 
-package com.retos.rentacar.servicios.modelo.Entity.Client;
+package com.retos.rentacar.modelo.Entity.Client;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import com.retos.rentacar.servicios.modelo.Entity.Message.Message;
-import com.retos.rentacar.servicios.modelo.Entity.Reservation.Reservation;
+import com.retos.rentacar.modelo.Entity.Message.Message;
+import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -25,20 +26,21 @@ public class Client implements Serializable {
     private String password;
     @Column(name = "name")
     private String name;
-    @Column(name = "type", columnDefinition = "ENUM('CLIENT','SUPPORT','ADMIN','DEVELOPER')")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", columnDefinition = "ENUM('BOOKABLE','NOT_AVAILABLE','RESTRICTION','REPAIR')")
     private ClientType type;
-    @Column(name = "key_client")
+    @Column(name = "key_client", unique = true)
     private String keyClient;
     @Column(name = "birth_date")
     private Date birthDate;
 
 
-    @JsonIgnore
+    @JsonIgnoreProperties
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "client")
     private List<Message> messages;
 
 
-    @JsonIgnore
+    @JsonIgnoreProperties
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "client")
     private List<Reservation> reservations;
 
@@ -147,13 +149,6 @@ public class Client implements Serializable {
         return keyClient;
     }
 
-    public Date setbirthDate(Date date) {
-        return birthDate;
-    }
-
-    public Date getbirthDate() {
-        return birthDate;
-    }
 
     public void setKeyClient(String keyClient) {
         this.keyClient = keyClient;
@@ -167,11 +162,12 @@ public class Client implements Serializable {
         this.birthDate = birthDate;
     }
 
+
     public List<Message> getMessages() {
         return messages;
     }
 
-    @JsonSetter
+//    @JsonSetter
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
@@ -180,7 +176,7 @@ public class Client implements Serializable {
         return reservations;
     }
 
-    @JsonSetter
+//    @JsonSetter
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
     }

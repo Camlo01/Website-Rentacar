@@ -1,4 +1,6 @@
-package com.retos.rentacar.servicios.modelo.Entity.Client;
+package com.retos.rentacar.modelo.Entity.Client;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * Permisos por tipo de usuario
@@ -24,6 +26,8 @@ package com.retos.rentacar.servicios.modelo.Entity.Client;
  * 
  * 
  */
+
+@JsonFormat(shape = JsonFormat.Shape.STRING)
 public enum ClientType {
         CLIENT,
         SUPPORT,

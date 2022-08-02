@@ -1,8 +1,8 @@
-package com.retos.rentacar.servicios.modelo.Entity.Gama;
+package com.retos.rentacar.modelo.Entity.Gama;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.retos.rentacar.servicios.modelo.Entity.Car.Car;
+import com.retos.rentacar.modelo.Entity.Car.Car;
 
 import java.io.Serializable;
 import java.util.List;
