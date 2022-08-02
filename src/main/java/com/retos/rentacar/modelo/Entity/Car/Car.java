@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.retos.rentacar.modelo.Entity.Car;
+package com.retos.rentacar.servicios.modelo.Entity.Car;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.retos.rentacar.modelo.Entity.Gama.Gama;
-import com.retos.rentacar.modelo.Entity.Message.Message;
-import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.retos.rentacar.servicios.modelo.Entity.Gama.Gama;
+import com.retos.rentacar.servicios.modelo.Entity.Message.Message;
+import com.retos.rentacar.servicios.modelo.Entity.Reservation.Reservation;
 import com.retos.rentacar.servicios.GamaServices;
 
 import java.io.Serializable;
@@ -52,17 +52,19 @@ public class Car implements Serializable {
     @Column(name = "car_status")
     private CarStatus carStatus;
 
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_gama")
-    @JsonIgnoreProperties("cars")
     private Gama gama;
 
-    @OneToMany(cascade = { CascadeType.PERSIST }, mappedBy = "car")
-    @JsonIgnoreProperties({ "car", "client" })
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "car")
     private List<Message> messages;
 
-    @OneToMany(cascade = { CascadeType.PERSIST }, mappedBy = "car")
-    @JsonIgnoreProperties({ "car", "client" })
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "car")
     private List<Reservation> reservations;
 
     public Car(int idCar) {
@@ -117,7 +119,7 @@ public class Car implements Serializable {
     }
 
     public Car(Integer idCar, String name, String brand, Integer year, String description, Gama gama,
-            List<Message> messages, List<Reservation> reservations) {
+               List<Message> messages, List<Reservation> reservations) {
         this.idCar = idCar;
         this.name = name;
         this.brand = brand;

@@ -1,4 +1,4 @@
-package com.retos.rentacar.modelo.Entity.Car;
+package com.retos.rentacar.servicios.modelo.Entity.Car;
 
 
 public enum CarStatus {

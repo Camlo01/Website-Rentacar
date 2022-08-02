@@ -1,9 +1,10 @@
 
-package com.retos.rentacar.modelo.Entity.Client;
+package com.retos.rentacar.servicios.modelo.Entity.Client;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.retos.rentacar.modelo.Entity.Message.Message;
-import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.retos.rentacar.servicios.modelo.Entity.Message.Message;
+import com.retos.rentacar.servicios.modelo.Entity.Reservation.Reservation;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -24,25 +25,22 @@ public class Client implements Serializable {
     private String password;
     @Column(name = "name")
     private String name;
-
     @Column(name = "type", columnDefinition = "ENUM('CLIENT','SUPPORT','ADMIN','DEVELOPER')")
     private ClientType type;
-
     @Column(name = "key_client")
     private String keyClient;
-
-//    @Temporal(TemporalType.DATE)
     @Column(name = "birth_date")
     private Date birthDate;
 
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "client")
-    @JsonIgnoreProperties("client")
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "client")
     private List<Message> messages;
 
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "client")
-    @JsonIgnoreProperties("client")
-    private List<Reservation> reservations;
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "client")
+    private List<Reservation> reservations;
 
 
     // Constructors
@@ -93,8 +91,7 @@ public class Client implements Serializable {
         this.keyClient = keyClient;
     }
 
-    public Client(Integer idClient, String email, String password, String name, ClientType type, String keyClient,
-            Date birthDate, List<Message> messages, List<Reservation> reservations) {
+    public Client(Integer idClient, String email, String password, String name, ClientType type, String keyClient, Date birthDate, List<Message> messages, List<Reservation> reservations) {
         this.idClient = idClient;
         this.email = email;
         this.password = password;
@@ -158,10 +155,23 @@ public class Client implements Serializable {
         return birthDate;
     }
 
+    public void setKeyClient(String keyClient) {
+        this.keyClient = keyClient;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
     public List<Message> getMessages() {
         return messages;
     }
 
+    @JsonSetter
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
@@ -170,6 +180,7 @@ public class Client implements Serializable {
         return reservations;
     }
 
+    @JsonSetter
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
     }

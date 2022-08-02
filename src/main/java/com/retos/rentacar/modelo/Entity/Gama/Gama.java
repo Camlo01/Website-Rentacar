@@ -1,14 +1,16 @@
-package com.retos.rentacar.modelo.Entity.Gama;
+package com.retos.rentacar.servicios.modelo.Entity.Gama;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.retos.rentacar.modelo.Entity.Car.Car;
+import com.retos.rentacar.servicios.modelo.Entity.Car.Car;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "gama")
-public class Gama {
+public class Gama implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_gama", nullable = false, unique = true)
@@ -18,7 +20,8 @@ public class Gama {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "gama")
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "gama")
     @JsonIgnoreProperties("gama")
     private List<Car> cars;
 
@@ -68,4 +71,6 @@ public class Gama {
         this.description = description;
         this.cars = cars;
     }
+
+
 }

@@ -1,7 +1,7 @@
-package com.retos.rentacar.modelo.DTO;
+package com.retos.rentacar.servicios.modelo.DTO;
 
-import com.retos.rentacar.modelo.Entity.Client.KeyClient;
-import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
+import com.retos.rentacar.servicios.modelo.Entity.Client.KeyClient;
+import com.retos.rentacar.servicios.modelo.Entity.Reservation.Reservation;
 
 public class ReservationAndKeyclient {
 

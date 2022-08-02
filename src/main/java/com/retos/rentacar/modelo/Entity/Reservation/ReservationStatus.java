@@ -1,4 +1,4 @@
-package com.retos.rentacar.modelo.Entity.Reservation;
+package com.retos.rentacar.servicios.modelo.Entity.Reservation;
 
 public enum ReservationStatus {
 
