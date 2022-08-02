@@ -7,7 +7,6 @@ package com.retos.rentacar.servicios;
 import com.retos.rentacar.modelo.Entity.Gama.Gama;
 import com.retos.rentacar.repositorio.GamaRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ public class GamaServices {
     @Autowired
     private GamaRepository metodosCrudGama;
 
-    public List<Gama> getAll() {
+    public Iterable<Gama> getAll() {
         return metodosCrudGama.getAll();
     }
 

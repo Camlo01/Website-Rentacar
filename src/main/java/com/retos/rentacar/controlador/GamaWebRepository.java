@@ -5,7 +5,6 @@ import com.retos.rentacar.modelo.Entity.Gama.Gama;
 import com.retos.rentacar.servicios.GamaServices;
 
 
-import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +30,7 @@ public class GamaWebRepository {
     private GamaServices gamaServices;
 
     @GetMapping("/all")
-    public List<Gama> getGama() {
+    public Iterable<Gama> getGama() {
         return gamaServices.getAll();
     }
 

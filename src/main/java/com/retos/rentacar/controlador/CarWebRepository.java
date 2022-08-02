@@ -2,9 +2,7 @@
 package com.retos.rentacar.controlador;
 
 import com.retos.rentacar.interfaces.CarInterface;
-import com.retos.rentacar.interfaces.ClientInterface;
 import com.retos.rentacar.modelo.Entity.Car.Car;
-import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.modelo.DTO.CarAndKeyclient;
 import com.retos.rentacar.servicios.CarServices;
 
@@ -26,8 +24,6 @@ public class CarWebRepository {
     private CarServices carServices;
     @Autowired
     private CarInterface carInterface;
-    @Autowired
-    private ClientInterface awd;
 
     // --- Peticiones HTTP Fijas
 

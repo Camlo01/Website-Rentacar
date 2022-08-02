@@ -17,8 +17,8 @@ public class GamaRepository {
     @Autowired
     private GamaInterface crudGama;
 
-    public List<Gama> getAll() {
-        return (List<Gama>) crudGama.findAll();
+    public Iterable<Gama> getAll() {
+        return crudGama.findAll();
     }
 
     public Optional<Gama> getGama(int id) {
