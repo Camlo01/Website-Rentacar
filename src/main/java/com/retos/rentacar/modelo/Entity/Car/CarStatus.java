@@ -1,6 +1,8 @@
 package com.retos.rentacar.modelo.Entity.Car;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+@JsonFormat(shape = JsonFormat.Shape.STRING)
 public enum CarStatus {
 
     BOOKABLE,

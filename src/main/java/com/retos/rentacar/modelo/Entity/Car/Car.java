@@ -4,7 +4,7 @@
  */
 package com.retos.rentacar.modelo.Entity.Car;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.retos.rentacar.modelo.Entity.Gama.Gama;
 import com.retos.rentacar.modelo.Entity.Message.Message;
 import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
@@ -12,16 +12,7 @@ import com.retos.rentacar.servicios.GamaServices;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 /**
  * @author cjop1
@@ -38,30 +29,40 @@ public class Car implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_car")
     private Integer idCar;
+    @Column(name = "name")
     private String name;
+    @Column(name = "brand")
     private String brand;
+    @Column(name = "year")
     private Integer year;
+    @Column(name = "description")
     private String description;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "car_status", columnDefinition = "ENUM('CLIENT','SUPPORT','ADMIN','DEVELOPER')")
     private CarStatus carStatus;
 
-    @ManyToOne
-    @JoinColumn(name = "idGama")
-    @JsonIgnoreProperties("cars")
+
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "gama_id")
     private Gama gama;
 
-    @OneToMany(cascade = { CascadeType.PERSIST }, mappedBy = "car")
-    @JsonIgnoreProperties({ "car", "client" })
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "car")
     private List<Message> messages;
 
-    @OneToMany(cascade = { CascadeType.PERSIST }, mappedBy = "car")
-    @JsonIgnoreProperties({ "car", "client" })
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "car")
     private List<Reservation> reservations;
-
 
     public Car(int idCar) {
         this.idCar = idCar;
     }
+
     public Car(String mensaje) {
         this.name = mensaje;
     }
@@ -110,7 +111,7 @@ public class Car implements Serializable {
     }
 
     public Car(Integer idCar, String name, String brand, Integer year, String description, Gama gama,
-            List<Message> messages, List<Reservation> reservations) {
+               List<Message> messages, List<Reservation> reservations) {
         this.idCar = idCar;
         this.name = name;
         this.brand = brand;
