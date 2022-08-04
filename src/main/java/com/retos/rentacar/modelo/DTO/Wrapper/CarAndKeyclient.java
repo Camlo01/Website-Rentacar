@@ -1,4 +1,4 @@
-package com.retos.rentacar.modelo.DTO;
+package com.retos.rentacar.modelo.DTO.Wrapper;
 
 import com.retos.rentacar.modelo.Entity.Car.Car;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
