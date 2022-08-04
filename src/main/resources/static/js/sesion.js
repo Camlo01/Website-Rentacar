@@ -133,7 +133,7 @@ function sesionNavbar() {
     document.getElementById("navbar-text-to-input-sesion").innerHTML =
       buttonAndForm;
   } else if (isLogged) {
-    let button = `<button type="button" class="btn btn-primary navbar--btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Mi cuenta</button>`;
+    let button = `<button type="button" class="btn btn-primary navbar--btn" data-bs-toggle="modal" data-bs-target="#myAccountModal">Mi cuenta</button>`;
 
     let myAccountInfo = `
       <table class="table">
@@ -155,7 +155,7 @@ function sesionNavbar() {
 
       `;
 
-    let modal = ` <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    let modal = ` <div class="modal fade" id="myAccountModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -287,18 +287,16 @@ function logOut() {
   localStorage.clear();
   sesionNavbar();
   welcome();
-  // localStorage.removeItem()
+  location.reload();
 }
 
 function welcome() {
   if (isLogged()) {
-    let nombre = (document.getElementById("wherePrintName").innerHTML =
-      localStorage.getItem("name"));
+    document.getElementById("wherePrintName").innerHTML =
+      localStorage.getItem("name");
   } else {
-    let nombre = (document.getElementById("wherePrintName").innerHTML =
-      "Invitado");
+    document.getElementById("wherePrintName").innerHTML = "Invitado";
   }
-  inputNameRegister;
 }
 
 function loginLogic(data) {
@@ -309,8 +307,10 @@ function loginLogic(data) {
     localStorage.setItem("password", data.password);
     localStorage.setItem("KeyClient", data.keyClient);
     localStorage.setItem("ClientType", data.type);
+
     sesionNavbar();
     welcome();
+    location.reload();
   } else {
     alert("Hubo un problema: " + data.email);
   }
