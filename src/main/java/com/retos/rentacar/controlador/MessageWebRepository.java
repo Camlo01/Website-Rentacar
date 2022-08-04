@@ -39,6 +39,11 @@ public class MessageWebRepository {
         return services.getMessage(idMessage);
     }
 
+    @GetMapping("/forCar={idOfCar}")
+    public List<Message> getMessagesMadeForTheCar(@PathVariable("idOfCar") int idOfCar) {
+        return null;
+    }
+
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public Message save(@RequestBody Message message) {

@@ -3,7 +3,7 @@ package com.retos.rentacar.controlador;
 
 import com.retos.rentacar.interfaces.CarInterface;
 import com.retos.rentacar.modelo.Entity.Car.Car;
-import com.retos.rentacar.modelo.DTO.CarAndKeyclient;
+import com.retos.rentacar.modelo.DTO.Wrapper.CarAndKeyclient;
 import com.retos.rentacar.servicios.CarServices;
 
 import java.util.List;
