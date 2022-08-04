@@ -17,23 +17,14 @@ function selectPageVehicle(whatDo) {
   loadVehiclesPageableSection();
 }
 function loadVehiclesPageableSection() {
+  let isLog = isLogged();
+
   const size = 8;
   let page = pageByDefect;
-  fetch(
-    `${URL}/car/home_cars/size=${size}page=${page * size}`
-  )
+  fetch(`${URL}/car/home_cars/size=${size}page=${page * size}`)
     .then((response) => response.json())
     .then((data) => {
-      // Se inicializa con una tarjeta de prueba
-      // En caso de eliminar la tarjeta de muestra, colocar un nav vacío para que no inserte undefined
-      let allCards = `
-      <article class="vehicle-card">
-          <div class="s-img-vehicle">xxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
-          <p class="vehicle--card-title"><b>Nombre: </b>CARD PRUEBA</p>
-          <p class="vehicle--card-brand"><b>Marca: </b>MARCA PRUEBA</p>
-          <p class="vehicle--card-year"><b>Año: </b>AÑO PRUEBA</p>
-          <p class="vehicle--card-description"><b>Descripción:</b>DESCRIPCIÓN PRUEBA</p>
-      </article>`;
+      let allCards = `<hr>`;
       data.forEach((car) => {
         allCards += `<article class="vehicle-card">`;
         allCards += `  <div class="s-img-vehicle">IMAGEN DEL VEHÍCULO</div>`;
@@ -41,8 +32,43 @@ function loadVehiclesPageableSection() {
         allCards += `  <p class="vehicle--card-brand"><b>Marca: </b>${car.brand}</p>`;
         allCards += `  <p class="vehicle--card-year"><b>Año: </b>${car.year}</p>`;
         allCards += `  <p class="vehicle--card-description"><b>Descripción:</b>${car.description}</p>`;
-        allCards += `<button onclick="reservateVehicle(${car.idCar})">Reservar!</button>`;
-        // allCards += " <button onclick='"+reservateVehicle()+"' >Reservar!</button>;
+        // allCards += `<button onclick="reservateVehicle(${car.idCar})">Reservar!</button>`;
+        if (isLog) {
+          allCards += `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalToReservateCar${
+            car.idCar
+          }">
+                         Launch demo modal
+                      </button>
+
+                    <div class="modal fade" id="modalToReservateCar${
+                      car.idCar
+                    }" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            ${reserveThisVehicle(
+                              car.idCar,
+                              car.name,
+                              car.brand,
+                              car.year,
+                              car.description,
+                              car.gama
+                            )}
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    `;
+        }
+
         allCards += `</article>`;
       });
       document.getElementById("whereToLoadCars").innerHTML = allCards;
@@ -66,7 +92,42 @@ function lastCarAddedBookable() {
 }
 
 function reservateVehicle(idCar) {
-  console.log(idCar)
+  console.log(idCar);
 
-  reservateVehicle
+  reservateVehicle;
+}
+
+function isLogged() {
+  if (localStorage.getItem("logged") == "si") {
+    return true;
+  }
+  return false;
+}
+
+function reserveThisVehicle(id, name, brand, year, description, gama) {
+  return `<div>
+    <h2>Reservando...</h2>
+    <h3>Estás reservando este vehículo</h3>
+
+    <p>Nombre: ${name}</p>
+    <p>Marca: ${brand}</p>
+    <p>Año: ${year}</p>
+    <p>Gama: ${gama}</p>
+    <p>Descripción: ${description}</p>
+
+    <p>Messages: ${commentariesOfThisCarWithID(id)}</p>
+    
+  
+
+
+          </div>`;
+}
+
+
+function commentariesOfThisCarWithID(id){
+
+  fetch()
+
+
+ return`Buen carro` 
 }
