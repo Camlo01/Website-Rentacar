@@ -19,10 +19,10 @@ public class RentacarApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        Logger.info("---------------------------");
-        Logger.info("INICIADO CORRECTAMENTE! :D ");
-        Logger.info("---------------------------");
+    public void run(String... args) {
+        Logger.info("------------------------------");
+        Logger.info("INITIALIZED SUCCESSFULLY! :D  ");
+        Logger.info("------------------------------");
     }
 
 
