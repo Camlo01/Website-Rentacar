@@ -22,16 +22,15 @@ public class Message implements Serializable {
     private String messageText;
 
 
-    @JsonIgnore
+
+//    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "car_id")
-    @JsonIgnoreProperties({ "messages", "client", "reservations" })
     private Car car;
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "client_id")
-    @JsonIgnoreProperties({ "messages", "reservations", "client" })
     private Client client;
 
     public Message() {
