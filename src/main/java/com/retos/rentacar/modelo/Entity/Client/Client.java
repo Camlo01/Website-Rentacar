@@ -35,12 +35,12 @@ public class Client implements Serializable {
     private Date birthDate;
 
 
-    @JsonIgnoreProperties
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "client")
     private List<Message> messages;
 
 
-    @JsonIgnoreProperties
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "client")
     private List<Reservation> reservations;
 
