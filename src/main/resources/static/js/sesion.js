@@ -302,6 +302,7 @@ function welcome() {
 function loginLogic(data) {
   if (!(data.idClient == null)) {
     localStorage.setItem("logged", "si");
+    localStorage.setItem("idClient", data.idClient);
     localStorage.setItem("name", data.name);
     localStorage.setItem("email", data.email);
     localStorage.setItem("password", data.password);
