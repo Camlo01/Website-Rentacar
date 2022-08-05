@@ -5,6 +5,7 @@
 package com.retos.rentacar.modelo.Entity.Car;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.retos.rentacar.modelo.Entity.Gama.Gama;
 import com.retos.rentacar.modelo.Entity.Message.Message;
 import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
@@ -48,6 +49,7 @@ public class Car implements Serializable {
 //    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "gama_id")
+    @JsonIgnoreProperties({ "idGama", "cars" })
     private Gama gama;
 
 
