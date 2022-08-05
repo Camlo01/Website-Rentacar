@@ -27,12 +27,9 @@ public class ClientServices {
     // GET
 
     public List<Client> getAllClients(KeyClient keyClient) {
-        System.out.println("SE ejecuta getAllClients()");
         if (hasPermissions(keyClient, false)) {
-            System.out.println("SE TRAEN TODOS LOS CLIENTES");
              return metodosCrudClient.getAll();
         }
-        System.out.println("NO TIENE PERMISO");
         return null;
     }
 
