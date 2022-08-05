@@ -37,7 +37,7 @@ function loadVehiclesPageableSection() {
           allCards += `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalToReservateCar${
             car.idCar
           }">
-                         Launch demo modal
+                         Reservar!
                       </button>
 
                     <div class="modal fade" id="modalToReservateCar${
@@ -46,22 +46,23 @@ function loadVehiclesPageableSection() {
                       <div class="modal-dialog">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Modal </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
-                            ${reserveThisVehicle(
-                              car.idCar,
-                              car.name,
-                              car.brand,
-                              car.year,
-                              car.description,
-                              car.gama
-                            )}
+                          ${reserveThisVehicle(
+                            car.idCar,
+                            car.name,
+                            car.brand,
+                            car.year,
+                            car.description,
+                            car.gama
+                          )}
+                        
                           </div>
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                          <button type="button" class="btn btn-primary">Reservar</button>
                           </div>
                         </div>
                       </div>
@@ -114,20 +115,29 @@ function reserveThisVehicle(id, name, brand, year, description, gama) {
     <p>Año: ${year}</p>
     <p>Gama: ${gama}</p>
     <p>Descripción: ${description}</p>
+    <label for="start">Inicio:</label>
+    <input id="startDate${id}" type="date" max="2022-12-31">
 
-    <p>Messages: ${commentariesOfThisCarWithID(id)}</p>
+    <label for="end">Entrega:</label>
+    <input id="endDate${id}" type="date" max="2022-08-31">
+    <hr>
+    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="reservateCar(${id},startDate${id},endDate${id})">RESERVAR</button>
+
     
-  
-
 
           </div>`;
 }
 
-
-function commentariesOfThisCarWithID(id){
-
-  fetch()
-
-
- return`Buen carro` 
+function reservateCar(id, start, end) {
+  let data = {
+    startDate: start.value,
+    devolutionDate: end.value,
+    car_id: id,
+    client_id: localStorage.getItem("idClient"),
+  };
+  fetch(`${URL}/reservation/reservate`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  });
 }
