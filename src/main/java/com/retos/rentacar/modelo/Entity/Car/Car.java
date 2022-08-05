@@ -45,7 +45,7 @@ public class Car implements Serializable {
 
 
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "gama_id")
     private Gama gama;
