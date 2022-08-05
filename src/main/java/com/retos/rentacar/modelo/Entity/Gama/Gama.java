@@ -20,7 +20,7 @@ public class Gama implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "gama")
     @JsonIgnoreProperties("gama")
     private List<Car> cars;
