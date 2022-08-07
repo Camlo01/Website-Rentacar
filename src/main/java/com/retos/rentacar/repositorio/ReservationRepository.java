@@ -2,6 +2,7 @@ package com.retos.rentacar.repositorio;
 
 import com.retos.rentacar.interfaces.ClientInterface;
 import com.retos.rentacar.interfaces.ReservationInterface;
+import com.retos.rentacar.modelo.DTO.ReservationDTO;
 import com.retos.rentacar.modelo.Entity.Client.Client;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
@@ -51,6 +52,12 @@ public class ReservationRepository {
     public Optional<Reservation> getReservation(int id) {
         return crudReservation.findById(id);
     }
+
+    public void createReservation(ReservationDTO reservationDTO){
+     crudReservation.createReservation(reservationDTO.getStartDate(), reservationDTO.getDevolutionDate(), reservationDTO.getCode(), reservationDTO.getCar_id(), reservationDTO.getClient_id());
+    }
+
+
 
     public Reservation save(Reservation reservation) {
         return crudReservation.save(reservation);
