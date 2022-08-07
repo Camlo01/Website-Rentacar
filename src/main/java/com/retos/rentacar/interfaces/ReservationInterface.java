@@ -11,12 +11,16 @@ import java.util.List;
 import java.util.Optional;
 
 import com.retos.rentacar.modelo.Entity.Reservation.ReservationStatus;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+
+import javax.transaction.Transactional;
 
 /**
  * @author Camilo
  */
+@Transactional
 public interface ReservationInterface extends PagingAndSortingRepository<Reservation, Integer> {
 
     Optional<Reservation> findReservationByidReservation(int idReservation);
@@ -26,6 +30,12 @@ public interface ReservationInterface extends PagingAndSortingRepository<Reserva
     List<Reservation> findAllByStartDateAfterAndStartDateBefore(Date dateOne, Date dateTwo);
 
     Optional<Reservation> findReservationByCode(String code);
+
+
+    @Modifying
+    @Query(value = "INSERT INTO RESERVATION (START_DATE, DEVOLUTION_DATE,CODE, CAR_ID, CLIENT_ID) VALUES (?1, ?2, ?3, ?4, ?5 )", nativeQuery = true)
+    void createReservation(String startDate,String devolutionDate, String code, int car_id, int client_id);
+
 
 //    @Query(value = "INSERT INTO RESERVATION (CODE, START_DATE, DEVOLUTION_DATE, ID_CAR, ID_CLIENT) VALUES (?1, ?2, ?3, ?4, ?5 )", nativeQuery = true)
 //    Optional<Reservation> createReservation(String code, Date start_date, Date devolution_date, int idCar, int idClient);
