@@ -90,11 +90,6 @@ public class ReservationServices {
     }
 
 
-    public Reservation reservateVehicle(ReservationDTO reservationDTO) {
-
-        return repository.save(new Reservation(reservationDTO));
-    }
-
 
     // PUT
 

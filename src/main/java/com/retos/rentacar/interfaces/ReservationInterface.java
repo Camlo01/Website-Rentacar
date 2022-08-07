@@ -34,11 +34,8 @@ public interface ReservationInterface extends PagingAndSortingRepository<Reserva
 
     @Modifying
     @Query(value = "INSERT INTO RESERVATION (START_DATE, DEVOLUTION_DATE,CODE, CAR_ID, CLIENT_ID) VALUES (?1, ?2, ?3, ?4, ?5 )", nativeQuery = true)
-    void createReservation(String startDate,String devolutionDate, String code, int car_id, int client_id);
+    void createReservation(String startDate, String devolutionDate, String code, int car_id, int client_id);
 
-
-//    @Query(value = "INSERT INTO RESERVATION (CODE, START_DATE, DEVOLUTION_DATE, ID_CAR, ID_CLIENT) VALUES (?1, ?2, ?3, ?4, ?5 )", nativeQuery = true)
-//    Optional<Reservation> createReservation(String code, Date start_date, Date devolution_date, int idCar, int idClient);
 
     @Query("SELECT c.client, COUNT(c.client) from Reservation AS c group by c.client order by COUNT(c.client)DESC")
     List<Object[]> countTotalReservationsByClient();

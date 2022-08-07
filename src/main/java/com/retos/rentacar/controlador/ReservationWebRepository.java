@@ -25,7 +25,7 @@ public class ReservationWebRepository {
     private ReservationServices services;
 
 
-    // --- HTTP Request fixed
+    // --- Requests as CLIENT
 
     // - GET
 
@@ -40,6 +40,16 @@ public class ReservationWebRepository {
     public List<Reservation> getAllMyReservations(@RequestBody KeyClient key) {
         return services.getMyReservationHistory(key);
     }
+
+    @PostMapping("/reserve-vehicle")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void reserveVehicle(@RequestBody ReservationDTO reservationDTO) {
+        services.createReservation(reservationDTO);
+    }
+
+
+    // --- Requests as EMPLOYEES
+
 
     //--EMPLOYEES
 
@@ -72,14 +82,9 @@ public class ReservationWebRepository {
     // reports
 
 
-    // - POST
+    //----------------------------------------------------------------
 
-    // client
-    @PostMapping("/reserve-vehicle")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void reserveVehicle(@RequestBody ReservationDTO reservation) {
-        services.createReservation(reservation);
-    }
+    // - POST
 
     // - PUT
 
@@ -97,7 +102,7 @@ public class ReservationWebRepository {
     // - DELETE
 
 
-    // RESOURCES
+    //----------------------RESOURCES
 
     @GetMapping("/report-dates/{dateOne}/{dateTwo}")
     public List<Reservation> getReservasTiempo(@PathVariable("dateOne") String dateOne,

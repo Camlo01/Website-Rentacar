@@ -39,25 +39,23 @@ public class ReservationRepository {
     public List<Reservation> getAllReservationsOfClientByEmail(String email) {
         return crudReservation.getAllReservationsByClientEmail(email);
     }
-    public List<Reservation> getActiveClientReservation(KeyClient key){
+
+    public List<Reservation> getActiveClientReservation(KeyClient key) {
         return crudReservation.getActiveClientReservation(key.getKeyClient());
     }
 
 
-    public Optional<Reservation> getReservationByCode(String code){
+    public Optional<Reservation> getReservationByCode(String code) {
         return crudReservation.findReservationByCode(code);
     }
-
 
     public Optional<Reservation> getReservation(int id) {
         return crudReservation.findById(id);
     }
 
-    public void createReservation(ReservationDTO reservationDTO){
-     crudReservation.createReservation(reservationDTO.getStartDate(), reservationDTO.getDevolutionDate(), reservationDTO.getCode(), reservationDTO.getCar_id(), reservationDTO.getClient_id());
+    public void createReservation(ReservationDTO reservationDTO) {
+        crudReservation.createReservation(reservationDTO.getStartDate(), reservationDTO.getDevolutionDate(), reservationDTO.getCode(), reservationDTO.getCar_id(), reservationDTO.getClient_id());
     }
-
-
 
     public Reservation save(Reservation reservation) {
         return crudReservation.save(reservation);
