@@ -135,7 +135,7 @@ function reservateCar(id, start, end) {
     car_id: id,
     client_id: localStorage.getItem("idClient"),
   };
-  fetch(`${URL}/reservation/reservate`, {
+  fetch(`${URL}/reservation/reserve-vehicle`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: { "Content-type": "application/json; charset=UTF-8" },
