@@ -1,6 +1,7 @@
 
 package com.retos.rentacar.servicios;
 
+import com.retos.rentacar.modelo.DTO.ReservationDTO;
 import com.retos.rentacar.modelo.DTO.Wrapper.ReservationAndKeyclient;
 import com.retos.rentacar.modelo.Entity.Client.Client;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
@@ -84,8 +85,14 @@ public class ReservationServices {
 
     // POST
 
-    public Reservation reservateVehicle(Reservation reservation) {
-        return save(reservation);
+    public void createReservation(ReservationDTO reservationDTO){
+        repository.createReservation(reservationDTO);
+    }
+
+
+    public Reservation reservateVehicle(ReservationDTO reservationDTO) {
+
+        return repository.save(new Reservation(reservationDTO));
     }
 
 
