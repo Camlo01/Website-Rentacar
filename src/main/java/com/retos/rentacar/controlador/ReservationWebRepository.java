@@ -1,6 +1,7 @@
 
 package com.retos.rentacar.controlador;
 
+import com.retos.rentacar.modelo.DTO.ReservationDTO;
 import com.retos.rentacar.modelo.DTO.Wrapper.ClientAndKeyclient;
 import com.retos.rentacar.modelo.DTO.Wrapper.ReservationAndKeyclient;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
@@ -76,8 +77,8 @@ public class ReservationWebRepository {
     // client
     @PostMapping("/reserve-vehicle")
     @ResponseStatus(HttpStatus.CREATED)
-    public Reservation reserveVehicle(@RequestBody Reservation reservation) {
-        return services.reservateVehicle(reservation);
+    public void reserveVehicle(@RequestBody ReservationDTO reservation) {
+        services.createReservation(reservation);
     }
 
     // - PUT
