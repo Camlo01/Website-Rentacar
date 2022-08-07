@@ -2,6 +2,7 @@
 package com.retos.rentacar.modelo.Entity.Reservation;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.retos.rentacar.modelo.DTO.ReservationDTO;
 import com.retos.rentacar.modelo.Entity.Car.Car;
 import com.retos.rentacar.modelo.Entity.Client.Client;
 
@@ -39,6 +40,14 @@ public class Reservation implements Serializable {
 
 
     public Reservation() {
+    }
+
+    public Reservation(ReservationDTO reservationDTO) {
+        this.startDate = java.sql.Date.valueOf(reservationDTO.getStartDate());
+        this.devolutionDate = java.sql.Date.valueOf(reservationDTO.getDevolutionDate());
+        this.code = reservationDTO.getCode();
+        this.car = new Car(reservationDTO.getCar_id());
+        this.client = new Client(reservationDTO.getClient_id());
     }
 
     public Reservation(String code) {
