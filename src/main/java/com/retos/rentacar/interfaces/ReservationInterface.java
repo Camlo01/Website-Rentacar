@@ -14,6 +14,7 @@ import com.retos.rentacar.modelo.Entity.Reservation.ReservationStatus;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 
@@ -36,6 +37,14 @@ public interface ReservationInterface extends PagingAndSortingRepository<Reserva
     @Query(value = "INSERT INTO RESERVATION (START_DATE, DEVOLUTION_DATE,CODE, CAR_ID, CLIENT_ID) VALUES (?1, ?2, ?3, ?4, ?5 )", nativeQuery = true)
     void createReservation(String startDate, String devolutionDate, String code, int car_id, int client_id);
 
+
+    @Query(value = "SELECT * FROM reservation WHERE start_date <= :reservationsIn AND devolution_date >= :reservationsIn AND reservation_status = 'ACTIVE'", nativeQuery = true)
+    List<Reservation> getReservationsActiveIn(@Param("reservationsIn") Date reservationsIn);
+
+
+    @Query(value = "SELECT * FROM reservation WHERE start_date >= :minDate AND devolution_date <= :maxDate", nativeQuery = true)
+    List<Reservation> getReservationBetweenDates(@Param("minDate") Date dateMin,
+                                                 @Param("maxDate") Date maxDate);
 
     @Query("SELECT c.client, COUNT(c.client) from Reservation AS c group by c.client order by COUNT(c.client)DESC")
     List<Object[]> countTotalReservationsByClient();
