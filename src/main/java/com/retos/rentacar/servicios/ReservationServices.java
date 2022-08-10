@@ -6,6 +6,7 @@ import com.retos.rentacar.modelo.DTO.Wrapper.ReservationAndKeyclient;
 import com.retos.rentacar.modelo.Entity.Client.Client;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
+import com.retos.rentacar.modelo.Entity.Reservation.ReservationCode;
 import com.retos.rentacar.modelo.Entity.Reservation.ReservationStatus;
 import com.retos.rentacar.repositorio.CountClients;
 import com.retos.rentacar.repositorio.ReservationRepository;
@@ -98,8 +99,17 @@ public class ReservationServices {
 
     // POST
 
-    public void createReservation(ReservationDTO reservationDTO) {
-        repository.createReservation(reservationDTO);
+    public boolean createReservation(ReservationDTO reservationDTO) {
+        int idCar = reservationDTO.getCar_id();
+        String startDate = reservationDTO.getStartDate();
+        String endDate = reservationDTO.getDevolutionDate();
+        if (isAvailableToReserve(idCar, startDate, endDate)) {
+            reservationDTO.setCode(new ReservationCode().generateReservationCode());
+            repository.createReservation(reservationDTO);
+            return true;
+        }
+        return false;
+
     }
 
 
@@ -141,6 +151,14 @@ public class ReservationServices {
         String key = keyOfWhoBooked.getKeyClient();
         return key.equals(toCompare);
     }
+
+    private Boolean isAvailableToReserve(int idCar, String start, String end) {
+        Date startDate = java.sql.Date.valueOf(start);
+        Date endDate = java.sql.Date.valueOf(end);
+        return repository.isCarAvailableToReserve(idCar, startDate, endDate);
+    }
+
+    ;
 
     //-------
     public List<Reservation> getAll() {
