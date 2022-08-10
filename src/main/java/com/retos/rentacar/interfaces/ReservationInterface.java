@@ -34,9 +34,14 @@ public interface ReservationInterface extends PagingAndSortingRepository<Reserva
 
 
     @Modifying
-    @Query(value = "INSERT INTO RESERVATION (START_DATE, DEVOLUTION_DATE,CODE, CAR_ID, CLIENT_ID) VALUES (?1, ?2, ?3, ?4, ?5 )", nativeQuery = true)
+    @Query(value = "INSERT INTO RESERVATION (START_DATE, DEVOLUTION_DATE,CODE, CAR_ID, CLIENT_ID, reservation_status) VALUES (?1, ?2, ?3, ?4, ?5, 'ACTIVE')", nativeQuery = true)
     void createReservation(String startDate, String devolutionDate, String code, int car_id, int client_id);
 
+    //Validate if the car is available for this dates
+    @Query(value = "SELECT * FROM reservation WHERE car_id = :carToReserve AND DEVOLUTION_DATE >= :startDate AND START_DATE <= :endDate", nativeQuery = true)
+    List<Reservation> isAvailableCarIn(@Param("carToReserve") int idCar,
+                                       @Param("startDate") Date start,
+                                       @Param("endDate") Date end);
 
     @Query(value = "SELECT * FROM reservation WHERE start_date <= :reservationsIn AND devolution_date >= :reservationsIn AND reservation_status = 'ACTIVE'", nativeQuery = true)
     List<Reservation> getReservationsActiveIn(@Param("reservationsIn") Date reservationsIn);
@@ -44,7 +49,7 @@ public interface ReservationInterface extends PagingAndSortingRepository<Reserva
 
     @Query(value = "SELECT * FROM reservation WHERE start_date >= :minDate AND devolution_date <= :maxDate", nativeQuery = true)
     List<Reservation> getReservationsBetweenDates(@Param("minDate") Date dateMin,
-                                                 @Param("maxDate") Date maxDate);
+                                                  @Param("maxDate") Date maxDate);
 
     @Query("SELECT c.client, COUNT(c.client) from Reservation AS c group by c.client order by COUNT(c.client)DESC")
     List<Object[]> countTotalReservationsByClient();
