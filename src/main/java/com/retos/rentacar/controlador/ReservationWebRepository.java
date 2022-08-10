@@ -14,6 +14,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -42,9 +43,12 @@ public class ReservationWebRepository {
     }
 
     @PostMapping("/reserve-vehicle")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void reserveVehicle(@RequestBody ReservationDTO reservationDTO) {
-        services.createReservation(reservationDTO);
+    public ResponseEntity<String> reserveVehicle(@RequestBody ReservationDTO reservationDTO) {
+        if (services.createReservation(reservationDTO)) {
+            return new ResponseEntity<>("response", HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("response", HttpStatus.METHOD_NOT_ALLOWED);
+        }
     }
 
 
