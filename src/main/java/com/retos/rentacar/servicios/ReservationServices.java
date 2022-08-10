@@ -82,13 +82,25 @@ public class ReservationServices {
         return repository.getReservationByCode(reservation.getCode());
     }
 
+    public List<Reservation> reservationsActiveIn(String toConsult, KeyClient keyClient) {
+        if (clientServices.hasPermissions(keyClient, false)) {
+            return repository.getReservationsActiveIn(java.sql.Date.valueOf(toConsult));
+        }
+        return null;
+    }
+
+    public List<Reservation> reservationBetweenDates(String minDate, String maxDate, KeyClient key) {
+        if (clientServices.hasPermissions(key, false)) {
+            return repository.getReservationBetweenDates(java.sql.Date.valueOf(minDate), java.sql.Date.valueOf(maxDate));
+        }
+        return null;
+    }
 
     // POST
 
-    public void createReservation(ReservationDTO reservationDTO){
+    public void createReservation(ReservationDTO reservationDTO) {
         repository.createReservation(reservationDTO);
     }
-
 
 
     // PUT
