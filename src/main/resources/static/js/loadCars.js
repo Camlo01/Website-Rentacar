@@ -56,7 +56,7 @@ function loadVehiclesPageableSection() {
                             car.brand,
                             car.year,
                             car.description,
-                            car.gama
+                            car.gama.name
                           )}
                         
                           </div>
@@ -116,10 +116,10 @@ function reserveThisVehicle(id, name, brand, year, description, gama) {
     <p>Gama: ${gama}</p>
     <p>Descripción: ${description}</p>
     <label for="start">Inicio:</label>
-    <input id="startDate${id}" type="date" max="2022-12-31">
+    <input id="startDate${id}" type="date" max="">
 
     <label for="end">Entrega:</label>
-    <input id="endDate${id}" type="date" max="2022-08-31">
+    <input id="endDate${id}" type="date" max="">
     <hr>
     <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="reservateCar(${id},startDate${id},endDate${id})">RESERVAR</button>
 
@@ -129,6 +129,7 @@ function reserveThisVehicle(id, name, brand, year, description, gama) {
 }
 
 function reservateCar(id, start, end) {
+
   let data = {
     startDate: start.value,
     devolutionDate: end.value,
@@ -139,5 +140,7 @@ function reservateCar(id, start, end) {
     method: "POST",
     body: JSON.stringify(data),
     headers: { "Content-type": "application/json; charset=UTF-8" },
+  }).then((response) => {
+    console.log(response);
   });
 }
