@@ -45,11 +45,11 @@ public class ReservationRepository {
         return crudReservation.getActiveClientReservation(key.getKeyClient());
     }
 
-    public List<Reservation> getReservationsActiveIn(Date dateToConsult){
+    public List<Reservation> getReservationsActiveIn(Date dateToConsult) {
         return crudReservation.getReservationsActiveIn(dateToConsult);
     }
 
-    public List<Reservation> getReservationsBetweenDates(Date minDate, Date maxDate){
+    public List<Reservation> getReservationsBetweenDates(Date minDate, Date maxDate) {
         return crudReservation.getReservationsBetweenDates(minDate, maxDate);
     }
 
@@ -61,6 +61,12 @@ public class ReservationRepository {
     public Optional<Reservation> getReservation(int id) {
         return crudReservation.findById(id);
     }
+
+    public Boolean isCarAvailableToReserve(int idCar, Date start, Date end) {
+        List<Reservation> carReserved = crudReservation.isAvailableCarIn(idCar, start, end);
+        return carReserved.isEmpty();
+    }
+
 
     public void createReservation(ReservationDTO reservationDTO) {
         crudReservation.createReservation(reservationDTO.getStartDate(), reservationDTO.getDevolutionDate(), reservationDTO.getCode(), reservationDTO.getCar_id(), reservationDTO.getClient_id());
