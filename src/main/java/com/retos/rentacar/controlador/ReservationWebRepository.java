@@ -65,10 +65,16 @@ public class ReservationWebRepository {
         return services.getReservationsOfAClient(body.getClient(), body.getKeyClient());
     }
 
-    @GetMapping("/reservations/between={minDate}/and={maxDate}")
+    @GetMapping("/activesIn={dateReservationsActive}")
+    public List<Reservation> getReservationsActiveInTheDate(@PathVariable("dateReservationsActive") String dateToConsult,
+                                                            @RequestBody KeyClient key) {
+        return services.reservationsActiveIn(dateToConsult, key);
+    }
+
+    @GetMapping("/between={minDate}/and={maxDate}")
     public List<Reservation> getReservationsBetweenOneAndTwo(@PathVariable("minDate") String minDate, @PathVariable("maxDate") String maxDate,
-                                                             @RequestBody KeyClient key){
-        return null;
+                                                             @RequestBody KeyClient key) {
+        return services.reservationBetweenDates(minDate, maxDate, key);
     }
 
 
