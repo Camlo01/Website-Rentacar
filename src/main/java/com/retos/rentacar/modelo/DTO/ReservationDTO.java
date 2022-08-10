@@ -63,4 +63,8 @@ public class ReservationDTO {
     public void setClient_id(int client_id) {
         this.client_id = client_id;
     }
+
+    public boolean isNull(){
+        return code == null;
+    }
 }
