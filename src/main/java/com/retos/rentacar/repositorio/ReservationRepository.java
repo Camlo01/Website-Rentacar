@@ -24,6 +24,7 @@ public class ReservationRepository {
     @Autowired
     private ClientInterface clientInterface;
 
+
     public Optional<Reservation> getReservationById(int id) {
         return crudReservation.findReservationByidReservation(id);
     }
@@ -42,6 +43,14 @@ public class ReservationRepository {
 
     public List<Reservation> getActiveClientReservation(KeyClient key) {
         return crudReservation.getActiveClientReservation(key.getKeyClient());
+    }
+
+    public List<Reservation> getReservationsActiveIn(Date dateToConsult){
+        return crudReservation.getReservationsActiveIn(dateToConsult);
+    }
+
+    public List<Reservation> getReservationBetweenDates(Date minDate, Date maxDate){
+        return crudReservation.getReservationBetweenDates(minDate, maxDate);
     }
 
 
