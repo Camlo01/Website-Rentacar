@@ -49,8 +49,8 @@ public class ReservationRepository {
         return crudReservation.getReservationsActiveIn(dateToConsult);
     }
 
-    public List<Reservation> getReservationBetweenDates(Date minDate, Date maxDate){
-        return crudReservation.getReservationBetweenDates(minDate, maxDate);
+    public List<Reservation> getReservationsBetweenDates(Date minDate, Date maxDate){
+        return crudReservation.getReservationsBetweenDates(minDate, maxDate);
     }
 
 

@@ -89,9 +89,9 @@ public class ReservationServices {
         return null;
     }
 
-    public List<Reservation> reservationBetweenDates(String minDate, String maxDate, KeyClient key) {
+    public List<Reservation> reservationsBetweenDates(String minDate, String maxDate, KeyClient key) {
         if (clientServices.hasPermissions(key, false)) {
-            return repository.getReservationBetweenDates(java.sql.Date.valueOf(minDate), java.sql.Date.valueOf(maxDate));
+            return repository.getReservationsBetweenDates(java.sql.Date.valueOf(minDate), java.sql.Date.valueOf(maxDate));
         }
         return null;
     }

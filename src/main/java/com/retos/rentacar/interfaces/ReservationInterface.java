@@ -43,7 +43,7 @@ public interface ReservationInterface extends PagingAndSortingRepository<Reserva
 
 
     @Query(value = "SELECT * FROM reservation WHERE start_date >= :minDate AND devolution_date <= :maxDate", nativeQuery = true)
-    List<Reservation> getReservationBetweenDates(@Param("minDate") Date dateMin,
+    List<Reservation> getReservationsBetweenDates(@Param("minDate") Date dateMin,
                                                  @Param("maxDate") Date maxDate);
 
     @Query("SELECT c.client, COUNT(c.client) from Reservation AS c group by c.client order by COUNT(c.client)DESC")

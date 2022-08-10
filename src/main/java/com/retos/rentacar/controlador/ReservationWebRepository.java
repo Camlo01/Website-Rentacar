@@ -74,7 +74,7 @@ public class ReservationWebRepository {
     @GetMapping("/between={minDate}/and={maxDate}")
     public List<Reservation> getReservationsBetweenOneAndTwo(@PathVariable("minDate") String minDate, @PathVariable("maxDate") String maxDate,
                                                              @RequestBody KeyClient key) {
-        return services.reservationBetweenDates(minDate, maxDate, key);
+        return services.reservationsBetweenDates(minDate, maxDate, key);
     }
 
 
