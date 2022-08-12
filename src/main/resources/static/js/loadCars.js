@@ -123,13 +123,10 @@ function reserveThisVehicle(id, name, brand, year, description, gama) {
     <hr>
     <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="reservateCar(${id},startDate${id},endDate${id})">RESERVAR</button>
 
-    
-
           </div>`;
 }
 
 function reservateCar(id, start, end) {
-
   let data = {
     startDate: start.value,
     devolutionDate: end.value,
@@ -141,6 +138,12 @@ function reservateCar(id, start, end) {
     body: JSON.stringify(data),
     headers: { "Content-type": "application/json; charset=UTF-8" },
   }).then((response) => {
-    console.log(response);
+    if (response.status == 405) {
+      alert("No puedes reservar el vehículo para esa fecha");
+    } else if (response.status == 200) {
+      alert("Tu vehículo fue reservado exitosamente");
+    } else {
+      alert("Ocurrió un error");
+    }
   });
 }
