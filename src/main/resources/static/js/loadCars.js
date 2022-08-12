@@ -3,6 +3,7 @@
  */
 
 let pageByDefect = 0;
+var today = todaysDate();
 
 function selectPageVehicle(whatDo) {
   if (whatDo == "INCREMENT") {
@@ -116,17 +117,23 @@ function reserveThisVehicle(id, name, brand, year, description, gama) {
     <p>Gama: ${gama}</p>
     <p>Descripción: ${description}</p>
     <label for="start">Inicio:</label>
-    <input id="startDate${id}" type="date" max="">
+    <input id="startDate${id}" type="date" value="${today}">
 
     <label for="end">Entrega:</label>
-    <input id="endDate${id}" type="date" max="">
+    <input id="endDate${id}" type="date"  value="${today}" >
     <hr>
     <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="reservateCar(${id},startDate${id},endDate${id})">RESERVAR</button>
-
           </div>`;
 }
 
 function reservateCar(id, start, end) {
+  let date1awd = new Date(start.value);
+  let date2awd = new Date(end.value);
+
+  time_difference = differenceBetweenDates(date1awd, date2awd);
+
+  console.log(time_difference);
+
   let data = {
     startDate: start.value,
     devolutionDate: end.value,
@@ -139,11 +146,39 @@ function reservateCar(id, start, end) {
     headers: { "Content-type": "application/json; charset=UTF-8" },
   }).then((response) => {
     if (response.status == 405) {
-      alert("No puedes reservar el vehículo para esa fecha");
-    } else if (response.status == 200) {
+      alert("No disponible, reserva para otra fecha u otro vehículo");
+    } else if (response.status == 201) {
       alert("Tu vehículo fue reservado exitosamente");
     } else {
+      console.log(response);
       alert("Ocurrió un error");
     }
   });
+}
+
+function todaysDate() {
+  let todayRaw = new Date();
+  todayRaw.toISOString().split("T")[0];
+  let year = todayRaw.getFullYear();
+  let month = parseInt(todayRaw.getMonth() + 1);
+  let day = parseInt(todayRaw.getDate());
+  if (month < 10) {
+    return (today = `${year}-0${month}-${day}`);
+  }
+  return (today = `${year}-${month}-${day}`);
+}
+
+function differenceBetweenDates(date1, date2) {
+  const date1utc = Date.UTC(
+    date1.getFullYear(),
+    date1.getMonth(),
+    date1.getDate()
+  );
+  const date2utc = Date.UTC(
+    date2.getFullYear(),
+    date2.getMonth(),
+    date2.getDate()
+  );
+  day = 1000 * 60 * 60 * 24;
+  return (date2utc - date1utc) / day;
 }
