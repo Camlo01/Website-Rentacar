@@ -51,8 +51,14 @@ public class ReservationWebRepository {
         }
     }
 
+    @PostMapping("/whenCanBeReserveThisVehicle")
+    public List<Reservation> datesBetweenYourReservation(@RequestBody ReservationDTO reservationDTO) {
+        return services.datesBetweenYourReservation(reservationDTO);
+    }
+
 
     // --- Requests as EMPLOYEES
+    // --- Requests as EMPLOYEESse
 
 
     //--EMPLOYEES
