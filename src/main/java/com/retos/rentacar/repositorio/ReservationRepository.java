@@ -24,6 +24,13 @@ public class ReservationRepository {
     @Autowired
     private ClientInterface clientInterface;
 
+    public Optional<Reservation> previousReservation(int carId, String endDate){
+        return crudReservation.getPreviousReservationOfCarForThisDate(carId, java.sql.Date.valueOf(endDate));
+    }
+    public Optional<Reservation> nextReservation(int carId, String endDate){
+        return crudReservation.getNextReservationOfCarAfterThisDate(carId, java.sql.Date.valueOf(endDate));
+    }
+
 
     public Optional<Reservation> getReservationById(int id) {
         return crudReservation.findReservationByidReservation(id);
