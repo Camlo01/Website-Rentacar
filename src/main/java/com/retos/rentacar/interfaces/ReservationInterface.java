@@ -108,6 +108,25 @@ public interface ReservationInterface extends PagingAndSortingRepository<Reserva
     @Query(value = "SELECT * FROM CLIENT INNER JOIN RESERVATION ON CLIENT.ID_CLIENT=RESERVATION.ID_CLIENT WHERE CLIENT.KEY_CLIENT LIKE :key AND RESERVATION_STATUS  = 1", nativeQuery = true)
     List<Reservation> getActiveClientReservation(String key);
 
+    /**
+     * Last reservation made accord to the start date of you reservation
+     *
+     * @param carId     of car to try to reserve
+     * @param endOfDate of the reservation that was attempted to be made
+     * @return the reservation earlier than you tried
+     */
+    @Query(value = "SELECT * FROM reservation WHERE car_id = :carId AND start_date < :endDate ORDER BY devolution_date DESC LIMIT 1", nativeQuery = true)
+    Optional<Reservation> getPreviousReservationOfCarForThisDate(@Param("carId") int carId,
+                                                                 @Param("endDate") Date endOfDate);
+
+    /**
+     * @param carId   of car to try to reserve
+     * @param endDate of the reservation that was attempted to be made
+     * @return the next reservation of yours if it exists
+     */
+    @Query(value = "SELECT * FROM reservation WHERE car_id = :carId AND start_date > :endDate AND devolution_date > :endDate ORDER BY start_date LIMIT 1;", nativeQuery = true)
+    Optional<Reservation> getNextReservationOfCarAfterThisDate(@Param("carId") int carId,
+                                                               @Param("endDate") Date endDate);
 
     //------------------------------ QUERIES UNUSED
 
