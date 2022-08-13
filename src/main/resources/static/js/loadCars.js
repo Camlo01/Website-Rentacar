@@ -117,45 +117,61 @@ function reserveThisVehicle(id, name, brand, year, description, gama) {
     <p>Gama: ${gama}</p>
     <p>Descripción: ${description}</p>
     <label for="start">Inicio:</label>
-    <input id="startDate${id}" type="date" value="${today}">
+    <input id="startDate${id}" type="date" value="${today}" min="${today}">
 
     <label for="end">Entrega:</label>
-    <input id="endDate${id}" type="date"  value="${today}" >
+    <input id="endDate${id}" type="date"  value="${today}" min="${today}">
     <hr>
     <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="reservateCar(${id},startDate${id},endDate${id})">RESERVAR</button>
           </div>`;
 }
 
 function reservateCar(id, start, end) {
-  let date1awd = new Date(start.value);
-  let date2awd = new Date(end.value);
-
-  time_difference = differenceBetweenDates(date1awd, date2awd);
-
-  console.log(time_difference);
-
   let data = {
     startDate: start.value,
     devolutionDate: end.value,
     car_id: id,
     client_id: localStorage.getItem("idClient"),
   };
-  fetch(`${URL}/reservation/reserve-vehicle`, {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-type": "application/json; charset=UTF-8" },
-  }).then((response) => {
+
+  const reserveVehicle = new Promise(function (resolve, reject) {
+    fetch(`${URL}/reservation/reserve-vehicle`, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: { "Content-type": "application/json; charset=UTF-8" },
+    })
+      .then((response) => {
+        console.log(response);
+        resolve(response.status);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
+  reserveVehicle.then((status) => {
+    console.log("Muy bien");
+    console.log(`status fue ${status.status}`);
+    console.log("se ejecuta el then suelto");
     if (response.status == 405) {
-      alert("No disponible, reserva para otra fecha u otro vehículo");
-    } else if (response.status == 201) {
-      alert("Tu vehículo fue reservado exitosamente");
+      fetch(`${URL}/reservation/whenCanBeReserveThisVehicle`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+      })
+        .then((response2) => {
+          response2.json();
+        })
+        .then((data2) => {
+          console.log(data2.reservation.idReservation);
+        });
+    } else if (response.status == 200) {
+      alert("reservado");
     } else {
-      console.log(response);
-      alert("Ocurrió un error");
+      alert("AAA");
     }
   });
 }
-
 function todaysDate() {
   let todayRaw = new Date();
   todayRaw.toISOString().split("T")[0];
