@@ -137,6 +137,17 @@ public class ReservationServices {
         return null;
     }
 
+    public List<Reservation> datesBetweenYourReservation(ReservationDTO reservationDTO) {
+        ArrayList<Reservation> reservations = new ArrayList<>();
+
+        Reservation previous = repository.previousReservation(reservationDTO.getCar_id(), reservationDTO.getDevolutionDate()).get();
+        Reservation next = repository.nextReservation(reservationDTO.getCar_id(), reservationDTO.getDevolutionDate()).get();
+
+        reservations.add(previous);
+        reservations.add(next);
+        return reservations;
+    }
+
     // DELETE
 
 
