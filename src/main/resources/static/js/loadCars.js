@@ -13,13 +13,13 @@ function selectPageVehicle(whatDo) {
   }
   if (pageByDefect < 0) {
     pageByDefect = 0;
+  } else if (pageByDefect > 2) {
+    pageByDefect = 2;
   }
   console.log(pageByDefect);
   loadVehiclesPageableSection();
 }
 function loadVehiclesPageableSection() {
-  let isLog = isLogged();
-
   const size = 8;
   let page = pageByDefect;
   fetch(`${URL}/car/home_cars/size=${size}page=${page * size}`)
@@ -34,7 +34,7 @@ function loadVehiclesPageableSection() {
         allCards += `  <p class="vehicle--card-year"><b>Año: </b>${car.year}</p>`;
         allCards += `  <p class="vehicle--card-description"><b>Descripción:</b>${car.description}</p>`;
         // allCards += `<button onclick="reservateVehicle(${car.idCar})">Reservar!</button>`;
-        if (isLog) {
+        if (isLogged()) {
           allCards += `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalToReservateCar${
             car.idCar
           }">
