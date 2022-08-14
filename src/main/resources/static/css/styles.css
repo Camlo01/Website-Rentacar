@@ -178,6 +178,7 @@ main {
 }
 
 .vehicle-container-cards {
+    min-height: 378px;
     display: flex;
     overflow-x: scroll;
     overscroll-behavior-x: contain;
