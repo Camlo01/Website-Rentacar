@@ -87,7 +87,7 @@ public interface ReservationInterface extends PagingAndSortingRepository<Reserva
      * @param key of client
      * @return List of reservations
      */
-    @Query(value = "SELECT * FROM CLIENT INNER JOIN RESERVATION ON CLIENT.ID_CLIENT=RESERVATION.ID_CLIENT WHERE CLIENT.KEY_CLIENT LIKE :key", nativeQuery = true)
+    @Query(value = "SELECT * FROM reservation INNER JOIN Client ON client.id_client=reservation.client_id WHERE client.key_client LIKE :key", nativeQuery = true)
     List<Reservation> getAllReservationsByClientKey(String key);
 
     /**
