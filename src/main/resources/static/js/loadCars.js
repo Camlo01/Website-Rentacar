@@ -146,9 +146,8 @@ function reservateCar(id, start, end) {
       })
       .catch((err) => {
         console.log(err);
+        reject("Hubo un problema al comunicar con el servidor");
       });
-
-    reject("Hubo un problema al comunicar con el servidor");
   });
 
   reserveVehicle.then((status) => {
