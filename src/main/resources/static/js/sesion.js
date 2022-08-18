@@ -378,9 +378,9 @@ function validateEmailAndPassword(email, password) {
 function menuOptionsByTypeClient() {
   const typeClient = localStorage.getItem("ClientType");
 
-  let toReturn = `<p>prueba<p>`;
+  let toReturn = "<h2>¿Qué deseas hacer?<h2>";
 
-  let menuForClient = `1`;
+  let menuForClient = `<a class="btn btn-primary" href="./pages/client/clientPage.html" role="button">Ver Mi Perfil</a>`;
   let menuForSupport = `2`;
   let menuForAdmin = `3`;
   let menuForDeveloper = `4`;
