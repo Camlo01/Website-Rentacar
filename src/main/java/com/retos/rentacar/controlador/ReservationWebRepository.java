@@ -37,7 +37,7 @@ public class ReservationWebRepository {
     }
 
 
-    @GetMapping("/my-reservation-history")
+    @PostMapping("/my-reservation-history")
     public List<Reservation> getAllMyReservations(@RequestBody KeyClient key) {
         return services.getMyReservationHistory(key);
     }
