@@ -1,5 +1,5 @@
 function clientData() {
-  fetch(`${URL}/client/all`)
+  fetch(`${URLapi}/client/all`)
     .then((response) => response.json())
     .then(function (data) {
       innerClientData(data);
@@ -37,7 +37,7 @@ function saveClient() {
     birthDate: birthDate,
   };
 
-  fetch(`${URL}/client/save`, {
+  fetch(`${URLapi}/client/save`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -81,7 +81,7 @@ function updateClient(idClient) {
   console.log(data);
 
   if (noOneNull()) {
-    fetch(`${URL}/client/update`, {
+    fetch(`${URLapi}/client/update`, {
       method: "PUT",
       body: JSON.stringify(data),
       headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -101,7 +101,7 @@ function updateClient(idClient) {
 }
 
 function deleteClient(idClient) {
-  fetch(`${URL}/client/delete/` + idClient, {
+  fetch(`${URLapi}/client/delete/` + idClient, {
     method: "DELETE",
     headers: { "Content-type": "application/json; charset=UTF-8" },
   })

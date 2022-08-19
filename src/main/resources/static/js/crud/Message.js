@@ -1,5 +1,5 @@
 function messageData() {
-  fetch(`${URL}/message/all`)
+  fetch(`${URLapi}/message/all`)
     .then((response) => response.json())
     .then(function (data) {
       innerMessageData(data);
@@ -33,14 +33,14 @@ function saveMessage() {
   let idCar = parseInt(getIdOfSelect(carro));
   let idClient = parseInt(getIdOfSelect(cliente));
 
-  fetch(`${URL}/car/` + idCar, {
+  fetch(`${URLapi}/car/` + idCar, {
     method: "GET",
     headers: { "Content-type": "application/json; charset=UTF-8" },
   })
     .then((response) => response.json())
     .then((car) => {
       let carGetted = car;
-      fetch(`${URL}/client/` + idClient, {
+      fetch(`${URLapi}/client/` + idClient, {
         method: "GET",
         headers: { "Content-type": "application/json; charset=UTF-8" },
       })
@@ -53,7 +53,7 @@ function saveMessage() {
             car: carGetted,
             client: clientGetted,
           };
-          fetch(`${URL}/message/save/`, {
+          fetch(`${URLapi}/message/save/`, {
             method: "POST",
             body: JSON.stringify(data),
             headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -79,7 +79,7 @@ function updateMessage(idMessage) {
     messageText: messageText,
   };
 
-  fetch(`${URL}/message/update`, {
+  fetch(`${URLapi}/message/update`, {
     method: "PUT",
     body: JSON.stringify(data),
     headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -94,7 +94,7 @@ function updateMessage(idMessage) {
 }
 
 function deleteMessage(idMessage) {
-  fetch(`${URL}/message/delete/` + idMessage, {
+  fetch(`${URLapi}/message/delete/` + idMessage, {
     method: "DELETE",
     headers: { "Content-type": "application/json; charset=UTF-8" },
   })

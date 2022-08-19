@@ -1,5 +1,5 @@
 function gamaData() {
-  fetch(`${URL}/gama/all`)
+  fetch(`${URLapi}/gama/all`)
     .then((response) => response.json())
     .then(function (data) {
       innerGamaData(data);
@@ -29,7 +29,7 @@ function saveGama() {
     name: name,
     description: description,
   };
-  fetch(`${URL}/gama/save`, {
+  fetch(`${URLapi}/gama/save`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -57,7 +57,7 @@ function updateGama(idElemento) {
 
   console.log(data);
 
-  fetch(`${URL}/gama/update`, {
+  fetch(`${URLapi}/gama/update`, {
     method: "PUT",
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" },
@@ -75,7 +75,7 @@ function updateGama(idElemento) {
 }
 
 function deleteGama(idGama) {
-  fetch(`${URL}/gama/delete/` + idGama, {
+  fetch(`${URLapi}/gama/delete/` + idGama, {
     method: "DELETE",
     headers: { "Content-type": "application/json; charset=UTF-8" },
   })

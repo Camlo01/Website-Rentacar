@@ -1,5 +1,5 @@
 function carData() {
-  fetch(`${URL}/car/all`)
+  fetch(`${URLapi}/car/all`)
     .then((response) => response.json())
     .then(function (data) {
       innerCarData(data);
@@ -39,7 +39,7 @@ function saveCar() {
   let gama = document.getElementById("Select-Gama").value;
   let idGama = parseInt(getIdOfSelect(gama));
 
-  fetch(`${URL}/gama/` + idGama, {
+  fetch(`${URLapi}/gama/` + idGama, {
     method: "GET",
     headers: { "Content-type": "application/json; charset=UTF-8" },
   })
@@ -54,7 +54,7 @@ function saveCar() {
       };
 
       console.log(data);
-      fetch(`${URL}/car/save`, {
+      fetch(`${URLapi}/car/save`, {
         method: "POST",
         body: JSON.stringify(data),
         headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -98,7 +98,7 @@ function updateCar(idCar) {
   };
 
   if (noOneNull()) {
-    fetch(`${URL}/car/update`, {
+    fetch(`${URLapi}/car/update`, {
       method: "PUT",
       body: JSON.stringify(data),
       headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -119,7 +119,7 @@ function updateCar(idCar) {
 }
 
 function deleteCar(idCar) {
-  fetch(`${URL}car/delete/` + idCar, {
+  fetch(`${URLapi}car/delete/` + idCar, {
     method: "DELETE",
     headers: { "Content-type": "application/json; charset=UTF-8" },
   })

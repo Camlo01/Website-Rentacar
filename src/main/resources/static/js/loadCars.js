@@ -22,7 +22,7 @@ function selectPageVehicle(whatDo) {
 function loadVehiclesPageableSection() {
   const size = 8;
   let page = pageByDefect;
-  fetch(`${URL}/car/home_cars/size=${size}page=${page * size}`)
+  fetch(`${URLapi}/car/home_cars/size=${size}page=${page * size}`)
     .then((response) => response.json())
     .then((data) => {
       let allCards = `<hr>`;
@@ -78,7 +78,7 @@ function loadVehiclesPageableSection() {
 }
 
 function lastCarAddedBookable() {
-  fetch(`${URL}/car/lastCarAdded`)
+  fetch(`${URLapi}/car/lastCarAdded`)
     .then((response) => response.json())
     .then((car) => {
       let card = `<article class="vehicle-card card-lastCarAdded">`;
@@ -135,7 +135,7 @@ function reservateCar(id, start, end) {
   };
 
   const reserveVehicle = new Promise(function (resolve, reject) {
-    fetch(`${URL}/reservation/reserve-vehicle`, {
+    fetch(`${URLapi}/reservation/reserve-vehicle`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -153,7 +153,7 @@ function reservateCar(id, start, end) {
   reserveVehicle.then((status) => {
     console.log(status);
     if (status == 405) {
-      fetch(`${URL}/reservation/whenCanBeReserveThisVehicle`, {
+      fetch(`${URLapi}/reservation/whenCanBeReserveThisVehicle`, {
         method: "POST",
         body: JSON.stringify(data),
         headers: { "Content-type": "application/json; charset=UTF-8" },
