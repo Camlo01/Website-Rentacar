@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <script src="./js/clientPage.js"></script>
 
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -14,12 +15,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
         crossorigin="anonymous"></script>
+    <!-- JavaScript -->
     <title>Perfil</title>
 </head>
 
 <body>
 
-    <head>
+
+    <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Tu Perfil</a>
@@ -38,19 +41,21 @@
                 </div>
             </div>
         </nav>
-    </head>
+    </header>
     <main>
-        <div>
+        <div class="main--title-title">
             <h1>Administrar tus reservaciones</h1>
+            <br>
             <h2>Aquí podrás administrar tu reservaciones</h2>
             <p>En este espacio podrás ver el historial de tus reservaciones y administrar las actuales</p>
         </div>
-
         <hr>
-        <section>
-            <h2>Historial de reservaciones completas</h2>
-            <div>
-                <!-- Historias -->
+        <section class="main--reservations">
+            <div class="main--reservations-title">
+                <h2>Historial de reservaciones completas</h2>
+                <div class="main--reservations-container" id="wherePrintReservations">
+
+                </div>
             </div>
 
         </section>
