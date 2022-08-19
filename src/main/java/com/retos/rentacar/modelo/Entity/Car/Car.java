@@ -65,8 +65,8 @@ public class Car implements Serializable {
         this.idCar = idCar;
     }
 
-    public Car(String mensaje) {
-        this.name = mensaje;
+    public Car(String message) {
+        this.name = message;
     }
 
     public Car() {
