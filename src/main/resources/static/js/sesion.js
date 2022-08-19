@@ -148,7 +148,8 @@ function sesionNavbar() {
           <tr>
               <td>${localStorage.getItem("name")}</td>
               <td>${localStorage.getItem("email")}</td>
-              <td>${localStorage.getItem("password")}</td>
+              <td>*****</td> -->
+              <!-- <td>${localStorage.getItem("password")}</td> -->
           </tr>
       </tbody>
   </table>
@@ -209,7 +210,7 @@ function createAccount() {
       birthDate: birthDate,
     };
 
-    fetch(`${URL}/client/save`, {
+    fetch(`${URLapi}/client/save`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -221,7 +222,7 @@ function createAccount() {
             password: password,
             birthDate: birthDate,
           };
-          fetch(`${URL}/client/login`, {
+          fetch(`${URLapi}/client/login`, {
             method: "POST",
             body: JSON.stringify(account),
             headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -263,7 +264,7 @@ function logginAccount() {
       password: password,
     };
 
-    fetch(`${URL}/client/login`, {
+    fetch(`${URLapi}/client/login`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -378,13 +379,53 @@ function validateEmailAndPassword(email, password) {
 function menuOptionsByTypeClient() {
   const typeClient = localStorage.getItem("ClientType");
 
-  let toReturn = "<h2>¿Qué deseas hacer?<h2>";
+  let toReturn = `
+  <h2>¿Qué deseas hacer?<h2>
+  <br>
+  `;
 
-  let menuForClient = `<a class="btn btn-primary" href="./pages/client/clientPage.html" role="button">Ver Mi Perfil</a>`;
-  let menuForSupport = `2`;
-  let menuForAdmin = `3`;
-  let menuForDeveloper = `4`;
+  //Buttons to redirect
+  const buttonToProfile = `
+  <p>En tu perfíl podrás administrar tus reservas</p>
+  <a class="btn btn-primary" href="./pages/client/clientPage.html" role="button">Ver Mi Perfil</a>
+  `;
 
+  const buttonToAdministrate = `
+  <hr>
+  <p>Tu zona de trabajo:</p>
+  <a class="btn btn-info" href="#" role="button">Administrar</a>
+
+  `;
+
+  //Content for every type of user
+
+  const menuForClient = `
+   ${buttonToProfile}
+  <br>
+  `;
+
+  const menuForSupport = `
+  <h2>¡Bienvenido miembro del equipo de soporte!</h2>
+  <br>
+  ${buttonToProfile}
+  ${buttonToAdministrate}
+  `;
+
+  const menuForAdmin = `
+  <h2>Bienvenido usuario <strong>administrador</strong></h2>
+  <br>
+  ${buttonToProfile}
+  ${buttonToAdministrate}
+    `;
+  const menuForDeveloper = `
+  <h2>Welcome to your profile <strong>developer</strong> user</h2>
+  <br>
+  ${buttonToProfile}
+  ${buttonToAdministrate}
+  
+  `;
+
+  //return content depending on the type of the user registered
   switch (typeClient) {
     case "CLIENT":
       toReturn += menuForClient;
