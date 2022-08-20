@@ -6,14 +6,11 @@ function awd() {
   };
 
   const history = new Promise(function (resolve, reject) {
-    fetch(
-      `http://localhost:8080/api/rentacar/reservation/my-reservation-history`,
-      {
-        method: "POST",
-        body: JSON.stringify(key),
-        headers: { "Content-type": "application/json; charset=UTF-8" },
-      }
-    )
+    fetch(`${urlOfApi}/reservation/my-reservation-history`, {
+      method: "POST",
+      body: JSON.stringify(key),
+      headers: { "Content-type": "application/json; charset=UTF-8" },
+    })
       .then((response) => {
         console.log(response.status);
         resolve(response.status);
