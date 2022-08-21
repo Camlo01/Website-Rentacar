@@ -1,8 +1,8 @@
 const urlOfApi = `http://localhost:8080/api/rentacar`;
 
-function awd() {
+function reservationHistory() {
   let key = {
-    keyClient: "D3V3L0PRR",
+    keyClient: localStorage.getItem("KeyClient"),
   };
 
   const history = new Promise(function (resolve, reject) {
@@ -11,9 +11,100 @@ function awd() {
       body: JSON.stringify(key),
       headers: { "Content-type": "application/json; charset=UTF-8" },
     })
-      .then((response) => {
-        console.log(response.status);
-        resolve(response.status);
+      .then((response) => response.json())
+      .then(function (reservations) {
+        let table = `<table class="table">
+                      <thead>
+                         <tr>
+                         <th scope="col">Código</th>
+                         <th scope="col">estatus</th>
+                         <th scope="col">Fecha inicio</th>
+                         <th scope="col">fecha entrega</th>
+                         <th scope="col">vehículo</th>
+                         <th scope="col">¿Qué deseas hacer?</th>
+                         </tr>
+                      </thead>
+                    <tbody>`;
+
+        console.log("Se debería mostrar el array");
+        reservations.forEach((reservation) => {
+          console.log(reservation);
+          table += ` <tr>
+                       <th scope="row">${reservation.code}</th>
+                       <td>${handleStatus(reservation.reservationStatus)}</td>
+                       <td>${reservation.startDate}</td>
+                       <td>${reservation.devolutionDate}</td>
+                       <td>${reservation.car.name}</td>
+                     
+
+                       <!-- Botón a modal con detalles y botón para cancelar -->
+                       <td><a class="btn btn-primary" data-bs-toggle="modal" href="#modalDetalles${
+                         reservation.idReservation
+                       }" role="button">Detalles</a><td>
+                       
+                       
+                       <!-- Model detalles con botón para confirmar cancelación -->                    
+                       <div class="modal fade" id="modalDetalles${
+                         reservation.idReservation
+                       }" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                       <div class="modal-dialog modal-dialog-centered">
+                         <div class="modal-content">
+                           <div class="modal-header">
+                             <h5 class="modal-title" id="exampleModalToggleLabel">Reservación con código ${
+                               reservation.code
+                             }</h5>
+                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                           </div>
+                           <div class="modal-body"><p>Reservaste el vehículo: ${
+                             reservation.car.name
+                           }</p>
+                          <p>Fecha de inicio: ${reservation.startDate}</p>
+                          <p>Fechga de entrega: ${
+                            reservation.devolutionDate
+                          }</p>
+                          <p>Reservaste el vehículo: ${reservation.car.name}</p>
+                           </div>
+                           <div class="modal-footer">
+                          
+
+                           <!-- Botón para confirmar cancelación -->                    
+                           <button class="btn btn-danger" data-bs-target="#confirmCancelReservation${
+                             reservation.idReservation
+                           }" data-bs-toggle="modal">Cancelar reservación</button>                 
+                           </div>
+                           </div>
+                         </div>
+                       </div>
+  
+  
+                       <!-- Modal con botón para confirmár cancelación -->                     
+                       <div class="modal fade" id="confirmCancelReservation${
+                         reservation.idReservation
+                       }" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                         <div class="modal-dialog modal-dialog-centered">
+                           <div class="modal-content">
+                             <div class="modal-header">
+                               <h5 class="modal-title" id="exampleModalToggleLabel2">Cancelando Reservación</h5>
+                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                             </div>
+                             <div class="modal-body">
+                             ¿Seguro que deseas cancelar esta reservación? ${
+                               reservation.code
+                             }
+                             </div>
+                       <!-- botón que cancela la reservación del vehículo -->                    
+                             <div class="modal-footer">
+                               <button class="btn btn-danger" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Confirmar</button>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                          `;
+        });
+
+        table += `</tbody></table>`;
+
+        document.getElementById("wherePrintReservations").innerHTML = table;
       })
       .catch((err) => {
         console.log(err);
@@ -26,7 +117,37 @@ function awd() {
   });
 }
 
-awd();
+reservationHistory();
 // localhost:8080/api/rentacar/test/reservation
 // URLapi
 // http://localhost:8080/api/rentacar/test/reservation
+
+function handleStatus(status) {
+  let statusColumn = `<div style="font-weight: bold;`;
+
+  switch (status) {
+    case "REQUESTED":
+      statusColumn += `color:blue`;
+
+      break;
+    case "ACTIVE":
+      statusColumn += `color:green;`;
+
+      break;
+    case "CANCELLED":
+      statusColumn += `color:#c80101`;
+
+      break;
+    case "POSTPONED":
+      statusColumn += `color:#0064ff`;
+
+      break;
+    case "DENIED":
+      statusColumn += `color:red`;
+
+      break;
+    case "COMPLETED":
+  }
+
+  return (statusColumn += `">${status}</div>`);
+}
