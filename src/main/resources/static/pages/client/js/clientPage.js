@@ -1,4 +1,8 @@
 const urlOfApi = `http://localhost:8080/api/rentacar`;
+/**
+ * Run automatically
+ */
+reservationHistory();
 
 function reservationHistory() {
   let key = {
@@ -26,14 +30,12 @@ function reservationHistory() {
                       </thead>
                     <tbody>`;
 
-        console.log("Se debería mostrar el array");
         reservations.forEach((reservation) => {
-          console.log(reservation);
           table += ` <tr>
                        <th scope="row">${reservation.code}</th>
                        <td>${handleStatus(reservation.reservationStatus)}</td>
-                       <td>${reservation.startDate}</td>
-                       <td>${reservation.devolutionDate}</td>
+                       <td>${reservation.startDate.substr(0, 10)}</td>
+                       <td>${reservation.devolutionDate.substr(0, 10)}</td>
                        <td>${reservation.car.name}</td>
                      
 
@@ -58,48 +60,43 @@ function reservationHistory() {
                            <div class="modal-body"><p>Reservaste el vehículo: ${
                              reservation.car.name
                            }</p>
-                          <p>Fecha de inicio: ${reservation.startDate}</p>
+                          <p>Fecha de inicio: ${reservation.startDate.substr(0, 10)}</p>
                           <p>Fechga de entrega: ${
-                            reservation.devolutionDate
+                            reservation.devolutionDate.substr(0, 10)
                           }</p>
                           <p>Reservaste el vehículo: ${reservation.car.name}</p>
-                           </div>
-                           <div class="modal-footer">
-                          
+                           </div>`;
+          if (reservation.reservationStatus == "ACTIVE") {
+            table += ` <div class="modal-footer">
+                            <!-- Buttón to confirm cancelation -->                    
+                            <button class="btn btn-danger" data-bs-target="#confirmCancelReservation${reservation.idReservation}" data-bs-toggle="modal">Cancelar reservación</button>                 
+                            </div>
+                            </div>
+                          </div>
+                        </div>
 
-                           <!-- Botón para confirmar cancelación -->                    
-                           <button class="btn btn-danger" data-bs-target="#confirmCancelReservation${
-                             reservation.idReservation
-                           }" data-bs-toggle="modal">Cancelar reservación</button>                 
-                           </div>
-                           </div>
-                         </div>
-                       </div>
-  
-  
-                       <!-- Modal con botón para confirmár cancelación -->                     
-                       <div class="modal fade" id="confirmCancelReservation${
-                         reservation.idReservation
-                       }" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-                         <div class="modal-dialog modal-dialog-centered">
-                           <div class="modal-content">
-                             <div class="modal-header">
-                               <h5 class="modal-title" id="exampleModalToggleLabel2">Cancelando Reservación</h5>
-                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                             </div>
-                             <div class="modal-body">
-                             ¿Seguro que deseas cancelar esta reservación? ${
-                               reservation.code
-                             }
-                             </div>
-                       <!-- botón que cancela la reservación del vehículo -->                    
-                             <div class="modal-footer">
-                               <button class="btn btn-danger" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Confirmar</button>
-                             </div>
-                           </div>
-                         </div>
-                       </div>
-                          `;
+                        <!-- Modal with button to confirm cancelation -->                     
+                        <div class="modal fade" id="confirmCancelReservation${reservation.idReservation}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                          <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalToggleLabel2">Cancelando Reservación</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                              ¿Seguro que deseas cancelar esta reservación? ${reservation.code}
+                              </div>
+                        <!-- Button to cancel reservation confirmed -->                    
+                              <div class="modal-footer">
+                                <button class="btn btn-danger" data-bs-toggle="modal" onclick="cancelReservation()">Confirmar</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+ `;
+          } else {
+            table += `</div>div></div></div>`;
+          }
         });
 
         table += `</tbody></table>`;
@@ -111,16 +108,7 @@ function reservationHistory() {
         reject("Problema");
       });
   });
-  history.then((status) => {
-    console.log("AWD");
-    console.log(status);
-  });
 }
-
-reservationHistory();
-// localhost:8080/api/rentacar/test/reservation
-// URLapi
-// http://localhost:8080/api/rentacar/test/reservation
 
 function handleStatus(status) {
   let statusColumn = `<div style="font-weight: bold;`;
@@ -150,4 +138,8 @@ function handleStatus(status) {
   }
 
   return (statusColumn += `">${status}</div>`);
+}
+
+function cancelReservation() {
+  alert("La reservación fue cancelada con éxito");
 }
