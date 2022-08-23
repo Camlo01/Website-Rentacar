@@ -1,4 +1,4 @@
-const urlOfApi = `http://localhost:8080/api/rentacar`;
+const URLOfApi = `http://localhost:8080/api/rentacar`;
 /**
  * Run automatically
  */
@@ -10,7 +10,7 @@ function reservationHistory() {
   };
 
   const history = new Promise(function (resolve, reject) {
-    fetch(`${urlOfApi}/reservation/my-reservation-history`, {
+    fetch(`${URLOfApi}/reservation/my-reservation-history`, {
       method: "POST",
       body: JSON.stringify(key),
       headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -26,7 +26,7 @@ function reservationHistory() {
                          <th scope="col">fecha entrega</th>
                          <th scope="col">vehículo</th>
                          <th scope="col">¿Qué deseas hacer?</th>
-                         </tr>
+                        </tr>
                       </thead>
                     <tbody>`;
 
@@ -60,10 +60,14 @@ function reservationHistory() {
                            <div class="modal-body"><p>Reservaste el vehículo: ${
                              reservation.car.name
                            }</p>
-                          <p>Fecha de inicio: ${reservation.startDate.substr(0, 10)}</p>
-                          <p>Fechga de entrega: ${
-                            reservation.devolutionDate.substr(0, 10)
-                          }</p>
+                          <p>Fecha de inicio: ${reservation.startDate.substr(
+                            0,
+                            10
+                          )}</p>
+                          <p>Fechga de entrega: ${reservation.devolutionDate.substr(
+                            0,
+                            10
+                          )}</p>
                           <p>Reservaste el vehículo: ${reservation.car.name}</p>
                            </div>`;
           if (reservation.reservationStatus == "ACTIVE") {
@@ -88,7 +92,7 @@ function reservationHistory() {
                               </div>
                         <!-- Button to cancel reservation confirmed -->                    
                               <div class="modal-footer">
-                                <button class="btn btn-danger" data-bs-toggle="modal" onclick="cancelReservation()">Confirmar</button>
+                                <button class="btn btn-danger" data-bs-toggle="modal" onclick="cancelReservation(${reservation.idReservation})">Confirmar</button>
                               </div>
                             </div>
                           </div>
@@ -140,6 +144,28 @@ function handleStatus(status) {
   return (statusColumn += `">${status}</div>`);
 }
 
-function cancelReservation() {
-  alert("La reservación fue cancelada con éxito");
+function cancelReservation(idReservation) {
+  let ReservationAndKeyclient = {
+    reservation: {
+      idReservation: idReservation,
+    },
+    keyClient: {
+      keyClient: localStorage.getItem("KeyClient"),
+    },
+  };
+  const cancelation = new Promise(function (resolve, reject) {
+    fetch(`${URLOfApi}/reservation/cancel-reservation`, {
+      method: "PUT",
+      body: JSON.stringify(ReservationAndKeyclient),
+      headers: { "Content-type": "application/json; charset=UTF-8" },
+    }).then((response) => {
+      console.log(response);
+      resolve(response.status);
+      response.json();
+    });
+  });
+
+  cancelation.then(() => {
+    location.reload();
+  });
 }
