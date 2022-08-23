@@ -115,17 +115,19 @@ public class ReservationServices {
 
     // PUT
 
-    public Reservation cancelReservation(Reservation reservation, KeyClient key) {
+    public Boolean cancelReservation(Reservation reservation, KeyClient key) {
 
         Reservation reservationToCancel = (repository.getReservationById(reservation.getIdReservation())).get();
         reservationToCancel.setReservationStatus(ReservationStatus.CANCELLED);
 
         if (clientServices.hasPermissions(key, false)) {
-            return cancelTheReservation(reservationToCancel);
+            cancelTheReservation(reservationToCancel);
+            return true;
         } else if (sameKeyOfWhoBooked(reservationToCancel, key)) {
-            return cancelTheReservation(reservationToCancel);
+            cancelTheReservation(reservationToCancel);
+            return true;
         }
-        return null;
+        return false;
 
     }
 
