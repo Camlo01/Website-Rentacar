@@ -117,10 +117,16 @@ public class ReservationWebRepository {
     }
 
     @PutMapping("/cancel-reservation")
-    public Reservation cancelReservation(@RequestBody ReservationAndKeyclient body) {
-        return services.cancelReservation(body.getReservation(), body.getKeyClient());
-    }
+    public ResponseEntity<String> cancelReservation(@RequestBody ReservationAndKeyclient body) {
+        Boolean cancelledSuccessfully = services.cancelReservation(body.getReservation(), body.getKeyClient());
 
+        if (cancelledSuccessfully){
+            return new ResponseEntity<>("response", HttpStatus.CREATED);
+        }else {
+            return new ResponseEntity<>("response", HttpStatus.METHOD_NOT_ALLOWED);
+        }
+    }
+        
     // - DELETE
 
 
