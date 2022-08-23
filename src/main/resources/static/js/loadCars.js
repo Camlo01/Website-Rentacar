@@ -33,7 +33,6 @@ function loadVehiclesPageableSection() {
         allCards += `  <p class="vehicle--card-brand"><b>Marca: </b>${car.brand}</p>`;
         allCards += `  <p class="vehicle--card-year"><b>Año: </b>${car.year}</p>`;
         allCards += `  <p class="vehicle--card-description"><b>Descripción:</b>${car.description}</p>`;
-        // allCards += `<button onclick="reservateVehicle(${car.idCar})">Reservar!</button>`;
         if (isLogged()) {
           allCards += `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalToReservateCar${
             car.idCar
@@ -63,7 +62,7 @@ function loadVehiclesPageableSection() {
                           </div>
                           <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                          <button type="button" class="btn btn-primary">Reservar</button>
+                          <!-- <button type="button" class="btn btn-primary">Reservar</button> -->
                           </div>
                         </div>
                       </div>
@@ -91,12 +90,6 @@ function lastCarAddedBookable() {
       card += `</article>`;
       document.getElementById("whereToLoadCarAdded").innerHTML = card;
     });
-}
-
-function reservateVehicle(idCar) {
-  console.log(idCar);
-
-  reservateVehicle;
 }
 
 function isLogged() {
