@@ -153,7 +153,7 @@ function cancelReservation(idReservation) {
       keyClient: localStorage.getItem("KeyClient"),
     },
   };
-  const cancelation = new Promise(function (resolve, reject) {
+  const cancellation = new Promise(function (resolve, reject) {
     fetch(`${URLOfApi}/reservation/cancel-reservation`, {
       method: "PUT",
       body: JSON.stringify(ReservationAndKeyclient),
@@ -179,7 +179,7 @@ function cancelReservation(idReservation) {
   </symbol>
 </svg>`;
 
-  cancelation.then((status) => {
+  cancellation.then((status) => {
     if (status == 201) {
       let messageSuccessfully = `${importBootstrap}
     <div class="alert alert-success d-flex align-items-center" role="alert">
@@ -193,7 +193,7 @@ function cancelReservation(idReservation) {
       reservationHistory();
     }
   });
-  cancelation.catch(() => {
+  cancellation.catch(() => {
     let messageAlert = `${importBootstrap}
 <div class="alert alert-danger d-flex align-items-center" role="alert">
   <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
