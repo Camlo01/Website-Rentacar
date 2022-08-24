@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Renta Car</title>
+    <meta charset="UTF-8">
+    <script src="js/configuration.js"></script>
+    <script src="js/crud/utils.js"></script>
+    <script language="JavaScript" type="text/javascript" src="./js/crud/Car.js"></script>
+    <script language="JavaScript" type="text/javascript" src="./js/crud/Client.js"></script>
+    <script language="JavaScript" type="text/javascript" src="./js/crud/Gama.js"></script>
+    <script language="JavaScript" type="text/javascript" src="./js/crud/Message.js"></script>
+    <script language="JavaScript" type="text/javascript" src="./js/crud/Reservation.js"></script>
+    <script language="JavaScript" type="text/javascript" src="./js/crud/reportes.js"></script>
+    <script language="JavaScript" type="text/javascript" src="./js/crud/sesion.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="cssOld/estilos.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sitio web de reservas del reto 3" />
+    <meta name="keywords" content="Reto3, G1, Mastertech" />
+    <meta name="author" content="Camilo Andres Beltran Calderon" />
+    <meta name="copyright" content="Propietario del copyright 2021" />
+
+</head>
+
+<body>
+
+    <header>
+        <h1 class="TituloWebsite">Sitio Rent A Car</h1>
+        <a href="index.html">Ir a inicio</a>
+    </header>
+
+    <div class="contenido-total">
+
+        <div id="contenedores-tablas">
+            <h2 class="Titulo-Tabla">Gama</h2>
+            <h3 class="Texto-Tablas">Formulario de Gamas</h3>
+            <div id="resultadoGama"></div>
+            <script>gamaData()</script>
+            <div>
+                <input type="text" id="GamaName" placeholder="nombre gama">
+                <input type="text" id="GamaDescription" placeholder="descripción gama">
+            </div>
+            <button onclick="saveGama()">Guardar gama</button>
+        </div>
+
+        <div id="contenedores-tablas">
+            <h2 class="Titulo-Tabla">Tabla Carros</h2>
+            <h3 class="Texto-Tablas">Formulario de tabla Carros</h3>
+            <div id="resultadoCar"></div>
+            <script>carData()</script>
+            <div>
+                <input type="text" id="CarName" placeholder="nombre">
+                <input type="text" id="CarBrand" placeholder="marca">
+                <input type="number" id="CarYear" placeholder="año">
+                <input type="text" id="CarDescription" placeholder="descripción">
+                <p>gama:</p>
+                <select id="Select-Gama"></select>
+            </div>
+            <div>
+                <button onclick="saveCar();">Guardar Carro</button>
+            </div>
+        </div>
+
+        <div id="contenedores-tablas">
+            <h2 class="Titulo-Tabla">Tabla Clientes</h2>
+            <h3 class="Texto-Tablas">Formulario de tabla Clientes</h3>
+            <br><br>
+            <div id="resultadoClient"> </div>
+            <script>clientData()</script>
+            <div>
+                <input type="text" id="ClientName" placeholder="nombre">
+                <input type="text" id="ClientEmail" placeholder="Email">
+                <input type="text" id="ClientPassword" placeholder="Contraseña">
+                <input type="date" id="ClientBirthDate">
+            </div>
+            <div>
+                <br>
+                <button onclick="saveClient()">Guardar!</button>
+            </div>
+            <br><br><br>
+        </div>
+
+        <div id="contenedores-tablas">
+            <h2 class="Titulo-Tabla">Tabla Mensajes</h2>
+            <h3 class="Texto-Tablas">Formulario de tabla Mensajes</h3>
+            <br><br>
+            <div id="resultadoMessage"> </div>
+            <script>messageData()</script>
+            <div>
+                <input type-="text" id="messageText" placeholder="messageText">
+                <p>Cliente:</p>
+                <select id="table-message-select-client"></select>
+                <p>Carro:</p>
+                <select id="table-message-select-car"></select>
+            </div>
+
+            <div>
+                <br>
+                <button onclick="saveMessage();">Guardar!</button>
+            </div>
+        </div>
+        <div id="contenedores-tablas">
+            <h2 class="Titulo-Tabla">Tabla Reservaciones</h2>
+            <h3 class="Texto-Tablas">Formulario de tabla Reservaciones</h3>
+            <br><br>
+            <div id="resultadoReservation"> </div>
+            <script>reservationData()</script>
+            <div>
+                <input type="date" id="startDate" placeholder="inicio">
+                <input type="date" id="devolutionDate" placeholder="final">
+                <p>Cliente:</p>
+                <select id="table-reser-select-client"></select>
+                <p>Carro:</p>
+                <select id="table-reser-select-car"></select>
+            </div>
+            <div>
+                <br>
+                <button onclick="guardarReservation()">Guardar!</button>
+            </div>
+        </div>
+        <div id="contenedores-tablas">
+            <h2> Reportes</h2>
+            <div id="resultadoStatus"></div>
+
+
+            <input type="date" id="RstarDate" placeholder="descripcion">
+            <input type="date" id="RdevolutionDate" placeholder="descripcion">
+
+            <button>Reporte Status Reservas</button>
+            <button>Reporte Status Reservas</button>
+            <button>Reporte Status Reservas</button>
+
+
+
+            <button onclick="traerReporteStatus()"> Generar Reporte Status Reservas </button>
+            <button onclick="getStatusData()"> Generar Reporte por fecha </button>
+            <div id="resultadoDate"></div>
+            <button onclick="traerReporteClientes()"> Generar Reporte Clientes y Cantidad de reservas por cliente
+            </button>
+            <div id="resultadoClientes"></div>
+        </div>
+
+</body>
+
+</html>
