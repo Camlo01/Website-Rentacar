@@ -14,7 +14,7 @@
 	<name>rentacar</name>
 	<description>Proyecto de Spring boot con JPA y BD en H2</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>11</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
