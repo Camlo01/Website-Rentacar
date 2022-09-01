@@ -387,13 +387,13 @@ function menuOptionsByTypeClient() {
   //Buttons to redirect
   const buttonToProfile = `
   <p>En tu perfíl podrás administrar tus reservas</p>
-  <a class="btn btn-primary" href="./pages/client/clientPage.html" role="button">Ver Mi Perfil</a>
+  <a class="btn btn-primary" href="./client/clientPage.html" role="button">Ver Mi Perfil</a>
   `;
 
   const buttonToAdministrate = `
   <hr>
   <p>Tu zona de trabajo:</p>
-  <a class="btn btn-info" href="#" role="button">Administrar</a>
+  <a class="btn btn-info" href="./admin/adminPage.html" role="button">Administrar</a>
 
   `;
 
