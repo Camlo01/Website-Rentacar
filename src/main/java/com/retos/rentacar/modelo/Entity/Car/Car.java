@@ -45,17 +45,21 @@ public class Car implements Serializable {
     private CarStatus carStatus;
 
 
-
-//    @JsonIgnore
+    //    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "gama_id")
-    @JsonIgnoreProperties({ "idGama", "cars" })
+    @JsonIgnoreProperties({"idGama", "cars"})
     private Gama gama;
 
+//    @JsonIgnore
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "car")
+    private List<ImageCar> images;
 
-    @JsonIgnore
+
+//    @JsonIgnore
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "car")
     private List<Message> messages;
+
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "car")
@@ -123,6 +127,19 @@ public class Car implements Serializable {
         this.messages = messages;
         this.reservations = reservations;
         this.carStatus = CarStatus.NOT_AVAILABLE;
+    }
+
+    public Car(Integer idCar, String name, String brand, Integer year, String description, CarStatus carStatus, Gama gama, List<Message> messages, List<ImageCar> images, List<Reservation> reservations) {
+        this.idCar = idCar;
+        this.name = name;
+        this.brand = brand;
+        this.year = year;
+        this.description = description;
+        this.carStatus = carStatus;
+        this.gama = gama;
+        this.messages = messages;
+        this.images = images;
+        this.reservations = reservations;
     }
 
     public Integer getIdCar() {
@@ -195,5 +212,13 @@ public class Car implements Serializable {
 
     public void setCarStatus(CarStatus carStatus) {
         this.carStatus = carStatus;
+    }
+
+    public List<ImageCar> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ImageCar> images) {
+        this.images = images;
     }
 }
