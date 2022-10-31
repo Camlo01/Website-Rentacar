@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.retos.rentacar.modelo.Entity.Client.ClientType;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
@@ -19,7 +21,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClientServices {
     @Autowired
-    private ClientRepository metodosCrudClient;
+    private ClientRepository crudMethods;
     @Autowired
     private ClientInterface clientInterface;
 
@@ -28,29 +30,38 @@ public class ClientServices {
 
     public List<Client> getAllClients(KeyClient keyClient) {
         if (hasPermissions(keyClient, false)) {
-             return metodosCrudClient.getAll();
+            return crudMethods.getAll();
         }
         return null;
     }
 
     public Optional<Client> getClientByid(int idCar, KeyClient key) {
         if (hasPermissions(key, false)) {
-            return metodosCrudClient.getClientById(idCar);
+            return crudMethods.getClientById(idCar);
         }
         return Optional.empty();
     }
 
     // POST
 
-    public Client saveClient(Client client, KeyClient key) {
+    public Client createAccount(Client clientToCreate) {
+        if (isValidClient(clientToCreate)) {
+            clientToCreate.setType(ClientType.CLIENT);
+            clientToCreate.setKeyClient(new KeyClient().getKeyClient());
+            return crudMethods.save(clientToCreate);
+        }
+        return new Client("XXXXX", "XXXXX");
+    }
 
+    public Client saveClient(Client clientToSave, KeyClient key) {
         if (hasPermissions(key, false)) {
-            if (client.getBirthDate() == null) {
-                return metodosCrudClient.save(client);
+
+            if (isValidClient(clientToSave)) {
+                clientToSave.setType(ClientType.CLIENT);
+                clientToSave.setKeyClient(new KeyClient().getKeyClient());
+                return crudMethods.save(clientToSave);
             }
-            if (isOldEnough(client)) {
-                return metodosCrudClient.save(client);
-            }
+
             return null;
         }
         return null;
@@ -59,7 +70,6 @@ public class ClientServices {
     //PUT
 
     public Client updateClient(Client client, KeyClient key) {
-
 
         if (hasPermissions(key, false)) {
             return update(client);
@@ -70,12 +80,24 @@ public class ClientServices {
     //DELETE
 
     public Boolean deleteClient(int idClient, KeyClient key) {
+
+        //Try to delete account as administrator
         if (hasPermissions(key, false)) {
-            return metodosCrudClient.getClientById(idClient).map(clientGetted -> {
-                metodosCrudClient.delete(clientGetted);
+            return crudMethods.getClientById(idClient).map(clientGetted -> {
+                crudMethods.delete(clientGetted);
                 return true;
             }).orElse(false);
         }
+        Client deleteMyAccount = crudMethods.getClientById(idClient).get();
+
+        //Delete account as the owner
+        if (Objects.equals(deleteMyAccount.getKeyClient(), key.getKeyClient())) {
+            return crudMethods.getClientById(idClient).map(clientGetted -> {
+                crudMethods.delete(clientGetted);
+                return true;
+            }).orElse(false);
+        }
+
         return false;
 
     }
@@ -83,13 +105,10 @@ public class ClientServices {
     // LOGIN
     public Optional<Client> login(Client clientToLogin) {
 
-        if (!(clientToLogin.getBirthDate() == null)) {
-            if (!isOldEnough(clientToLogin)) {
-                return Optional.of(new Client("Lo sentimos, tienes que ser mayor de 18 años para crear tu cuenta"));
-            }
-        }
         try {
-            Optional<Client> clientGetted = metodosCrudClient.getClientByEmail(clientToLogin.getEmail());
+
+            //Client consulted by email to verify
+            Optional<Client> clientGetted = crudMethods.getClientByEmail(clientToLogin.getEmail());
 
             boolean hasSameEmail = Objects.equals(clientGetted.get().getEmail(), clientToLogin.getEmail());
             boolean hasSamePassword = Objects.equals(clientGetted.get().getPassword(), clientToLogin.getPassword());
@@ -97,10 +116,10 @@ public class ClientServices {
             if (hasSameEmail && hasSamePassword) {
                 return clientGetted;
             } else {
-                return Optional.of(new Client("Hubo un problema! Verifica que la contraseña sea la correcta"));
+                return Optional.of(new Client("Hubo un problema! La contraseña no coincide"));
             }
         } catch (Exception exception) {
-            return Optional.of(new Client("Oops! Verifia que el correo sea el correcto o crea una cuenta"));
+            return Optional.of(new Client("Oops! Parece que no tienes una cuenta creada"));
         }
 
     }
@@ -109,7 +128,7 @@ public class ClientServices {
 
     private Client update(Client client) {
         if (client.getIdClient() != null) {
-            Optional<Client> evt = metodosCrudClient.getClientById(client.getIdClient());
+            Optional<Client> evt = crudMethods.getClientById(client.getIdClient());
             if (evt.isPresent()) {
                 if (client.getName() != null) {
                     evt.get().setName(client.getName());
@@ -123,7 +142,7 @@ public class ClientServices {
                 if (client.getBirthDate() != null) {
                     evt.get().setBirthDate(client.getBirthDate());
                 }
-                metodosCrudClient.save(evt.get());
+                crudMethods.save(evt.get());
             }
         }
         return client;
@@ -133,8 +152,40 @@ public class ClientServices {
     //--------- UTILS
 
 
-    private boolean isOldEnough(Client client) {
+    /**
+     * Validate if age and email are valid
+     *
+     * @param client to evaluate age and email
+     * @return true if both are valid
+     */
+    private boolean isValidClient(Client client) {
+        return (isOldEnough(client) && isValidEmail(client));
+    }
 
+    /**
+     * @param client
+     * @return
+     */
+    private boolean isValidEmail(Client client) {
+        //pattern to validate
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+
+        Matcher email = pattern.matcher(client.getEmail());
+        return email.find();
+    }
+
+
+    /**
+     * validate if the client's age is over 18 years
+     *
+     * @param client
+     * @return
+     */
+    private boolean isOldEnough(Client client) {
+        if (client.getBirthDate() == null) {
+            return false;
+        }
         Date birthDate = client.getBirthDate();
         Date actualDate = new Date();
         int miliSegundosDia = 24 * 60 * 60 * 1000;
