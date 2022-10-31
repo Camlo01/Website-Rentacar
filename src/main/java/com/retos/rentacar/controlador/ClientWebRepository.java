@@ -38,6 +38,15 @@ public class ClientWebRepository {
 
     // - POST
 
+    // If I want to create my own account
+    @PostMapping("/create-account")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Client createClient(@RequestBody Client client){
+        return servicios.createAccount(client);
+    }
+
+
+    // create account as admin
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public Client saveClient(@RequestBody ClientAndKeyclient clientAndKey) {
