@@ -55,7 +55,7 @@ public class Client implements Serializable {
         this.password = password;
         this.type = ClientType.CLIENT;
         this.keyClient = new KeyClient().getKeyClient();
-        this.birthDate = Date.valueOf("2004-07-01");
+        this.birthDate = Date.valueOf("2000-01-01");
     }
 
     public Client(int idClient) {
