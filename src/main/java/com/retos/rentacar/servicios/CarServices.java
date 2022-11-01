@@ -37,7 +37,7 @@ public class CarServices {
         return metodosCrudCar.getCar(idCar);
     }
 
-    // POST Method With Autorization
+    // POST Method With Authorization
 
     public Car saveVehicle(Car car, KeyClient keyClient) {
         if (clientServices.hasPermissions(keyClient, false)) {
@@ -46,16 +46,16 @@ public class CarServices {
         return car;
     }
 
-    // PUT Method With Autorization
+    // PUT Method With Authorization
 
     public Car updateVehicle(Car car, KeyClient key) {
-        if (clientServices.hasPermissions(key, false)) {
+        if (clientServices.hasPermissions(key, true)) {
             return update(car);
         }
         return new Car("No se pudo actualizar el carro");
     }
 
-    // DELETE Method With Autorization
+    // DELETE Method With Authorization
 
     public Boolean deleteVehicle(Car car, KeyClient key) {
         if (clientServices.hasPermissions(key,false)) {
