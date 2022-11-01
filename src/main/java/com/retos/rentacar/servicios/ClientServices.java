@@ -72,7 +72,7 @@ public class ClientServices {
     public Client updateClient(Client client, KeyClient key) {
 
         if (hasPermissions(key, false) || isAccountOwner(client, key)) {
-            return updateClient(client);
+            return update(client);
         }
         return new Client("No fue posible actualizar el cliente");
     }
@@ -126,7 +126,7 @@ public class ClientServices {
 
     //Resources
 
-    private Client updateClient(Client client) {
+    private Client update(Client client) {
         Optional<Client> evt = crudMethods.getClientById(client.getIdClient());
         if (client.getIdClient() != null) {
 
