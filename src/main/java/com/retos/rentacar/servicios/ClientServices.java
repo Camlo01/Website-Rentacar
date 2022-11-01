@@ -71,8 +71,8 @@ public class ClientServices {
 
     public Client updateClient(Client client, KeyClient key) {
 
-        if (hasPermissions(key, false)) {
-            return update(client);
+        if (hasPermissions(key, false) || isAccountOwner(client, key)) {
+            return updateClient(client);
         }
         return new Client("No fue posible actualizar el cliente");
     }
@@ -126,26 +126,39 @@ public class ClientServices {
 
     //Resources
 
-    private Client update(Client client) {
+    private Client updateClient(Client client) {
+        Optional<Client> evt = crudMethods.getClientById(client.getIdClient());
         if (client.getIdClient() != null) {
-            Optional<Client> evt = crudMethods.getClientById(client.getIdClient());
+
+
+            //Keeping the same keyClient
+            client.setKeyClient(evt.get().getKeyClient());
+
             if (evt.isPresent()) {
-                if (client.getName() != null) {
+                if (client.getName() != null || Objects.equals(client.getName(), evt.get().getName())) {
                     evt.get().setName(client.getName());
                 }
                 if (client.getEmail() != null) {
                     evt.get().setEmail(client.getEmail());
                 }
-                if (client.getEmail() != null) {
+                if (client.getPassword() != null) {
                     evt.get().setPassword(client.getPassword());
                 }
                 if (client.getBirthDate() != null) {
                     evt.get().setBirthDate(client.getBirthDate());
                 }
+
+                // User who's trying change the ClientType need to be ADMIN or DEVELOPER
+                if (
+                        Objects.equals(evt.get().getType(), ClientType.ADMIN) ||
+                                Objects.equals(evt.get().getType(), ClientType.DEVELOPER)
+                ) {
+                    evt.get().setType(client.getType());
+                }
                 crudMethods.save(evt.get());
             }
         }
-        return client;
+        return evt.get();
     }
 
 
@@ -192,6 +205,16 @@ public class ClientServices {
         float miliSegundosTranscurridos = Math.abs(birthDate.getTime() - actualDate.getTime());
         int diasTranscurridos = Math.round(miliSegundosTranscurridos / miliSegundosDia);
         return diasTranscurridos >= 6575;
+    }
+
+
+    /**
+     * @param client received
+     * @param key of whom made the query
+     * @return true if the key is the same of the client
+     */
+    private Boolean isAccountOwner(Client client, KeyClient key) {
+        return (Objects.equals(client.getKeyClient(), key.getKeyClient()));
     }
 
     /**
