@@ -27,7 +27,7 @@ public class Client implements Serializable {
     @Column(name = "name")
     private String name;
     @Enumerated(EnumType.STRING)
-    @Column(name = "type", columnDefinition = "ENUM('BOOKABLE','NOT_AVAILABLE','RESTRICTION','REPAIR')")
+    @Column(name = "type", columnDefinition = "ENUM('CLIENT','SUPPORT','ADMIN','DEVELOPER')")
     private ClientType type;
     @Column(name = "key_client", unique = true)
     private String keyClient;
