@@ -2,6 +2,7 @@
 package com.retos.rentacar.servicios;
 
 import com.retos.rentacar.modelo.Entity.Car.Car;
+import com.retos.rentacar.modelo.Entity.Car.CarStatus;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.repositorio.CarRepository;
 
@@ -41,9 +42,10 @@ public class CarServices {
 
     public Car saveVehicle(Car car, KeyClient keyClient) {
         if (clientServices.hasPermissions(keyClient, false)) {
-            save(car);
+            car.setCarStatus(CarStatus.OCCUPIED);
+            return metodosCrudCar.save(car);
         }
-        return car;
+        return null;
     }
 
     // PUT Method With Authorization
@@ -58,7 +60,7 @@ public class CarServices {
     // DELETE Method With Authorization
 
     public Boolean deleteVehicle(Car car, KeyClient key) {
-        if (clientServices.hasPermissions(key,false)) {
+        if (clientServices.hasPermissions(key, false)) {
             return delete(car.getIdCar());
         }
         return false;
@@ -75,8 +77,8 @@ public class CarServices {
     }
 
     private Car update(Car car) {
+        Optional<Car> evt = metodosCrudCar.getCar(car.getIdCar());
         if (car.getIdCar() != null) {
-            Optional<Car> evt = metodosCrudCar.getCar(car.getIdCar());
             if (!evt.isEmpty()) {
                 if (car.getName() != null) {
                     evt.get().setName(car.getName());
@@ -90,29 +92,13 @@ public class CarServices {
                 if (car.getDescription() != null) {
                     evt.get().setDescription(car.getDescription());
                 }
+                if (car.getCarStatus() != null) {
+                    evt.get().setCarStatus(car.getCarStatus());
+                }
                 metodosCrudCar.save(evt.get());
-                return car;
-            } else {
-                return car;
             }
-        } else {
-            return car;
         }
-    }
-
-    private Car save(Car car) {
-        if (car.getIdCar() == null) {
-            return metodosCrudCar.save(car);
-        } else {
-            Optional<Car> evt = metodosCrudCar.getCar(car.getIdCar());
-            if (evt.isEmpty()) {
-                return metodosCrudCar.save(car);
-            } else {
-                return car;
-            }
-
-        }
-
+        return evt.get();
     }
 
 
