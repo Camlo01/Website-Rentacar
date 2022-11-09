@@ -27,7 +27,6 @@ public class Car implements Serializable {
 
     @Transient // This column is ignored
     GamaServices gamaServices;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_car")
@@ -41,14 +40,15 @@ public class Car implements Serializable {
     @Column(name = "description")
     private String description;
     @Enumerated(EnumType.STRING)
-    @Column(name = "car_status", columnDefinition = "ENUM('CLIENT','SUPPORT','ADMIN','DEVELOPER')")
+    @Column(name = "car_status", columnDefinition = "ENUM('BOOKABLE','NOT_AVAILABLE','OCCUPIED','RESTRICTION','REPAIR')")
     private CarStatus carStatus;
 
 
     //    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "gama_id")
-    @JsonIgnoreProperties({"idGama", "cars"})
+    @JsonIgnoreProperties("cars")
+//    @JsonIgnoreProperties({"idGama", "cars"})
     private Gama gama;
 
 //    @JsonIgnore
@@ -96,6 +96,16 @@ public class Car implements Serializable {
         this.gama = gamaServices.getGamaToBuild(idGama);
         this.carStatus = CarStatus.NOT_AVAILABLE;
 
+    }
+
+
+    public Car(Integer idCar, String name, String brand, String description, CarStatus carStatus, Gama gama) {
+        this.idCar = idCar;
+        this.name = name;
+        this.brand = brand;
+        this.description = description;
+        this.carStatus = carStatus;
+        this.gama = gama;
     }
 
     public Car(String name, String brand, Integer year, String description, Gama gama) {
