@@ -20,15 +20,15 @@ public class ImageCarServices {
     @Autowired
     private ClientServices clientServices;
 
-    public Optional<ImageCar> getImageCarById(int id) {
+    public Optional<ImageCar> getImageCarById(int id){
         return repository.getImageCar(id);
     }
 
-    public List<ImageCar> getImagesOfCar(int idCar) {
+    public List<ImageCar> getImagesOfCar(int idCar){
         return repository.getImagesOfCar(idCar);
     }
 
-    public ImageCar saveImageCar(ImageCarDTO img) {
+    public ImageCar saveImageCar(ImageCarDTO img){
         ImageCar newImage = new ImageCar();
 
         newImage.setUrl(img.getUrl());
@@ -37,8 +37,8 @@ public class ImageCarServices {
         return repository.save(newImage);
     }
 
-    public void deleteImageCar(ImageCarDTO img) {
-        repository.deletze(img.getId());
+    public void deleteImageCar(ImageCarDTO img){
+        repository.delete(img.getId());
     }
 
 
