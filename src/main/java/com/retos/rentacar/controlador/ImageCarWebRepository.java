@@ -1,6 +1,7 @@
 package com.retos.rentacar.controlador;
 
 import com.retos.rentacar.modelo.DTO.DAO.ImageCarDTO;
+import com.retos.rentacar.modelo.DTO.Wrapper.ImageCarAndKeyClient;
 import com.retos.rentacar.modelo.Entity.Car.ImageCar;
 import com.retos.rentacar.servicios.ImageCarServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,14 +35,14 @@ public class ImageCarWebRepository {
     //MISSING VALIDATION WITH KEYCLIENT
     @PostMapping("/new-image-for-car")
     @ResponseStatus(HttpStatus.CREATED)
-    ImageCar addNewImageCar(@RequestBody ImageCarDTO imageCar) {
-        return service.saveImageCar(imageCar);
+    ImageCar addNewImageCar(@RequestBody ImageCarAndKeyClient body) {
+        return service.saveImageCar(body.getImage(), body.getKey());
     }
 
     @DeleteMapping("/delete-image")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteImageCar(@RequestBody ImageCarDTO img) {
-        service.deleteImageCar(img);
+    public void deleteImageCar(@RequestBody ImageCarAndKeyClient body) {
+        service.deleteImageCar(body.getImage(), body.getKey());
     }
 
 
