@@ -3,6 +3,7 @@ package com.retos.rentacar.servicios;
 
 import com.retos.rentacar.modelo.Entity.Car.Car;
 import com.retos.rentacar.modelo.Entity.Car.CarStatus;
+import com.retos.rentacar.modelo.Entity.Car.ImageCar;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.modelo.Entity.Gama.Gama;
 import com.retos.rentacar.repositorio.CarRepository;
@@ -109,7 +110,6 @@ public class CarServices {
                 Gama gamaToReplace = gamaRepository.getGama(car.getGama().getIdGama()).get();
                 System.out.println(gamaToReplace.toString());
                 evt.setGama(gamaToReplace);
-                metodosCrudCar.save(evt);
 
             }
 
