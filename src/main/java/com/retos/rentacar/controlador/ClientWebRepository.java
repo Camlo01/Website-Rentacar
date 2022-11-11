@@ -33,7 +33,7 @@ public class ClientWebRepository {
 
     @GetMapping("/{id}")
     public Optional<Client> getClientById(@PathVariable("id") int idClient, @RequestBody KeyClient keyClient) {
-        return servicios.getClientByid(idClient, keyClient);
+        return servicios.getClientByIdWithAuthorization(idClient, keyClient);
     }
 
     // - POST
