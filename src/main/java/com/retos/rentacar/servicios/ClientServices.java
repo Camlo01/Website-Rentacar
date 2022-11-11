@@ -34,8 +34,11 @@ public class ClientServices {
         }
         return null;
     }
+    public Optional<Client> getClientById(int id){
+        return crudMethods.getClientById(id);
+    }
 
-    public Optional<Client> getClientByid(int idCar, KeyClient key) {
+    public Optional<Client> getClientByIdWithAuthorization(int idCar, KeyClient key) {
         if (hasPermissions(key, false)) {
             return crudMethods.getClientById(idCar);
         }
