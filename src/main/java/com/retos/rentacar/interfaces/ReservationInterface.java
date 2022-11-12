@@ -42,7 +42,9 @@ public interface ReservationInterface extends PagingAndSortingRepository<Reserva
      * @param client_id      id of client who reserve
      */
     @Modifying
-    @Query(value = "INSERT INTO RESERVATION (START_DATE, DEVOLUTION_DATE,CODE, CAR_ID, CLIENT_ID, reservation_status) VALUES (?1, ?2, ?3, ?4, ?5, 'ACTIVE')", nativeQuery = true)
+    @Query(value = "INSERT INTO RESERVATION (START_DATE, DEVOLUTION_DATE,CODE, CAR_ID, CLIENT_ID, reservation_status) " +
+                   "VALUES (?1, ?2, ?3, ?4, ?5, 'ACTIVE')",
+            nativeQuery = true)
     void createReservation(String startDate, String devolutionDate, String code, int car_id, int client_id);
 
 
@@ -55,7 +57,9 @@ public interface ReservationInterface extends PagingAndSortingRepository<Reserva
      * @return if exist any reservation, return a List for validate if it's null
      * @Deprecated
      */
-    @Query(value = "SELECT * FROM reservation WHERE car_id = :carToReserve AND DEVOLUTION_DATE >= :startDate AND START_DATE <= :endDate", nativeQuery = true)
+    @Query(value = "SELECT * FROM reservation " +
+            "       WHERE car_id = :carToReserve AND DEVOLUTION_DATE >= :startDate AND START_DATE <= :endDate",
+            nativeQuery = true)
     List<Reservation> isAvailableCarIn(@Param("carToReserve") int idCar,
                                        @Param("startDate") Date start,
                                        @Param("endDate") Date end);
@@ -66,7 +70,9 @@ public interface ReservationInterface extends PagingAndSortingRepository<Reserva
      * @param reservationsIn any Date between any reservation
      * @return List of active reservations
      */
-    @Query(value = "SELECT * FROM reservation WHERE start_date <= :reservationsIn AND devolution_date >= :reservationsIn AND reservation_status = 'ACTIVE'", nativeQuery = true)
+    @Query(value = "SELECT * FROM reservation " +
+                   "WHERE start_date <= :reservationsIn AND devolution_date >= :reservationsIn AND reservation_status = 'ACTIVE'",
+                    nativeQuery = true)
     List<Reservation> getReservationsActiveIn(@Param("reservationsIn") Date reservationsIn);
 
 
@@ -77,7 +83,9 @@ public interface ReservationInterface extends PagingAndSortingRepository<Reserva
      * @param maxDate maximum date of devolution in a reservation
      * @return List of reservations
      */
-    @Query(value = "SELECT * FROM reservation WHERE start_date >= :minDate AND devolution_date <= :maxDate", nativeQuery = true)
+    @Query(value = "SELECT * FROM reservation " +
+                   "WHERE start_date >= :minDate AND devolution_date <= :maxDate",
+                    nativeQuery = true)
     List<Reservation> getReservationsBetweenDates(@Param("minDate") Date dateMin,
                                                   @Param("maxDate") Date maxDate);
 
@@ -87,8 +95,10 @@ public interface ReservationInterface extends PagingAndSortingRepository<Reserva
      * @param key of client
      * @return List of reservations
      */
-    @Query(value = "SELECT * FROM reservation INNER JOIN Client ON client.id_client=reservation.client_id WHERE client.key_client LIKE :key", nativeQuery = true)
-    List<Reservation> getAllReservationsByClientKey(String key);
+    @Query(value = "SELECT * FROM CLIENT " +
+            "INNER JOIN RESERVATION ON client.id_client = reservation.client_id " +
+            "WHERE CLIENT.key_client LIKE :key", nativeQuery = true)
+    Iterable<Reservation> getAllReservationsByClientKey(@Param("key") String key);
 
     /**
      * Find the client for its email, then and inner join of reservation table and get all reservations
@@ -96,8 +106,10 @@ public interface ReservationInterface extends PagingAndSortingRepository<Reserva
      * @param email of a client
      * @return List of reservations
      */
-    @Query(value = "SELECT * FROM CLIENT INNER JOIN RESERVATION ON CLIENT.ID_CLIENT=RESERVATION.ID_CLIENT WHERE CLIENT.EMAIL  = ?1", nativeQuery = true)
-    List<Reservation> getAllReservationsByClientEmail(String email);
+    @Query(value = " SELECT * FROM reservation " +
+            "INNER JOIN client ON client.id_client = reservation.client_id " +
+            "WHERE client.email LIKE :email ", nativeQuery = true)
+    List<Reservation> getAllReservationsByClientEmail(@Param("email") String email);
 
     /**
      * Find the client for its key, then and inner join of reservation table and get all ACTIVE reservations
@@ -105,7 +117,10 @@ public interface ReservationInterface extends PagingAndSortingRepository<Reserva
      * @param key of a client
      * @return List of active reservations
      */
-    @Query(value = "SELECT * FROM CLIENT INNER JOIN RESERVATION ON CLIENT.ID_CLIENT=RESERVATION.ID_CLIENT WHERE CLIENT.KEY_CLIENT LIKE :key AND RESERVATION_STATUS  = 1", nativeQuery = true)
+    @Query(value = "SELECT * FROM CLIENT" +
+            " INNER JOIN RESERVATION ON client.id_client = reservation.client_id" +
+            " WHERE CLIENT.key_client LIKE :key AND reservation_status  = 2",
+            nativeQuery = true)
     List<Reservation> getActiveClientReservation(String key);
 
     /**
@@ -115,7 +130,10 @@ public interface ReservationInterface extends PagingAndSortingRepository<Reserva
      * @param endOfDate of the reservation that was attempted to be made
      * @return the reservation earlier than you tried
      */
-    @Query(value = "SELECT * FROM reservation WHERE car_id = :carId AND start_date < :endDate ORDER BY devolution_date DESC LIMIT 1", nativeQuery = true)
+    @Query(value = "SELECT * FROM reservation " +
+            "WHERE car_id = :carId AND start_date < :endDate " +
+            "ORDER BY devolution_date DESC LIMIT 1",
+            nativeQuery = true)
     Optional<Reservation> getPreviousReservationOfCarForThisDate(@Param("carId") int carId,
                                                                  @Param("endDate") Date endOfDate);
 
@@ -124,7 +142,10 @@ public interface ReservationInterface extends PagingAndSortingRepository<Reserva
      * @param endDate of the reservation that was attempted to be made
      * @return the next reservation of yours if it exists
      */
-    @Query(value = "SELECT * FROM reservation WHERE car_id = :carId AND start_date > :endDate AND devolution_date > :endDate ORDER BY start_date LIMIT 1;", nativeQuery = true)
+    @Query(value = "SELECT * FROM reservation " +
+                    "WHERE car_id = :carId AND start_date > :endDate AND devolution_date > :endDate " +
+                    "ORDER BY start_date LIMIT 1;",
+                    nativeQuery = true)
     Optional<Reservation> getNextReservationOfCarAfterThisDate(@Param("carId") int carId,
                                                                @Param("endDate") Date endDate);
 
