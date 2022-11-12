@@ -1,6 +1,9 @@
 package com.retos.rentacar.modelo.DTO.DAO;
 
+import com.retos.rentacar.modelo.Entity.Car.Car;
 import com.retos.rentacar.modelo.Entity.Car.CarStatus;
+
+import java.util.List;
 
 public class CarDTO {
 
@@ -14,6 +17,15 @@ public class CarDTO {
     public CarDTO() {
     }
 
+    public CarDTO(Car car) {
+        this.id = car.getIdCar();
+        this.name = car.getName();
+        this.brand = car.getBrand();
+        this.year = car.getYear();
+        this.description = car.getDescription();
+        this.carStatus = car.getCarStatus();
+    }
+
     public CarDTO(Integer id, String name, String brand, Integer year, String description, CarStatus carStatus) {
         this.id = id;
         this.name = name;
@@ -22,6 +34,7 @@ public class CarDTO {
         this.description = description;
         this.carStatus = carStatus;
     }
+
 
     public Integer getId() {
         return id;
