@@ -1,6 +1,7 @@
 
 package com.retos.rentacar.servicios;
 
+import com.retos.rentacar.modelo.DTO.DAO.CarDTO;
 import com.retos.rentacar.modelo.Entity.Car.Car;
 import com.retos.rentacar.modelo.Entity.Car.CarStatus;
 import com.retos.rentacar.modelo.Entity.Car.ImageCar;
@@ -46,28 +47,31 @@ public class CarServices {
 
     // POST Method With Authorization
 
-    public Car saveVehicle(Car car, KeyClient keyClient) {
+    public Car saveVehicle(CarDTO car, KeyClient keyClient) {
         if (clientServices.hasPermissions(keyClient, false)) {
             car.setCarStatus(CarStatus.OCCUPIED);
-            return metodosCrudCar.save(car);
+            return metodosCrudCar.save(new Car(car));
         }
         return null;
     }
 
     // PUT Method With Authorization
 
-    public Car updateVehicle(Car car, KeyClient key) {
+    public Car updateVehicle(CarDTO car, KeyClient key) {
         if (clientServices.hasPermissions(key, true)) {
-            return update(car);
+            return update(new Car(car));
         }
         return new Car("No se pudo actualizar el carro");
     }
 
     // DELETE Method With Authorization
 
-    public Boolean deleteVehicle(Car car, KeyClient key) {
+    // delete vehicle
+    public Boolean deleteVehicle(CarDTO car, KeyClient key) {
         if (clientServices.hasPermissions(key, false)) {
-            return delete(car.getIdCar());
+            int idOfCarToDelete = car.getId();
+
+            return delete(idOfCarToDelete);
         }
         return false;
     }
