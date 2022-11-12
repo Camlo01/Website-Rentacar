@@ -48,7 +48,7 @@ public class CarWebRepository {
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Car saveVehicleWithAutoritation(@RequestBody CarAndKeyclient carAndKeyclient) {
+    public Car saveVehicleWithAuthorization(@RequestBody CarAndKeyclient carAndKeyclient) {
         return carServices.saveVehicle(carAndKeyclient.getCar(), carAndKeyclient.getKeyClient());
     }
 
