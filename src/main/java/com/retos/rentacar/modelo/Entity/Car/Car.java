@@ -6,6 +6,7 @@ package com.retos.rentacar.modelo.Entity.Car;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.retos.rentacar.modelo.DTO.DAO.CarDTO;
 import com.retos.rentacar.modelo.Entity.Gama.Gama;
 import com.retos.rentacar.modelo.Entity.Message.Message;
 import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
@@ -51,12 +52,12 @@ public class Car implements Serializable {
 //    @JsonIgnoreProperties({"idGama", "cars"})
     private Gama gama;
 
-//    @JsonIgnore
+    //    @JsonIgnore
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "car")
     private List<ImageCar> images;
 
 
-//    @JsonIgnore
+    //    @JsonIgnore
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "car")
     private List<Message> messages;
 
@@ -67,6 +68,15 @@ public class Car implements Serializable {
 
     public Car(int idCar) {
         this.idCar = idCar;
+    }
+
+    public Car(CarDTO car) {
+        this.idCar = car.getId();
+        this.name = car.getName();
+        this.brand = car.getBrand();
+        this.year = car.getYear();
+        this.description = car.getDescription();
+        this.carStatus = car.getCarStatus();
     }
 
     public Car(String message) {
