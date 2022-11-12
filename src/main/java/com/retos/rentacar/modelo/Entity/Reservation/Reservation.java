@@ -1,6 +1,7 @@
 
 package com.retos.rentacar.modelo.Entity.Reservation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.retos.rentacar.modelo.DTO.ReservationDTO;
 import com.retos.rentacar.modelo.Entity.Car.Car;
@@ -27,13 +28,13 @@ public class Reservation implements Serializable {
     @Column(name = "reservation_status", columnDefinition = "ENUM('REQUESTED','ACTIVE','CANCELLED','POSTPONED','DENIED','COMPLETED')")
     private ReservationStatus reservationStatus;
 
-    @JsonIgnoreProperties
+//    @JsonIgnoreProperties
     @JoinColumn(name = "car_id")
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private Car car;
 
 
-    @JsonIgnoreProperties
+//    @JsonIgnoreProperties
     @JoinColumn(name = "client_id")
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private Client client;
