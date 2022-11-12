@@ -31,13 +31,15 @@ public class ReservationWebRepository {
     // - GET
 
     // Client
-    @GetMapping("/my-active-reservations")
+
+    @PostMapping("/my-active-reservations")
     public List<Reservation> getMyReservations(@RequestBody KeyClient key) {
         return services.getActiveReservationsOfAClient(key);
     }
 
 
-    @PostMapping("/my-reservation-history")
+    @PostMapping("/history")
+    @ResponseStatus(HttpStatus.CREATED)
     public List<Reservation> getAllMyReservations(@RequestBody KeyClient key) {
         return services.getMyReservationHistory(key);
     }
@@ -51,7 +53,7 @@ public class ReservationWebRepository {
         }
     }
 
-    @PostMapping("/whenCanBeReserveThisVehicle")
+    @PostMapping("/when-is-it-bookable")
     public List<Reservation> datesBetweenYourReservation(@RequestBody ReservationDTO reservationDTO) {
         return services.datesBetweenYourReservation(reservationDTO);
     }
@@ -64,38 +66,26 @@ public class ReservationWebRepository {
     //--EMPLOYEES
 
     // Admin-Developer
-    @GetMapping("/all-reservations")
+    @PostMapping("/all-reservations")
     public List<Reservation> getAllReservations(@RequestBody KeyClient key) {
         return services.getAllReservations(key);
     }
 
     // Support
-    @GetMapping("/all-reservations-by-client")
+    @PostMapping("/all-reservations-by-client")
     public List<Reservation> getAllReservationsByClient(@RequestBody ClientAndKeyclient body) {
         return services.getReservationsOfAClient(body.getClient(), body.getKeyClient());
     }
 
-    @GetMapping("/activesIn={dateReservationsActive}")
-    public List<Reservation> getReservationsActiveInTheDate(@PathVariable("dateReservationsActive") String dateToConsult,
-                                                            @RequestBody KeyClient key) {
-        return services.reservationsActiveIn(dateToConsult, key);
-    }
 
-    @GetMapping("/between={minDate}/and={maxDate}")
+    @PostMapping("/all-between={minDate}/and={maxDate}")
     public List<Reservation> getReservationsBetweenOneAndTwo(@PathVariable("minDate") String minDate, @PathVariable("maxDate") String maxDate,
                                                              @RequestBody KeyClient key) {
         return services.reservationsBetweenDates(minDate, maxDate, key);
     }
 
 
-    // ONLY FOR TEST
-    @GetMapping("/reservation-by-id")
-    public Optional<Reservation> getReservationById(@RequestBody ReservationAndKeyclient body) {
-        return services.getReservationById(body);
-
-    }
-
-    @GetMapping("/reservation-by-code")
+    @PostMapping("/reservation-by-code")
     public Optional<Reservation> getReservationByCode(@RequestBody ReservationAndKeyclient body) {
         return services.getReservationByCode(body.getReservation(), body.getKeyClient());
     }
@@ -112,7 +102,6 @@ public class ReservationWebRepository {
 
     @PutMapping("/edit-reservation")
     public Reservation editReservation(@RequestBody ReservationAndKeyclient body) {
-
         return services.editReservation(body.getReservation(), body.getKeyClient());
     }
 
@@ -132,38 +121,38 @@ public class ReservationWebRepository {
 
     //----------------------RESOURCES
 
-    @GetMapping("/report-dates/{dateOne}/{dateTwo}")
-    public List<Reservation> getReservasTiempo(@PathVariable("dateOne") String dateOne,
-                                               @PathVariable("dateTwo") String dateTwo) {
-        return services.reporteTiempoServicio(dateOne, dateTwo);
-    }
-
-    @GetMapping("/report-clients")
-    public List<CountClients> getClientes() {
-        return services.reporteClientesServicio();
-    }
-
-
-    @GetMapping("/all")
-    public List<Reservation> getReservation() {
-        return services.getAll();
-    }
-
-    @GetMapping("/{id}")
-    public Optional<Reservation> getReservation(@PathVariable("id") int idReservation) {
-        return services.getReservation(idReservation);
-    }
-
-    @PostMapping("/save")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Reservation save(@RequestBody Reservation reservation) {
-        return services.save(reservation);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean delete(@PathVariable("id") int idReservation) {
-        return services.deleteReservation(idReservation);
-    }
+//    @GetMapping("/report-dates/{dateOne}/{dateTwo}")
+//    public List<Reservation> getReservasTiempo(@PathVariable("dateOne") String dateOne,
+//                                               @PathVariable("dateTwo") String dateTwo) {
+//        return services.reporteTiempoServicio(dateOne, dateTwo);
+//    }
+//
+//    @GetMapping("/report-clients")
+//    public List<CountClients> getClientes() {
+//        return services.reporteClientesServicio();
+//    }
+//
+//
+//    @GetMapping("/all")
+//    public List<Reservation> getReservation() {
+//        return services.getAll();
+//    }
+//
+//    @GetMapping("/{id}")
+//    public Optional<Reservation> getReservation(@PathVariable("id") int idReservation) {
+//        return services.getReservation(idReservation);
+//    }
+//
+//    @PostMapping("/save")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public Reservation save(@RequestBody Reservation reservation) {
+//        return services.save(reservation);
+//    }
+//
+//    @DeleteMapping("/delete/{id}")
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    public boolean delete(@PathVariable("id") int idReservation) {
+//        return services.deleteReservation(idReservation);
+//    }
 
 }
