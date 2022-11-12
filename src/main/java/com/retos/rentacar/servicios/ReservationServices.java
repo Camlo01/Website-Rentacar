@@ -200,6 +200,8 @@ public class ReservationServices {
     }
 
     public Reservation update(Reservation reservation) {
+
+
         if (reservation.getIdReservation() != null) {
             Optional<Reservation> evt = repository.getReservation(reservation.getIdReservation());
             if (!evt.isEmpty()) {
@@ -218,6 +220,8 @@ public class ReservationServices {
             return reservation;
         }
     }
+
+    //Unused queries
 
     public boolean deleteReservation(int IdReservation) {
         Boolean aBoolean = getReservation(IdReservation).map(reservation -> {
