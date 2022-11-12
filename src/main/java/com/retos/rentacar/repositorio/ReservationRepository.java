@@ -41,7 +41,7 @@ public class ReservationRepository {
     }
 
     public List<Reservation> getMyReservationHistory(String key) {
-        return crudReservation.getAllReservationsByClientKey(key);
+        return (List<Reservation>) crudReservation.getAllReservationsByClientKey(key);
     }
 
     public List<Reservation> getAllReservationsOfClientByEmail(String email) {
