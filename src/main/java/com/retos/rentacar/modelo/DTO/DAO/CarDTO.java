@@ -2,6 +2,7 @@ package com.retos.rentacar.modelo.DTO.DAO;
 
 import com.retos.rentacar.modelo.Entity.Car.Car;
 import com.retos.rentacar.modelo.Entity.Car.CarStatus;
+import com.retos.rentacar.modelo.Entity.Gama.Gama;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ public class CarDTO {
     private Integer year;
     private String description;
     private CarStatus carStatus;
+    private GamaDTO gama;
 
     public CarDTO() {
     }
@@ -26,6 +28,8 @@ public class CarDTO {
         this.carStatus = car.getCarStatus();
     }
 
+
+
     public CarDTO(Integer id, String name, String brand, Integer year, String description, CarStatus carStatus) {
         this.id = id;
         this.name = name;
@@ -35,6 +39,22 @@ public class CarDTO {
         this.carStatus = carStatus;
     }
 
+    public CarDTO(String name, String brand, Integer year, String description) {
+        this.name = name;
+        this.brand = brand;
+        this.year = year;
+        this.description = description;
+    }
+
+    public CarDTO(Integer id, String name, String brand, Integer year, String description, CarStatus carStatus, GamaDTO gama) {
+        this.id = id;
+        this.name = name;
+        this.brand = brand;
+        this.year = year;
+        this.description = description;
+        this.carStatus = carStatus;
+        this.gama = gama;
+    }
 
     public Integer getId() {
         return id;
@@ -82,5 +102,13 @@ public class CarDTO {
 
     public void setCarStatus(CarStatus carStatus) {
         this.carStatus = carStatus;
+    }
+
+    public GamaDTO getGama() {
+        return gama;
+    }
+
+    public void setGama(GamaDTO gama) {
+        this.gama = gama;
     }
 }
