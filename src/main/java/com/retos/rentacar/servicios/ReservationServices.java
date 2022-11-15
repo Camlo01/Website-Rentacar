@@ -45,6 +45,15 @@ public class ReservationServices {
 
 
     // GET
+    public List<Reservation> getActiveReservationsOfAClient(KeyClient key) {
+        return repository.getActiveClientReservation(key);
+    }
+
+    public List<Reservation> getMyReservationHistory(KeyClient key) {
+        return repository.getMyReservationHistory(key.getKeyClient());
+    }
+
+
     public Optional<Reservation> getReservationById(ReservationAndKeyclient body) {
         int id = body.getReservation().getId();
         KeyClient key = body.getKeyClient();
@@ -56,10 +65,6 @@ public class ReservationServices {
         return Optional.empty();
     }
 
-    public List<Reservation> getActiveReservationsOfAClient(KeyClient key) {
-        return repository.getActiveClientReservation(key);
-    }
-
 
     public List<Reservation> getAllReservations(KeyClient key) {
         if (clientServices.hasPermissions(key, false)) {
@@ -68,9 +73,6 @@ public class ReservationServices {
         return null;
     }
 
-    public List<Reservation> getMyReservationHistory(KeyClient key) {
-        return repository.getMyReservationHistory(key.getKeyClient());
-    }
 
     public List<Reservation> getReservationsOfAClient(Client client, KeyClient key) {
         if (clientServices.hasPermissions(key, true)) {
@@ -118,13 +120,11 @@ public class ReservationServices {
     public Boolean cancelReservation(Reservation reservation, KeyClient key) {
 
         Reservation reservationToCancel = (repository.getReservationById(reservation.getId())).get();
-        reservationToCancel.setReservationStatus(ReservationStatus.CANCELLED);
 
-        if (clientServices.hasPermissions(key, false)) {
-            cancelTheReservation(reservationToCancel);
-            return true;
-        } else if (sameKeyOfWhoBooked(reservationToCancel, key)) {
-            cancelTheReservation(reservationToCancel);
+        if (clientServices.hasPermissions(key, false) || sameKeyOfWhoBooked(reservationToCancel, key)) {
+
+            reservationToCancel.setReservationStatus(ReservationStatus.CANCELLED);
+            repository.save(reservationToCancel);
             return true;
         }
         return false;
@@ -140,7 +140,7 @@ public class ReservationServices {
     }
 
     public List<Reservation> datesBetweenYourReservation(ReservationDTO reservationDTO) {
-        ArrayList<Reservation> reservations = new ArrayList<>();
+        List<Reservation> reservations = new ArrayList<>();
 
         Reservation previous = repository.previousReservation(reservationDTO.getCar_id(), reservationDTO.getDevolutionDate()).get();
         Reservation next = repository.nextReservation(reservationDTO.getCar_id(), reservationDTO.getDevolutionDate()).get();
@@ -155,9 +155,6 @@ public class ReservationServices {
 
     //resources
 
-    private Reservation cancelTheReservation(Reservation reservation) {
-        return repository.save(reservation);
-    }
 
     private Boolean sameKeyOfWhoBooked(Reservation reservationMade, KeyClient keyOfWhoBooked) {
         String toCompare = reservationMade.getClient().getKeyClient();
