@@ -47,20 +47,20 @@ public class ReservationWebRepository {
     @PostMapping("/reserve-vehicle")
     public ResponseEntity<String> reserveVehicle(@RequestBody ReservationDTO reservationDTO) {
         if (services.createReservation(reservationDTO)) {
-            return new ResponseEntity<>("response", HttpStatus.CREATED);
+            return new ResponseEntity<>("Created Successfully", HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<>("response", HttpStatus.METHOD_NOT_ALLOWED);
+            return new ResponseEntity<>("Something went wrong!", HttpStatus.METHOD_NOT_ALLOWED);
         }
     }
 
-    @PostMapping("/when-is-it-bookable")
+    @PostMapping("/when-is-bookable")
     public List<Reservation> datesBetweenYourReservation(@RequestBody ReservationDTO reservationDTO) {
         return services.datesBetweenYourReservation(reservationDTO);
     }
 
 
     // --- Requests as EMPLOYEES
-    // --- Requests as EMPLOYEESse
+    // --- Requests as EMPLOYEES
 
 
     //--EMPLOYEES
