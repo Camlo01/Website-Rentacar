@@ -2,6 +2,7 @@
 package com.retos.rentacar.servicios;
 
 import com.retos.rentacar.modelo.DTO.DAO.CarDTO;
+import com.retos.rentacar.modelo.DTO.DAO.GamaDTO;
 import com.retos.rentacar.modelo.Entity.Car.Car;
 import com.retos.rentacar.modelo.Entity.Car.CarStatus;
 import com.retos.rentacar.modelo.Entity.Car.ImageCar;
@@ -49,7 +50,14 @@ public class CarServices {
 
     public Car saveVehicle(CarDTO car, KeyClient keyClient) {
         if (clientServices.hasPermissions(keyClient, false)) {
-            car.setCarStatus(CarStatus.OCCUPIED);
+            if(car.getCarStatus() == null){
+                car.setCarStatus(CarStatus.OCCUPIED);
+            }
+            if(car.getGama() == null){
+                Gama emptyGama = gamaRepository.getGama(11).get();
+                car.setGama( new GamaDTO(emptyGama));
+            }
+
             return metodosCrudCar.save(new Car(car));
         }
         return null;
