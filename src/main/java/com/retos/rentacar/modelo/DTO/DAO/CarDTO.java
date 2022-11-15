@@ -20,7 +20,7 @@ public class CarDTO {
     }
 
     public CarDTO(Car car) {
-        this.id = car.getIdCar();
+        this.id = car.getId();
         this.name = car.getName();
         this.brand = car.getBrand();
         this.year = car.getYear();

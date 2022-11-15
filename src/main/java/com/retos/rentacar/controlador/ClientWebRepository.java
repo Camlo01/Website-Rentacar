@@ -66,7 +66,7 @@ public class ClientWebRepository {
     @DeleteMapping("/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean delete(@RequestBody ClientAndKeyclient body) {
-        return servicios.deleteClient(body.getClient().getIdClient(), body.getKeyClient());
+        return servicios.deleteClient(body.getClient().getId(), body.getKeyClient());
     }
 
     // Login

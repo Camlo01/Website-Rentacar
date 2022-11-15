@@ -33,7 +33,7 @@ public class ReservationRepository {
 
 
     public Optional<Reservation> getReservationById(int id) {
-        return crudReservation.findReservationByidReservation(id);
+        return crudReservation.findReservationById(id);
     }
 
     public List<Reservation> getAll() {

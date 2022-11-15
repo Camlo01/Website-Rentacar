@@ -95,8 +95,8 @@ public class CarServices {
     }
 
     private Car update(Car car) {
-        Car evt = metodosCrudCar.getCar(car.getIdCar()).get();
-        if (Objects.equals(car.getIdCar(), evt.getIdCar())) {
+        Car evt = metodosCrudCar.getCar(car.getId()).get();
+        if (Objects.equals(car.getId(), evt.getId())) {
 
             if (!Objects.equals(evt.getName(), car.getName())) {
                 evt.setName(car.getName());
@@ -116,10 +116,10 @@ public class CarServices {
             if (!Objects.equals(evt.getCarStatus(), car.getCarStatus())) {
                 evt.setCarStatus(car.getCarStatus());
             }
-            if (!Objects.equals(evt.getGama().getIdGama(), car.getGama().getIdGama())){
+            if (!Objects.equals(evt.getGama().getId(), car.getGama().getId())){
 
                 // Consulting new gama to set
-                Gama gamaToReplace = gamaRepository.getGama(car.getGama().getIdGama()).get();
+                Gama gamaToReplace = gamaRepository.getGama(car.getGama().getId()).get();
                 System.out.println(gamaToReplace.toString());
                 evt.setGama(gamaToReplace);
 

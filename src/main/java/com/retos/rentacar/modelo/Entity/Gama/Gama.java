@@ -15,7 +15,7 @@ public class Gama implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_gama", nullable = false, unique = true)
-    private Integer idGama;
+    private Integer id;
     @Column(name = "name")
     private String name;
     @Column(name = "description")
@@ -29,7 +29,7 @@ public class Gama implements Serializable {
     public Gama() {
     }
     public Gama(GamaDTO gamaDTO) {
-        this.idGama = gamaDTO.getId();
+        this.id = gamaDTO.getId();
         this.name = gamaDTO.getName();
         this.description = gamaDTO.getDescription();
     }
@@ -39,19 +39,19 @@ public class Gama implements Serializable {
         this.description = description;
     }
 
-    public Gama(Integer idGama, String name, String description, List<Car> cars) {
-        this.idGama = idGama;
+    public Gama(Integer id, String name, String description, List<Car> cars) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.cars = cars;
     }
 
-    public Integer getIdGama() {
-        return idGama;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdGama(Integer idGama) {
-        this.idGama = idGama;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

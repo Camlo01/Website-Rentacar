@@ -46,7 +46,7 @@ public class ReservationServices {
 
     // GET
     public Optional<Reservation> getReservationById(ReservationAndKeyclient body) {
-        int id = body.getReservation().getIdReservation();
+        int id = body.getReservation().getId();
         KeyClient key = body.getKeyClient();
 
         if (clientServices.hasPermissions(key, false)) {
@@ -117,7 +117,7 @@ public class ReservationServices {
 
     public Boolean cancelReservation(Reservation reservation, KeyClient key) {
 
-        Reservation reservationToCancel = (repository.getReservationById(reservation.getIdReservation())).get();
+        Reservation reservationToCancel = (repository.getReservationById(reservation.getId())).get();
         reservationToCancel.setReservationStatus(ReservationStatus.CANCELLED);
 
         if (clientServices.hasPermissions(key, false)) {
@@ -184,10 +184,10 @@ public class ReservationServices {
 
 
     public Reservation save(Reservation reservation) {
-        if (reservation.getIdReservation() == null) {
+        if (reservation.getId() == null) {
             return repository.save(reservation);
         } else {
-            Optional<Reservation> evt = repository.getReservation(reservation.getIdReservation());
+            Optional<Reservation> evt = repository.getReservation(reservation.getId());
             if (evt.isEmpty()) {
                 return repository.save(reservation);
             } else {
@@ -202,8 +202,8 @@ public class ReservationServices {
     public Reservation update(Reservation reservation) {
 
 
-        if (reservation.getIdReservation() != null) {
-            Optional<Reservation> evt = repository.getReservation(reservation.getIdReservation());
+        if (reservation.getId() != null) {
+            Optional<Reservation> evt = repository.getReservation(reservation.getId());
             if (!evt.isEmpty()) {
                 if (reservation.getStartDate() != null) {
                     evt.get().setStartDate(reservation.getStartDate());

@@ -12,7 +12,7 @@ public class GamaDTO {
     }
 
     public GamaDTO(Gama gama) {
-        this.id = gama.getIdGama();
+        this.id = gama.getId();
         this.name = gama.getName();
         this.description = gama.getDescription();
     }

@@ -17,7 +17,7 @@ public class Reservation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_reservation")
-    private Integer idReservation;
+    private Integer id;
     @Column(name = "start_date")
     private Date startDate;
     @Column(name = "devolution_date")
@@ -28,13 +28,13 @@ public class Reservation implements Serializable {
     @Column(name = "reservation_status", columnDefinition = "ENUM('REQUESTED','ACTIVE','CANCELLED','POSTPONED','DENIED','COMPLETED')")
     private ReservationStatus reservationStatus;
 
-//    @JsonIgnoreProperties
+    //    @JsonIgnoreProperties
     @JoinColumn(name = "car_id")
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private Car car;
 
 
-//    @JsonIgnoreProperties
+    //    @JsonIgnoreProperties
     @JoinColumn(name = "client_id")
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private Client client;
@@ -56,8 +56,8 @@ public class Reservation implements Serializable {
     }
 
 
-    public Reservation(int idReservation) {
-        this.idReservation = idReservation;
+    public Reservation(int id) {
+        this.id = id;
     }
 
     public Reservation(String startDate, String devolutionDate) {
@@ -84,8 +84,8 @@ public class Reservation implements Serializable {
         this.code = new ReservationCode().generateReservationCode();
     }
 
-    public Reservation(Integer idReservation, Date startDate, Date devolutionDate, Car car, Client client) {
-        this.idReservation = idReservation;
+    public Reservation(Integer id, Date startDate, Date devolutionDate, Car car, Client client) {
+        this.id = id;
         this.startDate = startDate;
         this.devolutionDate = devolutionDate;
         this.car = car;
@@ -106,12 +106,12 @@ public class Reservation implements Serializable {
         this.code = code;
     }
 
-    public Integer getIdReservation() {
-        return idReservation;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdReservation(Integer idReservation) {
-        this.idReservation = idReservation;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Date getStartDate() {

@@ -17,7 +17,7 @@ public class Message implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_message",nullable = false)
-    private Integer idMessage;
+    private Integer id;
     @Column(name = "message_text")
     private String messageText;
 
@@ -36,8 +36,8 @@ public class Message implements Serializable {
     }
 
 
-    public Message(Integer idMessage, String messageText) {
-        this.idMessage = idMessage;
+    public Message(Integer id, String messageText) {
+        this.id = id;
         this.messageText = messageText;
     }
 
@@ -47,19 +47,19 @@ public class Message implements Serializable {
         this.client = client;
     }
 
-    public Message(Integer idMessage, String messageText, Car car, Client client) {
-        this.idMessage = idMessage;
+    public Message(Integer id, String messageText, Car car, Client client) {
+        this.id = id;
         this.messageText = messageText;
         this.car = car;
         this.client = client;
     }
 
-    public Integer getIdMessage() {
-        return idMessage;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdMessage(Integer idMessage) {
-        this.idMessage = idMessage;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getMessageText() {

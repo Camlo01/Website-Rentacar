@@ -24,7 +24,7 @@ import javax.transaction.Transactional;
 @Transactional
 public interface ReservationInterface extends PagingAndSortingRepository<Reservation, Integer> {
 
-    Optional<Reservation> findReservationByidReservation(int idReservation);
+    Optional<Reservation> findReservationById(int idReservation);
 
     List<Reservation> findAllByReservationStatus(ReservationStatus status);
 

@@ -32,10 +32,10 @@ public class GamaServices {
     }
 
     public Gama save(Gama gama) {
-        if (gama.getIdGama() == null) {
+        if (gama.getId() == null) {
             return metodosCrudGama.save(gama);
         } else {
-            Optional<Gama> evt = metodosCrudGama.getGama(gama.getIdGama());
+            Optional<Gama> evt = metodosCrudGama.getGama(gama.getId());
             if (evt.isEmpty()) {
                 return metodosCrudGama.save(gama);
             } else {
@@ -46,8 +46,8 @@ public class GamaServices {
 
     public Gama update(Gama gama) {
 
-        if (gama.getIdGama() != null) {
-            Optional<Gama> evt = metodosCrudGama.getGama(gama.getIdGama());
+        if (gama.getId() != null) {
+            Optional<Gama> evt = metodosCrudGama.getGama(gama.getId());
             if (!evt.isEmpty()) {
                 if (gama.getName() != null) {
                     evt.get().setName(gama.getName());

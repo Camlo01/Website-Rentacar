@@ -130,8 +130,8 @@ public class ClientServices {
     //Resources
 
     private Client update(Client client) {
-        Optional<Client> evt = crudMethods.getClientById(client.getIdClient());
-        if (client.getIdClient() != null) {
+        Optional<Client> evt = crudMethods.getClientById(client.getId());
+        if (client.getId() != null) {
 
 
             //Keeping the same keyClient

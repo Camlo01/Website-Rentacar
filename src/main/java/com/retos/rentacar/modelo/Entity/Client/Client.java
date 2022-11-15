@@ -19,7 +19,7 @@ public class Client implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_client")
-    private Integer idClient;
+    private Integer id;
     @Column(name = "email", unique = true)
     private String email;
     @Column(name = "password")
@@ -58,8 +58,8 @@ public class Client implements Serializable {
         this.birthDate = Date.valueOf("2000-01-01");
     }
 
-    public Client(int idClient) {
-        this.idClient = idClient;
+    public Client(int id) {
+        this.id = id;
     }
 
     public Client(String email) {
@@ -93,8 +93,8 @@ public class Client implements Serializable {
         this.keyClient = keyClient;
     }
 
-    public Client(Integer idClient, String email, String password, String name, ClientType type, String keyClient, Date birthDate, List<Message> messages, List<Reservation> reservations) {
-        this.idClient = idClient;
+    public Client(Integer id, String email, String password, String name, ClientType type, String keyClient, Date birthDate, List<Message> messages, List<Reservation> reservations) {
+        this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
@@ -105,12 +105,12 @@ public class Client implements Serializable {
         this.reservations = reservations;
     }
 
-    public Integer getIdClient() {
-        return idClient;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdClient(Integer idClient) {
-        this.idClient = idClient;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getEmail() {

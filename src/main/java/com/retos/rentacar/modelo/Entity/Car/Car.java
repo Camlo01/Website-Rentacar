@@ -31,7 +31,7 @@ public class Car implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_car")
-    private Integer idCar;
+    private Integer id;
     @Column(name = "name")
     private String name;
     @Column(name = "brand")
@@ -66,12 +66,12 @@ public class Car implements Serializable {
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "car")
     private List<Reservation> reservations;
 
-    public Car(int idCar) {
-        this.idCar = idCar;
+    public Car(int id) {
+        this.id = id;
     }
 
     public Car(CarDTO car) {
-        this.idCar = car.getId();
+        this.id = car.getId();
         this.name = car.getName();
         this.brand = car.getBrand();
         this.year = car.getYear();
@@ -110,8 +110,8 @@ public class Car implements Serializable {
     }
 
 
-    public Car(Integer idCar, String name, String brand, String description, CarStatus carStatus, Gama gama) {
-        this.idCar = idCar;
+    public Car(Integer id, String name, String brand, String description, CarStatus carStatus, Gama gama) {
+        this.id = id;
         this.name = name;
         this.brand = brand;
         this.description = description;
@@ -137,9 +137,9 @@ public class Car implements Serializable {
         this.carStatus = status;
     }
 
-    public Car(Integer idCar, String name, String brand, Integer year, String description, Gama gama,
+    public Car(Integer id, String name, String brand, Integer year, String description, Gama gama,
                List<Message> messages, List<Reservation> reservations) {
-        this.idCar = idCar;
+        this.id = id;
         this.name = name;
         this.brand = brand;
         this.year = year;
@@ -150,8 +150,8 @@ public class Car implements Serializable {
         this.carStatus = CarStatus.NOT_AVAILABLE;
     }
 
-    public Car(Integer idCar, String name, String brand, Integer year, String description, CarStatus carStatus, Gama gama, List<Message> messages, List<ImageCar> images, List<Reservation> reservations) {
-        this.idCar = idCar;
+    public Car(Integer id, String name, String brand, Integer year, String description, CarStatus carStatus, Gama gama, List<Message> messages, List<ImageCar> images, List<Reservation> reservations) {
+        this.id = id;
         this.name = name;
         this.brand = brand;
         this.year = year;
@@ -163,12 +163,12 @@ public class Car implements Serializable {
         this.reservations = reservations;
     }
 
-    public Integer getIdCar() {
-        return idCar;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdCar(Integer idCar) {
-        this.idCar = idCar;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
