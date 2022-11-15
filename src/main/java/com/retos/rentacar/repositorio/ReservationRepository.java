@@ -24,6 +24,14 @@ public class ReservationRepository {
     @Autowired
     private ClientInterface clientInterface;
 
+    public List<Reservation> getActiveClientReservation(KeyClient key) {
+        return (List<Reservation>)crudReservation.getActiveClientReservation(key.getKeyClient());
+    }
+
+    public List<Reservation> getMyReservationHistory(String key) {
+        return (List<Reservation>) crudReservation.getAllReservationsByClientKey(key);
+    }
+
     public Optional<Reservation> previousReservation(int carId, String endDate){
         return crudReservation.getPreviousReservationOfCarForThisDate(carId, java.sql.Date.valueOf(endDate));
     }
@@ -40,17 +48,13 @@ public class ReservationRepository {
         return (List<Reservation>) crudReservation.findAll();
     }
 
-    public List<Reservation> getMyReservationHistory(String key) {
-        return (List<Reservation>) crudReservation.getAllReservationsByClientKey(key);
-    }
+
 
     public List<Reservation> getAllReservationsOfClientByEmail(String email) {
         return crudReservation.getAllReservationsByClientEmail(email);
     }
 
-    public List<Reservation> getActiveClientReservation(KeyClient key) {
-        return crudReservation.getActiveClientReservation(key.getKeyClient());
-    }
+
 
     public List<Reservation> getReservationsActiveIn(Date dateToConsult) {
         return crudReservation.getReservationsActiveIn(dateToConsult);
