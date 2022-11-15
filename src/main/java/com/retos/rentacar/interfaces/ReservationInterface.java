@@ -33,6 +33,28 @@ public interface ReservationInterface extends PagingAndSortingRepository<Reserva
     Optional<Reservation> findReservationByCode(String code);
 
     /**
+     * Find the client for its key, then and inner join of reservation table and get all ACTIVE reservations
+     *
+     * @param key of a client
+     * @return List of active reservations
+     */
+    @Query(value = "SELECT * FROM CLIENT INNER JOIN RESERVATION ON client.id_client = reservation.client_id WHERE CLIENT.key_client LIKE :key AND reservation_status  = 2",
+            nativeQuery = true)
+    Iterable<Reservation> getActiveClientReservation(@Param("key") String key);
+
+    /**
+     * Find the client for its key, then and inner join of reservation table and get all reservations
+     *
+     * @param key of client
+     * @return List of reservations
+     */
+    @Query(value = "SELECT * FROM CLIENT " +
+            "INNER JOIN RESERVATION ON client.id_client = reservation.client_id " +
+            "WHERE CLIENT.key_client LIKE :key", nativeQuery = true)
+    Iterable<Reservation> getAllReservationsByClientKey(@Param("key") String key);
+
+
+    /**
      * Create a reservation
      *
      * @param startDate      start of reservation
@@ -89,16 +111,6 @@ public interface ReservationInterface extends PagingAndSortingRepository<Reserva
     List<Reservation> getReservationsBetweenDates(@Param("minDate") Date dateMin,
                                                   @Param("maxDate") Date maxDate);
 
-    /**
-     * Find the client for its key, then and inner join of reservation table and get all reservations
-     *
-     * @param key of client
-     * @return List of reservations
-     */
-    @Query(value = "SELECT * FROM CLIENT " +
-            "INNER JOIN RESERVATION ON client.id_client = reservation.client_id " +
-            "WHERE CLIENT.key_client LIKE :key", nativeQuery = true)
-    Iterable<Reservation> getAllReservationsByClientKey(@Param("key") String key);
 
     /**
      * Find the client for its email, then and inner join of reservation table and get all reservations
@@ -111,17 +123,6 @@ public interface ReservationInterface extends PagingAndSortingRepository<Reserva
             "WHERE client.email LIKE :email ", nativeQuery = true)
     List<Reservation> getAllReservationsByClientEmail(@Param("email") String email);
 
-    /**
-     * Find the client for its key, then and inner join of reservation table and get all ACTIVE reservations
-     *
-     * @param key of a client
-     * @return List of active reservations
-     */
-    @Query(value = "SELECT * FROM CLIENT" +
-            " INNER JOIN RESERVATION ON client.id_client = reservation.client_id" +
-            " WHERE CLIENT.key_client LIKE :key AND reservation_status  = 2",
-            nativeQuery = true)
-    List<Reservation> getActiveClientReservation(String key);
 
     /**
      * Last reservation made accord to the start date of you reservation
