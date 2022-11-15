@@ -2,6 +2,7 @@ package com.retos.rentacar.modelo.Entity.Gama;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.retos.rentacar.modelo.DTO.DAO.GamaDTO;
 import com.retos.rentacar.modelo.Entity.Car.Car;
 
 import java.io.Serializable;
@@ -26,6 +27,23 @@ public class Gama implements Serializable {
     private List<Car> cars;
 
     public Gama() {
+    }
+    public Gama(GamaDTO gamaDTO) {
+        this.idGama = gamaDTO.getId();
+        this.name = gamaDTO.getName();
+        this.description = gamaDTO.getDescription();
+    }
+
+    public Gama(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public Gama(Integer idGama, String name, String description, List<Car> cars) {
+        this.idGama = idGama;
+        this.name = name;
+        this.description = description;
+        this.cars = cars;
     }
 
     public Integer getIdGama() {
@@ -60,17 +78,7 @@ public class Gama implements Serializable {
         this.cars = cars;
     }
 
-    public Gama(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
 
-    public Gama(Integer idGama, String name, String description, List<Car> cars) {
-        this.idGama = idGama;
-        this.name = name;
-        this.description = description;
-        this.cars = cars;
-    }
 
 
 }
