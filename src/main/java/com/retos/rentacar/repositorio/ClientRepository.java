@@ -12,25 +12,25 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ClientRepository {
     @Autowired
-    private ClientInterface queryPetitions;
+    private ClientInterface clientInterface;
 
     public List<Client> getAll() {
-        return (List<Client>) queryPetitions.findAll();
+        return clientInterface.findAll();
     }
 
     public Optional<Client> getClientById(int id) {
-        return queryPetitions.findById(id);
+        return clientInterface.findById(id);
     }
 
     public Client save(Client client) {
-        return queryPetitions.save(client);
+        return clientInterface.save(client);
     }
 
     public void delete(Client client) {
-        queryPetitions.delete(client);
+        clientInterface.delete(client);
     }
 
     public Optional<Client> getClientByEmail(String email) {
-        return queryPetitions.findClientByEmail(email);
+        return clientInterface.findClientByEmail(email);
     }
 }
