@@ -109,6 +109,15 @@ public class Car implements Serializable {
 
     }
 
+    public Car(Integer id, String name, String brand, Integer year, String description, CarStatus carStatus) {
+        this.id = id;
+        this.name = name;
+        this.brand = brand;
+        this.year = year;
+        this.description = description;
+        this.carStatus = carStatus;
+    }
+
 
     public Car(Integer id, String name, String brand, String description, CarStatus carStatus, Gama gama) {
         this.id = id;
