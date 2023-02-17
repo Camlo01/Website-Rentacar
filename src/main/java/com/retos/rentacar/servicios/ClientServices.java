@@ -20,153 +20,207 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ClientServices {
+
     @Autowired
-    private ClientRepository crudMethods;
+    private ClientRepository clientRepository;
     @Autowired
     private ClientInterface clientInterface;
 
-
-    // GET
-
-    public List<Client> getAllClients(KeyClient keyClient) {
-        if (hasPermissions(keyClient, false)) {
-            return crudMethods.getAll();
+    /**
+     * Method in charge of returning all the users of the database
+     *
+     * @param key key of who request
+     * @return the list if who make the request has permissions
+     */
+    public List<Client> getAllClientsWithAuthorization(KeyClient key) {
+        if (hasPermissions(key, false)) {
+            return clientRepository.getAll();
         }
         return null;
     }
-    public Optional<Client> getClientById(int id){
-        return crudMethods.getClientById(id);
+
+    /**
+     * Method in charge to return a client by its id
+     *
+     * @param id of client to find
+     * @return client if exists
+     */
+    public Optional<Client> getClientById(int id) {
+        return clientRepository.getClientById(id);
     }
 
-    public Optional<Client> getClientByIdWithAuthorization(int idCar, KeyClient key) {
+    /**
+     * Method in charge of return a client by its Id if who make the request have permission
+     *
+     * @param id  of client to find
+     * @param key of who make the request
+     * @return the client if exist
+     */
+    public Optional<Client> getClientByIdWithAuthorization(int id, KeyClient key) {
         if (hasPermissions(key, false)) {
-            return crudMethods.getClientById(idCar);
+            return getClientById(id);
         }
         return Optional.empty();
     }
 
-    // POST
-
+    /**
+     * Method responsible for creating an account if it meets
+     * - the user has the minimum age
+     * - the email to use is valid
+     * - the password is valid
+     *
+     * @param clientToCreate account to create
+     * @return return the client if the account was created successfully
+     */
     public Client createAccount(Client clientToCreate) {
         if (isValidClient(clientToCreate)) {
             clientToCreate.setType(ClientType.CLIENT);
             clientToCreate.setKeyClient(new KeyClient().getKeyClient());
-            return crudMethods.save(clientToCreate);
-        }
-        return new Client("XXXXX", "XXXXX");
-    }
-
-    public Client saveClient(Client clientToSave, KeyClient key) {
-        if (hasPermissions(key, false)) {
-
-            if (isValidClient(clientToSave)) {
-                clientToSave.setType(ClientType.CLIENT);
-                clientToSave.setKeyClient(new KeyClient().getKeyClient());
-                return crudMethods.save(clientToSave);
-            }
-
-            return null;
+            return clientRepository.save(clientToCreate);
         }
         return null;
     }
 
-    //PUT
+    /**
+     * Method that allows Admins and Developers to create accounts
+     *
+     * @param account account to create
+     * @param key     key of who make the request
+     * @return the client if it was successfully saved
+     */
+    public Client saveClient(Client account, KeyClient key) {
+        if (hasPermissions(key, false) && isValidClient(account)) {
+            account.setKeyClient(new KeyClient().getKeyClient());
+            return clientRepository.save(account);
+        }
+        return null;
+    }
 
+    /**
+     * Method in charge of updating an account
+     * <p>
+     * - It only allows updating an account if the person making the request is Admin or Developer
+     * or if the person making the request is the owner of the account
+     *
+     * @param client to update already updated
+     * @param key    of who make the request
+     * @return the client if was successfully updated
+     */
     public Client updateClient(Client client, KeyClient key) {
-
         if (hasPermissions(key, false) || isAccountOwner(client, key)) {
             return update(client);
         }
-        return new Client("No fue posible actualizar el cliente");
+        return null;
     }
 
-    //DELETE
-
-    public Boolean deleteClient(int idClient, KeyClient key) {
-
-        //Try to delete account as administrator
-        if (hasPermissions(key, false)) {
-            return crudMethods.getClientById(idClient).map(clientGetted -> {
-                crudMethods.delete(clientGetted);
+    /**
+     * Method in charge of deleting an account if the person doing it is the owner
+     * or has Admin or Developer permissions
+     *
+     * @param idClient to delete
+     * @param key      of who make the request
+     * @return true if it was successfully deleted
+     */
+    public boolean deleteClient(int idClient, KeyClient key) {
+        Optional<Client> accountToDelete = clientRepository.getClientById(idClient);
+        if (accountToDelete.isPresent()) {
+            Client account = accountToDelete.get();
+            if (hasPermissions(key, false) || isAccountOwner(account, key)) {
+                clientRepository.delete(account);
                 return true;
-            }).orElse(false);
-        }
-        Client deleteMyAccount = crudMethods.getClientById(idClient).get();
-
-        //Delete account as the owner
-        if (Objects.equals(deleteMyAccount.getKeyClient(), key.getKeyClient())) {
-            return crudMethods.getClientById(idClient).map(clientGetted -> {
-                crudMethods.delete(clientGetted);
-                return true;
-            }).orElse(false);
-        }
-
-        return false;
-
-    }
-
-    // LOGIN
-    public Optional<Client> login(Client clientToLogin) {
-
-        try {
-
-            //Client consulted by email to verify
-            Optional<Client> clientGetted = crudMethods.getClientByEmail(clientToLogin.getEmail());
-
-            boolean hasSameEmail = Objects.equals(clientGetted.get().getEmail(), clientToLogin.getEmail());
-            boolean hasSamePassword = Objects.equals(clientGetted.get().getPassword(), clientToLogin.getPassword());
-
-            if (hasSameEmail && hasSamePassword) {
-                return clientGetted;
-            } else {
-                return Optional.of(new Client("Hubo un problema! La contraseña no coincide"));
             }
-        } catch (Exception exception) {
-            return Optional.of(new Client("Oops! Parece que no tienes una cuenta creada"));
         }
+        return false;
+    }
 
+    /**
+     * Method in charge of managing the login by means of an email and password passed by the Client object
+     *
+     * @param clientToLogin client with credentials
+     * @return full client if credentials were correct
+     */
+    public Optional<Client> login(Client clientToLogin) {
+        Optional<Client> clientObtained = clientRepository.getClientByEmail(clientToLogin.getEmail());
+
+        //Check if the account doesn't exist
+        if (clientObtained.isEmpty()) {
+            return Optional.empty();
+        }
+        boolean hasSameEmail = Objects.equals(clientObtained.get().getEmail(), clientToLogin.getEmail());
+        boolean hasSamePassword = Objects.equals(clientObtained.get().getPassword(), clientToLogin.getPassword());
+
+        if (hasSameEmail && hasSamePassword) {
+            return clientObtained;
+        } else {
+            return Optional.empty();
+        }
     }
 
     //Resources
 
-    private Client update(Client client) {
-        Optional<Client> evt = crudMethods.getClientById(client.getId());
-        if (client.getId() != null) {
+    /**
+     * Method in charge of updating a client only if it exists in the database
+     * <p>
+     * - the assigned email is valid
+     * - the date of birth is an adult
+     * - the password is valid
+     *
+     * @param clientUpdated client with updated information
+     * @return if the client updated successfully, it will be returned
+     */
+    private Client update(Client clientUpdated) {
 
+        int idOfClientToUpdate = clientUpdated.getId();
 
-            //Keeping the same keyClient
-            client.setKeyClient(evt.get().getKeyClient());
+        Optional<Client> clientObtained = clientRepository.getClientById(idOfClientToUpdate);
 
-            if (evt.isPresent()) {
-                if (client.getName() != null || Objects.equals(client.getName(), evt.get().getName())) {
-                    evt.get().setName(client.getName());
-                }
-                if (client.getEmail() != null) {
-                    evt.get().setEmail(client.getEmail());
-                }
-                if (client.getPassword() != null) {
-                    evt.get().setPassword(client.getPassword());
-                }
-                if (client.getBirthDate() != null) {
-                    evt.get().setBirthDate(client.getBirthDate());
-                }
+        if (clientObtained.isPresent()) {
+            boolean isAnyChange = false;
 
-                // User who's trying change the ClientType need to be ADMIN or DEVELOPER
-                if (
-                        Objects.equals(evt.get().getType(), ClientType.ADMIN) ||
-                                Objects.equals(evt.get().getType(), ClientType.DEVELOPER)
-                ) {
-                    evt.get().setType(client.getType());
-                }
-                crudMethods.save(evt.get());
+            Client clientInDB = clientObtained.get();
+
+            if (clientInDB.getType() == ClientType.ADMIN ||
+                    clientInDB.getType() == ClientType.DEVELOPER) {
+                clientInDB.setType(clientUpdated.getType());
+                isAnyChange = true;
             }
+            if (isValidEmail(clientUpdated)) {
+                clientInDB.setEmail(clientUpdated.getEmail());
+                isAnyChange = true;
+            }
+            if (isOldEnough(clientUpdated)) {
+                clientInDB.setBirthDate(clientUpdated.getBirthDate());
+                isAnyChange = true;
+            }
+            if (isValidPassword(clientUpdated)) {
+                clientInDB.setPassword(clientUpdated.getPassword());
+                isAnyChange = true;
+            }
+            if (isAnyChange) return clientRepository.save(clientInDB);
         }
-        return evt.get();
+        return null;
     }
-
 
     //--------- UTILS
 
+    /**
+     * Method responsible for validating a password that meets the following requirements
+     * <p>
+     * - at least one digit
+     * - at least one lowercase letter
+     * - at least one capital letter
+     * - at least one special character
+     * - no empty space
+     * - size from 8 to 26 characters
+     *
+     * @param client with the password to validate
+     * @return true if it matches the pattern
+     */
+    private boolean isValidPassword(Client client) {
+        Pattern PASSWORD_PATTERN = Pattern.compile("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*@#$%^&+=])(?=\\S+$).{8,26}$");
+        Matcher password = PASSWORD_PATTERN.matcher(client.getPassword());
+        return password.find();
+    }
 
     /**
      * Validate if age and email are valid
@@ -175,28 +229,29 @@ public class ClientServices {
      * @return true if both are valid
      */
     private boolean isValidClient(Client client) {
-        return (isOldEnough(client) && isValidEmail(client));
+        return (isOldEnough(client) && isValidEmail(client) && isValidPassword(client));
     }
 
     /**
-     * @param client
-     * @return
+     * Method in charge of validating if an email exists with a generic verification pattern
+     *
+     * @param client to verify if it has a valid email
+     * @return true the email matches the pattern
      */
     private boolean isValidEmail(Client client) {
-        //pattern to validate
-        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-
-        Matcher email = pattern.matcher(client.getEmail());
+        if (client.getEmail() == null) {
+            return false;
+        }
+        Pattern EMAIL_PATTERN = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+        Matcher email = EMAIL_PATTERN.matcher(client.getEmail());
         return email.find();
     }
-
 
     /**
      * validate if the client's age is over 18 years
      *
-     * @param client
-     * @return
+     * @param client to verify
+     * @return true if he is of legal age
      */
     private boolean isOldEnough(Client client) {
         if (client.getBirthDate() == null) {
@@ -204,16 +259,17 @@ public class ClientServices {
         }
         Date birthDate = client.getBirthDate();
         Date actualDate = new Date();
-        int miliSegundosDia = 24 * 60 * 60 * 1000;
-        float miliSegundosTranscurridos = Math.abs(birthDate.getTime() - actualDate.getTime());
-        int diasTranscurridos = Math.round(miliSegundosTranscurridos / miliSegundosDia);
-        return diasTranscurridos >= 6575;
+        int millisecondsPerDay = 24 * 60 * 60 * 1000;
+        float milliSecondsElapsed = Math.abs(birthDate.getTime() - actualDate.getTime());
+        int daysElapsed = Math.round(milliSecondsElapsed / millisecondsPerDay);
+        return daysElapsed >= 6575;
     }
 
-
     /**
+     * method in charge of verifying if a keyClient corresponds to a Client
+     *
      * @param client received
-     * @param key of whom made the query
+     * @param key    of whom made the query
      * @return true if the key is the same of the client
      */
     private Boolean isAccountOwner(Client client, KeyClient key) {
@@ -224,24 +280,27 @@ public class ClientServices {
      * Method that find user by the Client´s Key to validate if the Type of Client
      * has permissions of ADMIN or DEVELOPER
      *
-     * @param toEvaluate
-     * @return true if type client is ADMIN or DEVELOPER
+     * @param keyClientToEvaluate keyClient of the client to validate its permissions
+     * @param includeSupport      value to consider in case a Support type client has permissions
+     * @return true if type client is ADMIN or DEVELOPER and
+     * in case that includeSupport was passed as true, if is SUPPORT
      */
-    public Boolean hasPermissions(KeyClient toEvaluate, Boolean includeSupport) {
-        String key = toEvaluate.getKeyClient();
-        Optional<Client> clientToEvaluate = clientInterface.findByKeyClient(key);
+    public boolean hasPermissions(KeyClient keyClientToEvaluate, Boolean includeSupport) {
 
-        System.out.println(clientToEvaluate.get().toString());
-        if (includeSupport) {
-            return true;
+        Optional<Client> clientObtained = clientInterface.findByKeyClient(keyClientToEvaluate.getKeyClient());
+
+        if (clientObtained.isEmpty()) {
+            return false;
+        } else {
+
+            ClientType type = clientObtained.get().getType();
+
+            if (type == ClientType.CLIENT) {
+                return false;
+            } else if (type == ClientType.ADMIN || type == ClientType.DEVELOPER) {
+                return true;
+            } else return includeSupport && type == ClientType.SUPPORT;
         }
-        if (clientToEvaluate.isPresent()) {
-            Client typeClient = clientToEvaluate.get();
-            return (typeClient.getType() == ClientType.ADMIN) ||
-                    (typeClient.getType() == ClientType.DEVELOPER);
-        }
-        return false;
     }
-
 
 }
