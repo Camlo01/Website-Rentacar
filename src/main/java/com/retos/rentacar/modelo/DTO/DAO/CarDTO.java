@@ -19,6 +19,10 @@ public class CarDTO {
     public CarDTO() {
     }
 
+    public CarDTO(Integer id) {
+        this.id = id;
+    }
+
     public CarDTO(Car car) {
         this.id = car.getId();
         this.name = car.getName();
