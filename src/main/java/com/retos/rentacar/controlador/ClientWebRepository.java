@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class ClientWebRepository {
 
     @Autowired
-    private ClientServices servicios;
+    private ClientServices services;
 
     // --- Peticiones HTTP Fijas
 
@@ -28,12 +28,12 @@ public class ClientWebRepository {
 
     @GetMapping("/all")
     public List<Client> getAllClients(@RequestBody KeyClient key) {
-        return servicios.getAllClients(key);
+        return services.getAllClientsWithAuthorization(key);
     }
 
     @GetMapping("/{id}")
     public Optional<Client> getClientById(@PathVariable("id") int idClient, @RequestBody KeyClient keyClient) {
-        return servicios.getClientByIdWithAuthorization(idClient, keyClient);
+        return services.getClientByIdWithAuthorization(idClient, keyClient);
     }
 
     // - POST
@@ -41,8 +41,8 @@ public class ClientWebRepository {
     // If I want to create my own account
     @PostMapping("/create-account")
     @ResponseStatus(HttpStatus.CREATED)
-    public Client createClient(@RequestBody Client client){
-        return servicios.createAccount(client);
+    public Client createClient(@RequestBody Client client) {
+        return services.createAccount(client);
     }
 
 
@@ -50,7 +50,7 @@ public class ClientWebRepository {
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public Client saveClient(@RequestBody ClientAndKeyclient clientAndKey) {
-        return servicios.saveClient(clientAndKey.getClient(), clientAndKey.getKeyClient());
+        return services.saveClient(clientAndKey.getClient(), clientAndKey.getKeyClient());
     }
 
     // - PUT
@@ -58,7 +58,7 @@ public class ClientWebRepository {
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
     public Client update(@RequestBody ClientAndKeyclient body) {
-        return servicios.updateClient(body.getClient(), body.getKeyClient());
+        return services.updateClient(body.getClient(), body.getKeyClient());
     }
 
     // - DELETE
@@ -66,7 +66,7 @@ public class ClientWebRepository {
     @DeleteMapping("/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean delete(@RequestBody ClientAndKeyclient body) {
-        return servicios.deleteClient(body.getClient().getId(), body.getKeyClient());
+        return services.deleteClient(body.getClient().getId(), body.getKeyClient());
     }
 
     // Login
@@ -74,7 +74,7 @@ public class ClientWebRepository {
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public Client login(@RequestBody Client clientReceived) {
-        return servicios.login(clientReceived).get();
+        return services.login(clientReceived).get();
     }
 
 
