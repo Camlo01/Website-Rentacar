@@ -5,7 +5,6 @@ import com.retos.rentacar.modelo.DTO.DAO.CarDTO;
 import com.retos.rentacar.modelo.DTO.DAO.GamaDTO;
 import com.retos.rentacar.modelo.Entity.Car.Car;
 import com.retos.rentacar.modelo.Entity.Car.CarStatus;
-import com.retos.rentacar.modelo.Entity.Car.ImageCar;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.modelo.Entity.Gama.Gama;
 import com.retos.rentacar.repositorio.CarRepository;
@@ -21,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CarServices {
     @Autowired
-    private CarRepository metodosCrudCar;
+    private CarRepository carRepository;
     @Autowired
     private ClientServices clientServices;
     @Autowired
@@ -30,20 +29,20 @@ public class CarServices {
     // GET Methods Without Authorization
 
     public List<Car> getAll() {
-        return metodosCrudCar.getAll();
+        return carRepository.getAll();
     }
 
     public Optional<Car> getLastCarAddedBookable() {
-        return metodosCrudCar.getLastCarAddedBookable();
+        return carRepository.getLastCarAddedBookable();
     }
 
 
     public Optional<Car> getLastCarAdded() {
-        return metodosCrudCar.getLastCarAdded();
+        return carRepository.getLastCarAdded();
     }
 
     public Optional<Car> getCar(int idCar) {
-        return metodosCrudCar.getCar(idCar);
+        return carRepository.getCar(idCar);
     }
 
     // POST Method With Authorization
@@ -58,7 +57,7 @@ public class CarServices {
                 car.setGama( new GamaDTO(emptyGama));
             }
 
-            return metodosCrudCar.save(new Car(car));
+            return carRepository.save(new Car(car));
         }
         return null;
     }
@@ -69,7 +68,7 @@ public class CarServices {
         if (clientServices.hasPermissions(key, true)) {
             return update(new Car(car));
         }
-        return new Car("No se pudo actualizar el carro");
+        return null;
     }
 
     // DELETE Method With Authorization
@@ -88,14 +87,14 @@ public class CarServices {
 
     private boolean delete(int idCar) {
         Boolean aBoolean = getCar(idCar).map(car -> {
-            metodosCrudCar.delete(car);
+            carRepository.delete(car);
             return true;
         }).orElse(false);
         return aBoolean;
     }
 
     private Car update(Car car) {
-        Car evt = metodosCrudCar.getCar(car.getId()).get();
+        Car evt = carRepository.getCar(car.getId()).get();
         if (Objects.equals(car.getId(), evt.getId())) {
 
             if (!Objects.equals(evt.getName(), car.getName())) {
@@ -125,7 +124,7 @@ public class CarServices {
 
             }
 
-            metodosCrudCar.save(evt);
+            carRepository.save(evt);
         }
         return evt;
     }
