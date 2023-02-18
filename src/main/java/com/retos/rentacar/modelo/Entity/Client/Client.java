@@ -2,8 +2,6 @@
 package com.retos.rentacar.modelo.Entity.Client;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import com.retos.rentacar.modelo.Entity.Message.Message;
 import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
 
@@ -57,13 +55,8 @@ public class Client implements Serializable {
         this.keyClient = new KeyClient().getKeyClient();
         this.birthDate = Date.valueOf("2000-01-01");
     }
-
     public Client(int id) {
         this.id = id;
-    }
-
-    public Client(String email) {
-        this.email = email;
     }
 
     public Client(String name, String email, String password, Date birthDate) {
@@ -91,6 +84,16 @@ public class Client implements Serializable {
         this.birthDate = birthDate;
         this.type = clientType;
         this.keyClient = keyClient;
+    }
+
+    public Client(int id, String key, String name, String email, String password, Date date, ClientType type) {
+        this.id = id;
+        this.keyClient = key;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.birthDate = date;
+        this.type = type;
     }
 
     public Client(Integer id, String email, String password, String name, ClientType type, String keyClient, Date birthDate, List<Message> messages, List<Reservation> reservations) {
