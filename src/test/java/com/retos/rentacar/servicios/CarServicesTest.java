@@ -83,7 +83,8 @@ class CarServicesTest {
     @DisplayName("Update() with keyClient that doesn't exist")
     @Test
     public void testUpdateVehicle_withNonexistentKey() {
-        CarDTO carToSave = new CarDTO(1);
+        CarDTO carToSave = new CarDTO();
+        carToSave.setId(1);
         KeyClient key = new KeyClient("DOESNTEXIST");
 
         Mockito.when(clientServices.hasPermissions(key, true)).thenReturn(false);
@@ -93,7 +94,8 @@ class CarServicesTest {
     @DisplayName("DeleteCar() with keyClient of a Client")
     @Test
     public void testDeleteVehicle_asClient() {
-        CarDTO carToDelete = new CarDTO(5);
+        CarDTO carToDelete = new CarDTO();
+        carToDelete.setId(5);
         KeyClient key = new KeyClient("CLIENT");
 
         Mockito.when(clientServices.hasPermissions(key, false)).thenReturn(false);
