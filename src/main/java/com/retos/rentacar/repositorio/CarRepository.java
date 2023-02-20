@@ -11,36 +11,72 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class CarRepository {
+
     @Autowired
-    private CarInterface crudCar;
+    private CarInterface carInterface;
 
-
-    public List<Car> getAll() {
-        return (List<Car>) crudCar.findAll();
-    }
-
-    public Optional<Car> getCar(int id) {
-        return crudCar.findById(id);
-    }
-
-    public Optional<Car> getLastCarAdded() {
-        return crudCar.getLastCarAdded();
-    }
-
+    /**
+     * Method in charge of return a car by its Id
+     *
+     * @return Optional of car
+     */
     public Optional<Car> getCarById(int id) {
-        return crudCar.findById(id);
+        return carInterface.findById(id);
     }
 
+    /**
+     * Method that return all the cars that are in the database
+     *
+     * @return a List of car
+     */
+    public List<Car> getAll() {
+        return (List<Car>) carInterface.findAll();
+    }
+
+    /**
+     * Method to get the last car added that is bookable
+     *
+     * @return Optional of car
+     */
     public Optional<Car> getLastCarAddedBookable() {
-        return crudCar.getLastCarAddedBookable();
+        return carInterface.getLastCarAddedBookable();
     }
 
+    /**
+     * Method to get the last car added no matter its status
+     *
+     * @return Optional of car
+     */
+    public Optional<Car> getLastCarAdded() {
+        return carInterface.getLastCarAdded();
+    }
+
+
+    /**
+     * Method in charge of save a car in the database
+     *
+     * @param car to save already processed
+     * @return the car if was successfully saved
+     */
     public Car save(Car car) {
-        return crudCar.save(car);
+        return carInterface.save(car);
     }
 
+    /**
+     * Method in charge of delete a car
+     *
+     * @param car to delete
+     */
     public void delete(Car car) {
-        crudCar.delete(car);
+        carInterface.delete(car);
     }
 
+    /**
+     * Method in charge to delete a car by its Id
+     *
+     * @param id of car to delete
+     */
+    public void deleteCarById(int id) {
+        carInterface.deleteById(id);
+    }
 }
