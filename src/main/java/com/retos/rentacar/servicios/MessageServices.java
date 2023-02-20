@@ -35,14 +35,14 @@ public class MessageServices {
     public Message save(MessageDTO msg) {
         Message newMessage = new Message();
         newMessage.setMessageText(msg.getText());
-        newMessage.setCar(carServices.getCar(msg.getIdCar()).get());
+        newMessage.setCar(carServices.getCarById(msg.getIdCar()).get());
         newMessage.setClient(clientServices.getClientById(msg.getIdClient()).get());
         return metodosCrudMessage.save(newMessage);
     }
 
 
-    public Message updateMessage(MessageDTO msg, KeyClient key){
-        if(clientServices.hasPermissions(key, false)){
+    public Message updateMessage(MessageDTO msg, KeyClient key) {
+        if (clientServices.hasPermissions(key, false)) {
             return update(msg);
         }
         return null;
