@@ -77,7 +77,9 @@ public class Car implements Serializable {
         this.year = car.getYear();
         this.description = car.getDescription();
         this.carStatus = car.getCarStatus();
-        this.gama = new Gama(car.getGama());
+        if (!(car.getGama() == null)) {
+            this.gama = new Gama(car.getGama());
+        }
     }
 
     public Car(String message) {
