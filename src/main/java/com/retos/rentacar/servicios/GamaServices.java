@@ -16,28 +16,28 @@ import org.springframework.stereotype.Service;
 public class GamaServices {
 
     @Autowired
-    private GamaRepository metodosCrudGama;
+    private GamaRepository gamaRepository;
 
     public Iterable<Gama> getAll() {
-        return metodosCrudGama.getAll();
+        return gamaRepository.getAll();
     }
 
     public Optional<Gama> getGama(int idGama) {
-        return metodosCrudGama.getGama(idGama);
+        return gamaRepository.getGamaById(idGama);
     }
 
     public Gama getGamaToBuild(int idGama) {
-        Optional<Gama> toReturn = metodosCrudGama.getGama(idGama);
+        Optional<Gama> toReturn = gamaRepository.getGamaById(idGama);
         return toReturn.get();
     }
 
     public Gama save(Gama gama) {
         if (gama.getId() == null) {
-            return metodosCrudGama.save(gama);
+            return gamaRepository.save(gama);
         } else {
-            Optional<Gama> evt = metodosCrudGama.getGama(gama.getId());
+            Optional<Gama> evt = gamaRepository.getGamaById(gama.getId());
             if (evt.isEmpty()) {
-                return metodosCrudGama.save(gama);
+                return gamaRepository.save(gama);
             } else {
                 return gama;
             }
@@ -47,7 +47,7 @@ public class GamaServices {
     public Gama update(Gama gama) {
 
         if (gama.getId() != null) {
-            Optional<Gama> evt = metodosCrudGama.getGama(gama.getId());
+            Optional<Gama> evt = gamaRepository.getGamaById(gama.getId());
             if (!evt.isEmpty()) {
                 if (gama.getName() != null) {
                     evt.get().setName(gama.getName());
@@ -55,7 +55,7 @@ public class GamaServices {
                 if (gama.getDescription() != null) {
                     evt.get().setDescription(gama.getDescription());
                 }
-                metodosCrudGama.save(evt.get());
+                gamaRepository.save(evt.get());
                 return gama;
             } else {
                 return gama;
@@ -67,7 +67,7 @@ public class GamaServices {
 
     public boolean deleteGama(int idGama) {
         Boolean aBoolean = getGama(idGama).map(gama -> {
-            metodosCrudGama.delete(gama);
+            gamaRepository.delete(gama);
             return true;
         }).orElse(false);
         return aBoolean;
