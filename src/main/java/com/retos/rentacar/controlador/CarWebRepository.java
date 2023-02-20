@@ -44,23 +44,19 @@ public class CarWebRepository {
         return carServices.getLastCarAdded();
     }
 
-    // - POST
-
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public Car saveVehicleWithAuthorization(@RequestBody CarAndKeyclient carAndKeyclient) {
-        return carServices.saveVehicle(carAndKeyclient.getCar(), carAndKeyclient.getKeyClient());
+        Car carToSave = new Car(carAndKeyclient.getCar());
+        return carServices.saveVehicle(carToSave, carAndKeyclient.getKeyClient());
     }
-
-    // - PUT
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
     public Car updateVehicle(@RequestBody CarAndKeyclient body) {
-        return carServices.updateVehicle(body.getCar(), body.getKeyClient());
+        Car car = new Car(body.getCar());
+        return carServices.updateVehicle(car, body.getKeyClient());
     }
-
-    // - DELETE
 
     @DeleteMapping("/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -68,16 +64,9 @@ public class CarWebRepository {
         carServices.deleteVehicle(body.getCar(), body.getKeyClient());
     }
 
-    // --- Peticiones HTTP de recurso
-
     @GetMapping("/all")
     public List<Car> getCar() {
         return carServices.getAll();
-    }
-
-    @GetMapping("/{id}")
-    public Optional<Car> getCar(@PathVariable("id") int id) {
-        return carServices.getCar(id);
     }
 
     @GetMapping("/pageable")
