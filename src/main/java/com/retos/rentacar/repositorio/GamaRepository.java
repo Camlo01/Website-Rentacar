@@ -21,7 +21,7 @@ public class GamaRepository {
         return crudGama.findAll();
     }
 
-    public Optional<Gama> getGama(int id) {
+    public Optional<Gama> getGamaById(int id) {
         return crudGama.findById(id);
     }
 
