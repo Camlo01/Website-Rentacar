@@ -1,8 +1,6 @@
 package com.retos.rentacar.repositorio;
 
 import com.retos.rentacar.interfaces.ImageCarInterface;
-import com.retos.rentacar.modelo.DTO.DAO.ImageCarDTO;
-import com.retos.rentacar.modelo.Entity.Car.Car;
 import com.retos.rentacar.modelo.Entity.Car.ImageCar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,24 +12,27 @@ import java.util.Optional;
 public class ImageCarRepository {
 
     @Autowired
-    private ImageCarInterface crudImageCar;
+    private ImageCarInterface imageInterface;
 
     public Optional<ImageCar> getImageCar(int id) {
-        return crudImageCar.findById(id);
+        return imageInterface.findById(id);
     }
 
     public List<ImageCar> getImagesOfCar(int id) {
-        return crudImageCar.getImagesOfCar(id);
+        return imageInterface.getImagesOfCar(id);
     }
 
     public ImageCar save(ImageCar img) {
-        return crudImageCar.save(img);
+        return imageInterface.save(img);
+    }
+
+    public void deleteById(int id) {
+        imageInterface.deleteById(id);
     }
 
     public void delete(int idImg) {
-
         Boolean aBoolean = getImageCar(idImg).map(img -> {
-            crudImageCar.delete(img);
+            imageInterface.delete(img);
             return true;
         }).orElse(false);
     }
