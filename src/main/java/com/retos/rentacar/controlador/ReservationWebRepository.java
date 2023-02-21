@@ -2,11 +2,10 @@
 package com.retos.rentacar.controlador;
 
 import com.retos.rentacar.modelo.DTO.ReservationDTO;
-import com.retos.rentacar.modelo.DTO.Wrapper.ClientAndKeyclient;
-import com.retos.rentacar.modelo.DTO.Wrapper.ReservationAndKeyclient;
+import com.retos.rentacar.modelo.DTO.Wrapper.ClientAndKeyClient;
+import com.retos.rentacar.modelo.DTO.Wrapper.ReservationAndKeyClient;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
-import com.retos.rentacar.repositorio.CountClients;
 import com.retos.rentacar.servicios.ReservationServices;
 
 import java.util.List;
@@ -73,7 +72,7 @@ public class ReservationWebRepository {
 
     // Support
     @PostMapping("/all-reservations-by-client")
-    public List<Reservation> getAllReservationsByClient(@RequestBody ClientAndKeyclient body) {
+    public List<Reservation> getAllReservationsByClient(@RequestBody ClientAndKeyClient body) {
         return services.getReservationsOfAClient(body.getClient(), body.getKeyClient());
     }
 
@@ -86,8 +85,8 @@ public class ReservationWebRepository {
 
 
     @PostMapping("/reservation-by-code")
-    public Optional<Reservation> getReservationByCode(@RequestBody ReservationAndKeyclient body) {
-        return services.getReservationByCode(body.getReservation(), body.getKeyClient());
+    public Optional<Reservation> getReservationByCode(@RequestBody ReservationAndKeyClient body) {
+        return services.getReservationByCode(body.getReservation(), body.getKey());
     }
 
 
@@ -101,13 +100,13 @@ public class ReservationWebRepository {
     // - PUT
 
     @PutMapping("/edit-reservation")
-    public Reservation editReservation(@RequestBody ReservationAndKeyclient body) {
-        return services.editReservation(body.getReservation(), body.getKeyClient());
+    public Reservation editReservation(@RequestBody ReservationAndKeyClient body) {
+        return services.editReservation(body.getReservation(), body.getKey());
     }
 
     @PutMapping("/cancel-reservation")
-    public ResponseEntity<String> cancelReservation(@RequestBody ReservationAndKeyclient body) {
-        Boolean cancelledSuccessfully = services.cancelReservation(body.getReservation(), body.getKeyClient());
+    public ResponseEntity<String> cancelReservation(@RequestBody ReservationAndKeyClient body) {
+        Boolean cancelledSuccessfully = services.cancelReservation(body.getReservation(), body.getKey());
 
         if (cancelledSuccessfully){
             return new ResponseEntity<>("response", HttpStatus.CREATED);
