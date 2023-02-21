@@ -9,32 +9,34 @@ import com.retos.rentacar.modelo.Entity.Gama.Gama;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GamaRepository {
+
     @Autowired
-    private GamaInterface crudGama;
+    private GamaInterface gamaInterface;
+
+    public void deleteById(Integer id) {
+        gamaInterface.deleteById(id);
+    }
 
     public Iterable<Gama> getAll() {
-        return crudGama.findAll();
+        return gamaInterface.findAll();
     }
 
     public Optional<Gama> getGamaById(int id) {
-        return crudGama.findById(id);
+        return gamaInterface.findById(id);
     }
 
     public Gama save(Gama gama) {
-        return crudGama.save(gama);
+        return gamaInterface.save(gama);
     }
 
-    public Iterable<Gama> saveAll(List<Gama> listadeGamas) {
-        return crudGama.saveAll(listadeGamas);
-    }
-
-    public void delete(Gama gama){
-        crudGama.delete(gama);
+    public void delete(Gama gama) {
+        gamaInterface.delete(gama);
     }
 
 }
