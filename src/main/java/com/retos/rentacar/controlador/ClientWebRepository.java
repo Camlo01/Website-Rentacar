@@ -1,7 +1,7 @@
 
 package com.retos.rentacar.controlador;
 
-import com.retos.rentacar.modelo.DTO.Wrapper.ClientAndKeyclient;
+import com.retos.rentacar.modelo.DTO.Wrapper.ClientAndKeyClient;
 import com.retos.rentacar.modelo.Entity.Client.Client;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.servicios.ClientServices;
@@ -49,7 +49,7 @@ public class ClientWebRepository {
     // create account as admin
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Client saveClient(@RequestBody ClientAndKeyclient clientAndKey) {
+    public Client saveClient(@RequestBody ClientAndKeyClient clientAndKey) {
         return services.saveClient(clientAndKey.getClient(), clientAndKey.getKeyClient());
     }
 
@@ -57,7 +57,7 @@ public class ClientWebRepository {
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
-    public Client update(@RequestBody ClientAndKeyclient body) {
+    public Client update(@RequestBody ClientAndKeyClient body) {
         return services.updateClient(body.getClient(), body.getKeyClient());
     }
 
@@ -65,7 +65,7 @@ public class ClientWebRepository {
 
     @DeleteMapping("/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean delete(@RequestBody ClientAndKeyclient body) {
+    public boolean delete(@RequestBody ClientAndKeyClient body) {
         return services.deleteClient(body.getClient().getId(), body.getKeyClient());
     }
 
