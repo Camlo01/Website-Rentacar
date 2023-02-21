@@ -1,6 +1,5 @@
 package com.retos.rentacar.controlador;
 
-import com.retos.rentacar.modelo.DTO.DAO.ImageCarDTO;
 import com.retos.rentacar.modelo.DTO.Wrapper.ImageCarAndKeyClient;
 import com.retos.rentacar.modelo.Entity.Car.ImageCar;
 import com.retos.rentacar.servicios.ImageCarServices;
@@ -42,7 +41,7 @@ public class ImageCarWebRepository {
     @DeleteMapping("/delete-image")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteImageCar(@RequestBody ImageCarAndKeyClient body) {
-        service.deleteImageCar(body.getImage(), body.getKey());
+        boolean result = service.deleteImageCar(body.getImage(), body.getKey());
     }
 
 
