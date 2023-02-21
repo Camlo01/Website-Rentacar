@@ -2,7 +2,7 @@
 package com.retos.rentacar.servicios;
 
 import com.retos.rentacar.modelo.DTO.ReservationDTO;
-import com.retos.rentacar.modelo.DTO.Wrapper.ReservationAndKeyclient;
+import com.retos.rentacar.modelo.DTO.Wrapper.ReservationAndKeyClient;
 import com.retos.rentacar.modelo.Entity.Client.Client;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
@@ -54,9 +54,9 @@ public class ReservationServices {
     }
 
 
-    public Optional<Reservation> getReservationById(ReservationAndKeyclient body) {
+    public Optional<Reservation> getReservationById(ReservationAndKeyClient body) {
         int id = body.getReservation().getId();
-        KeyClient key = body.getKeyClient();
+        KeyClient key = body.getKey();
 
         if (clientServices.hasPermissions(key, false)) {
             return repository.getReservationById(id);
