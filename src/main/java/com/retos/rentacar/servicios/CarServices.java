@@ -25,7 +25,7 @@ public class CarServices {
     private GamaRepository gamaRepository;
 
     /**
-     * Method in charge of return a car by its Id
+     * Method in charge of return a car by its id
      *
      * @return Optional of car
      */
@@ -79,7 +79,7 @@ public class CarServices {
      *
      * @param car updated
      * @param key of who request
-     * @return null if could not be updated
+     * @return null if it could not be updated
      */
     public Car updateVehicle(Car car, KeyClient key) {
         if (clientServices.hasPermissions(key, true)) {
