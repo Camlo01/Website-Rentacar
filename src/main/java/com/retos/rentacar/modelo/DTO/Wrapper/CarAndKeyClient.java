@@ -1,21 +1,16 @@
 package com.retos.rentacar.modelo.DTO.Wrapper;
 
 import com.retos.rentacar.modelo.DTO.DAO.CarDTO;
-import com.retos.rentacar.modelo.Entity.Car.Car;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 
-public class CarAndKeyclient {
+public class CarAndKeyClient {
 
     private CarDTO car;
-    private KeyClient keyClient;
+    private KeyClient key;
 
-
-    public CarAndKeyclient() {
-    }
-
-    public CarAndKeyclient(CarDTO car, KeyClient keyClient) {
+    public CarAndKeyClient(CarDTO car, KeyClient key) {
         this.car = car;
-        this.keyClient = keyClient;
+        this.key = key;
     }
 
     public CarDTO getCar() {
@@ -26,11 +21,11 @@ public class CarAndKeyclient {
         this.car = car;
     }
 
-    public KeyClient getKeyClient() {
-        return keyClient;
+    public KeyClient getKey() {
+        return key;
     }
 
-    public void setKeyClient(KeyClient keyClient) {
-        this.keyClient = keyClient;
+    public void setKey(KeyClient key) {
+        this.key = key;
     }
 }

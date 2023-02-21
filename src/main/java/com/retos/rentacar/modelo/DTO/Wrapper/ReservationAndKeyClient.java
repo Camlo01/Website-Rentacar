@@ -3,15 +3,15 @@ package com.retos.rentacar.modelo.DTO.Wrapper;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
 
-public class ReservationAndKeyclient {
+public class ReservationAndKeyClient {
 
     private Reservation reservation;
-    private KeyClient keyClient;
+    private KeyClient key;
 
 
-    public ReservationAndKeyclient(Reservation reservation, KeyClient keyClient) {
+    public ReservationAndKeyClient(Reservation reservation, KeyClient keyClient) {
         this.reservation = reservation;
-        this.keyClient = keyClient;
+        this.key = keyClient;
     }
 
     public Reservation getReservation() {
@@ -22,19 +22,19 @@ public class ReservationAndKeyclient {
         this.reservation = reservation;
     }
 
-    public KeyClient getKeyClient() {
-        return keyClient;
+    public KeyClient getKey() {
+        return key;
     }
 
-    public void setKeyClient(KeyClient keyClient) {
-        this.keyClient = keyClient;
+    public void setKey(KeyClient key) {
+        this.key = key;
     }
 
     @Override
     public String toString() {
         return "ReservationAndKeyclient{" +
                 "reservation=" + reservation.getClient() +
-                ", keyClient=" + keyClient.getKeyClient() +
+                ", keyClient=" + key.getKeyClient() +
                 '}';
     }
 }

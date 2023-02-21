@@ -3,14 +3,14 @@ package com.retos.rentacar.modelo.DTO.Wrapper;
 import com.retos.rentacar.modelo.Entity.Client.Client;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 
-public class ClientAndKeyclient {
+public class ClientAndKeyClient {
 
     private Client client;
     private KeyClient keyClient;
 
-    public ClientAndKeyclient(Client client, KeyClient keyClient) {
+    public ClientAndKeyClient(Client client, KeyClient key) {
         this.client = client;
-        this.keyClient = keyClient;
+        this.keyClient = key;
     }
 
 
@@ -26,13 +26,13 @@ public class ClientAndKeyclient {
         return keyClient;
     }
 
-    public void setKeyClient(KeyClient keyClient) {
-        this.keyClient = keyClient;
+    public void setKeyClient(KeyClient key) {
+        this.keyClient = key;
     }
 
     @Override
     public String toString() {
-        return "ClientAndKeyclient{" +
+        return "ClientAndKeyClient{" +
                 "client=" + client +
                 ", keyClient=" + keyClient +
                 '}';
