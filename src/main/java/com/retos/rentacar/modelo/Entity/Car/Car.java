@@ -106,7 +106,7 @@ public class Car implements Serializable {
         this.brand = brand;
         this.year = year;
         this.description = description;
-        this.gama = gamaServices.getGamaToBuild(idGama);
+        this.gama = gamaServices.getGamaById(idGama).get();
         this.carStatus = CarStatus.NOT_AVAILABLE;
 
     }
