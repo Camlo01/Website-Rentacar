@@ -3,7 +3,7 @@ package com.retos.rentacar.controlador;
 
 import com.retos.rentacar.interfaces.CarInterface;
 import com.retos.rentacar.modelo.Entity.Car.Car;
-import com.retos.rentacar.modelo.DTO.Wrapper.CarAndKeyclient;
+import com.retos.rentacar.modelo.DTO.Wrapper.CarAndKeyClient;
 import com.retos.rentacar.servicios.CarServices;
 
 import java.util.List;
@@ -46,22 +46,22 @@ public class CarWebRepository {
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Car saveVehicleWithAuthorization(@RequestBody CarAndKeyclient carAndKeyclient) {
+    public Car saveVehicleWithAuthorization(@RequestBody CarAndKeyClient carAndKeyclient) {
         Car carToSave = new Car(carAndKeyclient.getCar());
-        return carServices.saveVehicle(carToSave, carAndKeyclient.getKeyClient());
+        return carServices.saveVehicle(carToSave, carAndKeyclient.getKey());
     }
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
-    public Car updateVehicle(@RequestBody CarAndKeyclient body) {
+    public Car updateVehicle(@RequestBody CarAndKeyClient body) {
         Car car = new Car(body.getCar());
-        return carServices.updateVehicle(car, body.getKeyClient());
+        return carServices.updateVehicle(car, body.getKey());
     }
 
     @DeleteMapping("/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteVehicle(@RequestBody CarAndKeyclient body) {
-        carServices.deleteVehicle(body.getCar(), body.getKeyClient());
+    public void deleteVehicle(@RequestBody CarAndKeyClient body) {
+        carServices.deleteVehicle(body.getCar(), body.getKey());
     }
 
     @GetMapping("/all")
