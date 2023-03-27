@@ -4,27 +4,16 @@ package com.retos.rentacar.controlador;
 import com.retos.rentacar.modelo.DTO.DAO.CarDTO;
 import com.retos.rentacar.modelo.DTO.DAO.MessageDTO;
 import com.retos.rentacar.modelo.DTO.Wrapper.MessageAndKeyClient;
+import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.modelo.Entity.Message.Message;
-import com.retos.rentacar.servicios.CarServices;
 import com.retos.rentacar.servicios.MessageServices;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/message")
@@ -36,34 +25,79 @@ public class MessageWebRepository {
     private MessageServices services;
 
     @GetMapping("/messages-of-car")
-    public List<Message> getMessagesOfCar(@RequestBody CarDTO car) {
-        return services.getMessageOfCar(car.getId());
+    public ResponseEntity<?> getMessagesOfCar(@RequestBody CarDTO car) {
+        List<Message> messages = services.getMessagesOfCar(car.getId());
+        if (messages.size() > 0) {
+            return new ResponseEntity<>(messages, HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    //un cliente crea un mensaje a un carro
+    //a client create a message to a car
     @PostMapping("/create-message")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Message saveMessage(@RequestBody MessageDTO msg) {
-        return services.save(msg);
+    public ResponseEntity<?> saveMessage(@RequestBody MessageAndKeyClient body) {
+
+        boolean hasPermission = hasPermissions(body.getKey()) || isMessageOwner(body.getMessage(), body.getKey());
+
+        if (hasPermission) {
+            Message result = services.saveMessage(body.getMessage());
+            if (result.getId() == null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            } else return new ResponseEntity<>(result, HttpStatus.CREATED);
+        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @PutMapping("/edit-message")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Message editMessage(@RequestBody MessageAndKeyClient body) {
-        return services.updateMessage(body.getMessage(),body.getKey());
+    public ResponseEntity<?> editMessage(@RequestBody MessageAndKeyClient body) {
+        boolean hasPermission = hasPermissions(body.getKey()) || isMessageOwner(body.getMessage(), body.getKey());
+
+        if (hasPermission) {
+            Message result = services.updateMessage(body.getMessage());
+            if (result.getId() == null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            } else return new ResponseEntity<>(result, HttpStatus.CREATED);
+        }
+
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @DeleteMapping("/delete-message")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteMessage(@RequestBody MessageAndKeyClient body) {
-        services.deleteMessage(body.getMessage(), body.getKey());
+    public ResponseEntity<?> deleteMessage(@RequestBody MessageAndKeyClient body) {
+        boolean hasPermission = (isMessageOwner(body.getMessage(), body.getKey()) || hasPermissions(body.getKey()));
+
+        if (hasPermission) {
+            boolean wasDeleted = services.deleteMessage(body.getMessage());
+            return (wasDeleted) ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
     }
 
     //    UTILS ---------------------
 
     @GetMapping("/{id}")
     public Optional<Message> getMessage(@PathVariable("id") int idMessage) {
-        return services.getMessage(idMessage);
+        return services.getMessageById(idMessage);
+    }
+
+    /**
+     * Method in charge of verify if a keyClient from request is the owner of the message
+     *
+     * @param msg to evaluate the owner
+     * @param key of the possible owner
+     * @return boolean value
+     */
+    private boolean isMessageOwner(MessageDTO msg, KeyClient key) {
+        return services.isMessageOwner(msg, key);
+    }
+
+    /**
+     * Method in charge of validate the permissions from the key of who made the request
+     *
+     * @param key of client to evaluate
+     * @return boolean value
+     */
+    private boolean hasPermissions(KeyClient key) {
+        return services.hasPermissions(key);
     }
 
 }
