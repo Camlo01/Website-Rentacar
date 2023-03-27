@@ -98,9 +98,9 @@ public class ReservationWebRepository {
                                                @RequestBody KeyClient key) {
 
         boolean hasPermission = (hasPermissions(key) || isReservationOwner(code, key));
-
-        boolean wasSuccessfully = service.cancelReservation(key, code);
         if (hasPermission) {
+            boolean wasSuccessfully = service.cancelReservation(code);
+
             if (wasSuccessfully) {
                 return new ResponseEntity<>(HttpStatus.CREATED);
             } else
