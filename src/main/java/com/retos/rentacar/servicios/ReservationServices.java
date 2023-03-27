@@ -110,21 +110,15 @@ public class ReservationServices {
     /**
      * Method in charge to cancel a reservation
      *
-     * @param whoRequest keyClient of who request
-     * @param code       of reservation to cancel
+     * @param code of reservation to cancel
      * @return boolean value
      */
-    public boolean cancelReservation(KeyClient whoRequest, String code) {
+    public boolean cancelReservation(String code) {
 
-        ReservationDTO reservationToValidateOwner = new ReservationDTO(getReservationByCode(code));
-        if (clientServices.hasPermissions(whoRequest, false) ||
-                isReservationOwner(reservationToValidateOwner, whoRequest)) {
-            repository.changeStatusReservation("CANCELLED", code);
+        repository.changeStatusReservation("CANCELLED", code);
 
-            Reservation reservationToValidateStatus = getReservationByCode(code);
-            return reservationToValidateStatus.getReservationStatus().equals(ReservationStatus.CANCELLED);
-        }
-        return false;
+        Reservation reservationToValidateStatus = getReservationByCode(code);
+        return reservationToValidateStatus.getReservationStatus().equals(ReservationStatus.CANCELLED);
     }
 
     /**
