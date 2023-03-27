@@ -1,112 +1,134 @@
 package com.retos.rentacar.repositorio;
 
-import com.retos.rentacar.interfaces.ClientInterface;
 import com.retos.rentacar.interfaces.ReservationInterface;
 import com.retos.rentacar.modelo.DTO.ReservationDTO;
-import com.retos.rentacar.modelo.Entity.Client.Client;
-import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import com.retos.rentacar.modelo.Entity.Reservation.ReservationStatus;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 
 @Repository
 public class ReservationRepository {
+
     @Autowired
-    private ReservationInterface crudReservation;
-    @Autowired
-    private ClientInterface clientInterface;
+    private ReservationInterface reservationInterface;
 
-    public List<Reservation> getActiveClientReservation(KeyClient key) {
-        return (List<Reservation>)crudReservation.getActiveClientReservation(key.getKeyClient());
-    }
-
-    public List<Reservation> getMyReservationHistory(String key) {
-        return (List<Reservation>) crudReservation.getAllReservationsByClientKey(key);
-    }
-
-    public Optional<Reservation> previousReservation(int carId, String endDate){
-        return crudReservation.getPreviousReservationOfCarForThisDate(carId, java.sql.Date.valueOf(endDate));
-    }
-    public Optional<Reservation> nextReservation(int carId, String endDate){
-        return crudReservation.getNextReservationOfCarAfterThisDate(carId, java.sql.Date.valueOf(endDate));
-    }
-
-
+    /**
+     * Method in charge of return a reservation by its id
+     *
+     * @param id of reservation to return
+     * @return Optional of reservation
+     */
     public Optional<Reservation> getReservationById(int id) {
-        return crudReservation.findReservationById(id);
+        return reservationInterface.findReservationById(id);
     }
 
-    public List<Reservation> getAll() {
-        return (List<Reservation>) crudReservation.findAll();
-    }
-
-
-
-    public List<Reservation> getAllReservationsOfClientByEmail(String email) {
-        return crudReservation.getAllReservationsByClientEmail(email);
-    }
-
-
-
-    public List<Reservation> getReservationsActiveIn(Date dateToConsult) {
-        return crudReservation.getReservationsActiveIn(dateToConsult);
-    }
-
-    public List<Reservation> getReservationsBetweenDates(Date minDate, Date maxDate) {
-        return crudReservation.getReservationsBetweenDates(minDate, maxDate);
-    }
-
-
+    /**
+     * Method in charge of return a reservation by its code
+     *
+     * @param code of reservation to return
+     * @return Optional of Reservation
+     */
     public Optional<Reservation> getReservationByCode(String code) {
-        return crudReservation.findReservationByCode(code);
+        return reservationInterface.findReservationByCode(code);
     }
 
-    public Optional<Reservation> getReservation(int id) {
-        return crudReservation.findById(id);
+    /**
+     * Method in charge of return reservations of a client
+     *
+     * @param email by which to bring the reservations
+     * @return List of Reservations
+     */
+    public List<Reservation> getReservationsOfClientByEmail(String email) {
+        return reservationInterface.getAllReservationsByClientEmail(email);
     }
 
-    public Boolean isCarAvailableToReserve(int idCar, Date start, Date end) {
-        List<Reservation> carReserved = crudReservation.isAvailableCarIn(idCar, start, end);
+    /**
+     * Method in charge of return
+     *
+     * @param email  of the client for which to bring the reservations
+     * @param status of the reservations
+     * @return List of reservations
+     */
+    public List<Reservation> getReservationsOfClientByEmailAndStatus(String email, String status) {
+        return reservationInterface.getAllReservationsOfClientByEmailAndStatus(email, status);
+    }
+
+    /**
+     * Method in charge of get the reservations of a client between dates
+     *
+     * @param email of the client for which get the reservations
+     * @param start date from when get the reservations
+     * @param end   date until when get the reservations
+     * @return List of reservations
+     */
+    public List<Reservation> getReservationsOfClientByEmailBetweenDates(String email, Date start, Date end) {
+        return reservationInterface.getReservationOfClientByEmailBetweenDates(email, start, end);
+    }
+
+    /**
+     * Method in charge of create a reservation
+     *
+     * @param reservation to save
+     */
+    public void createReservation(ReservationDTO reservation) {
+        String startDate = reservation.getStartDate();
+        String endDate = reservation.getDevolutionDate();
+        String code = reservation.getCode();
+        int idCar = reservation.getCar_id();
+        int idClient = reservation.getClient_id();
+        reservationInterface.createReservation(startDate, endDate, code, idCar, idClient);
+    }
+
+    /**
+     * Method in charge or change the status of a reservation
+     *
+     * @param newStatus to set to the reservation
+     * @param code      of the reservation to change the status
+     */
+    public void changeStatusReservation(String newStatus, String code) {
+        reservationInterface.changeStatusOfReservation(newStatus, code);
+    }
+
+    /**
+     * Method to validate the availability of a car between two dates to be reserved
+     *
+     * @param id    of car
+     * @param start from when to bring reservations
+     * @param end   until when to bring reservations
+     * @return boolean value
+     */
+    public boolean isAvailableToReserve(int id, Date start, Date end) {
+        List<Reservation> carReserved = reservationInterface.reservationsOfACarBetweenDates(id, start, end);
+
         return carReserved.isEmpty();
     }
 
-
-    public void createReservation(ReservationDTO reservationDTO) {
-        crudReservation.createReservation(reservationDTO.getStartDate(), reservationDTO.getDevolutionDate(), reservationDTO.getCode(), reservationDTO.getCar_id(), reservationDTO.getClient_id());
+    /**
+     * Method in charge of return reservations between two dates
+     *
+     * @param startDate from when to bring reservations
+     * @param endDate   until when to bring reservations
+     * @return list of reservations
+     */
+    public List<Reservation> getReservationsBetweenDates(Date startDate, Date endDate) {
+        return reservationInterface.getReservationsBetweenDates(startDate, endDate);
     }
 
-    public Reservation save(Reservation reservation) {
-        return crudReservation.save(reservation);
+    /**
+     * Method in charge of return reservations by status between dates
+     *
+     * @param startDate from when to bring reservations
+     * @param endDate   until when to bring reservations
+     * @param status    of the reservations
+     * @return List of reservations
+     */
+    public List<Reservation> getReservationByStatusBetweenDates(Date startDate, Date endDate, String status) {
+        return reservationInterface.getReservationsBetweenDatesAndStatus(startDate, endDate, status);
     }
 
-    public void delete(Reservation reservation) {
-        crudReservation.delete(reservation);
-    }
-
-    /**************************************************/
-    public List<Reservation> ReservacionStatusRepositorio(ReservationStatus status) {
-        return crudReservation.findAllByReservationStatus(status);
-    }
-
-    public List<Reservation> ReservacionTiempoRepositorio(Date a, Date b) {
-        return crudReservation.findAllByStartDateAfterAndStartDateBefore(a, b);
-
-    }
-
-    public List<CountClients> getClientesRepositorio() {
-        List<CountClients> res = new ArrayList<>();
-        List<Object[]> report = crudReservation.countTotalReservationsByClient();
-        for (int i = 0; i < report.size(); i++) {
-            res.add(new CountClients((Long) report.get(i)[1], (Client) report.get(i)[0]));
-        }
-        return res;
-    }
 }

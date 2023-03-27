@@ -2,12 +2,11 @@ package com.retos.rentacar.repositorio;
 
 import com.retos.rentacar.interfaces.CarInterface;
 import com.retos.rentacar.modelo.Entity.Car.Car;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 @Repository
 public class CarRepository {
@@ -71,12 +70,4 @@ public class CarRepository {
         carInterface.delete(car);
     }
 
-    /**
-     * Method in charge to delete a car by its Id
-     *
-     * @param id of car to delete
-     */
-    public void deleteCarById(int id) {
-        carInterface.deleteById(id);
-    }
 }
