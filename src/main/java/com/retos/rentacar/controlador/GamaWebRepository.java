@@ -1,61 +1,71 @@
 
 package com.retos.rentacar.controlador;
 
+import com.retos.rentacar.modelo.DTO.Wrapper.GamaAndKeyClient;
+import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.modelo.Entity.Gama.Gama;
 import com.retos.rentacar.servicios.GamaServices;
-
-
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/gama")
-@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
-        RequestMethod.DELETE })
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
+        RequestMethod.DELETE})
 public class GamaWebRepository {
 
     @Autowired
-    private GamaServices gamaServices;
+    private GamaServices service;
 
     @GetMapping("/all")
     public Iterable<Gama> getGama() {
-        return gamaServices.getAll();
+        return service.getAll();
     }
 
     @GetMapping("/{id}")
     public Optional<Gama> getGama(@PathVariable("id") int idGama) {
-        return gamaServices.getGama(idGama);
+        return service.getGamaById(idGama);
     }
 
     @PostMapping("/save")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Gama save(@RequestBody Gama gama) {
-        return gamaServices.save(gama);
+    public ResponseEntity<?> save(@RequestBody GamaAndKeyClient body) {
+        if (hasPermissions(body.getKey())) {
+            Gama newGama = service.saveGama(body.getGama(), body.getKey());
+            return new ResponseEntity<>(newGama, HttpStatus.CREATED);
+        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @PutMapping("/update")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Gama update(@RequestBody Gama gama) {
-        return gamaServices.update(gama);
+    public ResponseEntity<?> update(@RequestBody GamaAndKeyClient body) {
+        if (hasPermissions(body.getKey())) {
+            Gama gamaUpdated = service.updateGama(body.getGama(), body.getKey());
+            return new ResponseEntity<>(gamaUpdated, HttpStatus.CREATED);
+        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
-    
-    // No se puede eliminar una gama si esta se encuentra asociada
+
+    //    cant delete a gama if is associate with any car
     @DeleteMapping("/delete/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") int idGama) {
-        gamaServices.deleteGama(idGama);
+    public ResponseEntity<?> delete(@RequestBody GamaAndKeyClient body) {
+        if (hasPermissions(body.getKey())) {
+            boolean wasDeleted = service.deleteGama(body.getGama(), body.getKey());
+            if (wasDeleted) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    /**
+     * Method in charge of validate the permissions of a client by its keyClient
+     *
+     * @param key to validate
+     * @return boolean value
+     */
+    private boolean hasPermissions(KeyClient key) {
+        return service.hasPermissions(key);
     }
 
 }

@@ -2,156 +2,184 @@
 package com.retos.rentacar.controlador;
 
 import com.retos.rentacar.modelo.DTO.ReservationDTO;
-import com.retos.rentacar.modelo.DTO.Wrapper.ClientAndKeyClient;
 import com.retos.rentacar.modelo.DTO.Wrapper.ReservationAndKeyClient;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
+import com.retos.rentacar.servicios.ClientServices;
 import com.retos.rentacar.servicios.ReservationServices;
-
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/reservation")
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
         RequestMethod.DELETE})
 public class ReservationWebRepository {
+
     @Autowired
-    private ReservationServices services;
+    private ReservationServices service;
 
+    @PostMapping("/id/{id}")
+    public ResponseEntity<?> getReservationById(@PathVariable("id") int id, @RequestBody KeyClient whoRequest) {
 
-    // --- Requests as CLIENT
+        if (hasPermissions(whoRequest)) {
+            Reservation reservationFound = service.getReservationById(id);
 
-    // - GET
+            if (reservationFound.getId() == null) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else return new ResponseEntity<>(reservationFound, HttpStatus.OK);
 
-    // Client
-
-    @PostMapping("/my-active-reservations")
-    public List<Reservation> getMyReservations(@RequestBody KeyClient key) {
-        return services.getActiveReservationsOfAClient(key);
+        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
+    @GetMapping("/code/{code}")
+    public ResponseEntity<?> getReservationByCode(@PathVariable String code) {
 
-    @PostMapping("/history")
-    @ResponseStatus(HttpStatus.CREATED)
-    public List<Reservation> getAllMyReservations(@RequestBody KeyClient key) {
-        return services.getMyReservationHistory(key);
+        Reservation reservationFound = service.getReservationByCode(code);
+        if (reservationFound.getCode() == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else return new ResponseEntity<>(reservationFound, HttpStatus.OK);
     }
 
-    @PostMapping("/reserve-vehicle")
-    public ResponseEntity<String> reserveVehicle(@RequestBody ReservationDTO reservationDTO) {
-        if (services.createReservation(reservationDTO)) {
-            return new ResponseEntity<>("Created Successfully", HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>("Something went wrong!", HttpStatus.METHOD_NOT_ALLOWED);
-        }
+    @PostMapping("/by-client/{email}")
+    public ResponseEntity<?> getReservationsOfClient(@PathVariable("email") String email, @RequestBody KeyClient whoRequest) {
+        if (hasPermissionsIncludeSupport(whoRequest)) {
+            List<Reservation> listOfReservations = service.getReservationsOfClient(email);
+            return new ResponseEntity<>(listOfReservations, HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
     }
 
-    @PostMapping("/when-is-bookable")
-    public List<Reservation> datesBetweenYourReservation(@RequestBody ReservationDTO reservationDTO) {
-        return services.datesBetweenYourReservation(reservationDTO);
+    @PostMapping("/by-client/{email}/{status}")
+    public ResponseEntity<?> getReservationsOfClientByStatus(@PathVariable("email") String email,
+                                                             @PathVariable("status") String status,
+                                                             @RequestBody KeyClient whoRequest) {
+        if (hasPermissionsIncludeSupport(whoRequest)) {
+            List<Reservation> listOfReservations = service.getReservationsOfClientByStatus(email, status);
+            return new ResponseEntity<>(listOfReservations, HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
+    @PostMapping("/by-client/{email}/between/{start}/{end}")
+    public ResponseEntity<?> getReservationsOfClientBetweenDates(@RequestBody KeyClient whoRequest,
+                                                                 @PathVariable("email") String email,
+                                                                 @PathVariable("start") String start,
+                                                                 @PathVariable("end") String end) {
+        if (hasPermissionsIncludeSupport(whoRequest)) {
+            List<Reservation> listOfReservations = service.getReservationsOfClientBetweenDates(email, start, end);
+            return new ResponseEntity<>(listOfReservations, HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-    // --- Requests as EMPLOYEES
-    // --- Requests as EMPLOYEES
-
-
-    //--EMPLOYEES
-
-    // Admin-Developer
-    @PostMapping("/all-reservations")
-    public List<Reservation> getAllReservations(@RequestBody KeyClient key) {
-        return services.getAllReservations(key);
     }
 
-    // Support
-    @PostMapping("/all-reservations-by-client")
-    public List<Reservation> getAllReservationsByClient(@RequestBody ClientAndKeyClient body) {
-        return services.getReservationsOfAClient(body.getClient(), body.getKeyClient());
+    @PostMapping("/create")
+    public ResponseEntity<?> createReservation(@RequestBody ReservationAndKeyClient body) {
+
+        boolean hasPermission = (hasPermissions(body.getKey()) || isReservationOwner(body.getReservation(), body.getKey()));
+        if (hasPermission) {
+
+            boolean wasSuccessfully = service.createReservation(body.getReservation());
+            if (wasSuccessfully) {
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            } else {
+                return
+                        new ResponseEntity<>("The car could not be created", HttpStatus.BAD_REQUEST);
+            }
+        } else
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
+    @PostMapping("/cancel/{code}")
+    public ResponseEntity<?> cancelReservation(@PathVariable("code") String code,
+                                               @RequestBody KeyClient key) {
 
-    @PostMapping("/all-between={minDate}/and={maxDate}")
-    public List<Reservation> getReservationsBetweenOneAndTwo(@PathVariable("minDate") String minDate, @PathVariable("maxDate") String maxDate,
-                                                             @RequestBody KeyClient key) {
-        return services.reservationsBetweenDates(minDate, maxDate, key);
+        boolean hasPermission = (hasPermissions(key) || isReservationOwner(code, key));
+
+        boolean wasSuccessfully = service.cancelReservation(key, code);
+        if (hasPermission) {
+            if (wasSuccessfully) {
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            } else
+                return new ResponseEntity<>("The reservation could not be cancelled", HttpStatus.BAD_REQUEST);
+        } else
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
+    /**
+     * Admin requests
+     */
 
-    @PostMapping("/reservation-by-code")
-    public Optional<Reservation> getReservationByCode(@RequestBody ReservationAndKeyClient body) {
-        return services.getReservationByCode(body.getReservation(), body.getKey());
+    @PostMapping("/reservations/between/{start}/{end}")
+    public ResponseEntity<?> getReservationsBetweenDates(@RequestBody KeyClient key,
+                                                         @PathVariable("start") String start,
+                                                         @PathVariable("end") String end) {
+        if (hasPermissionsIncludeSupport(key)) {
+            List<Reservation> listReservations = service.getReservationsBetweenDates(start, end);
+            if (listReservations.size() > 0) {
+                return new ResponseEntity<>(listReservations, HttpStatus.OK);
+            } else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
-
-    // reports
-
-
-    //----------------------------------------------------------------
-
-    // - POST
-
-    // - PUT
-
-    @PutMapping("/edit-reservation")
-    public Reservation editReservation(@RequestBody ReservationAndKeyClient body) {
-        return services.editReservation(body.getReservation(), body.getKey());
+    @PostMapping("/reservations/between/{start}/{end}/status/{status}")
+    public ResponseEntity<?> getReservationByStatusBetweenDates(@RequestBody KeyClient key,
+                                                                @PathVariable("status") String status,
+                                                                @PathVariable("start") String start,
+                                                                @PathVariable("end") String end) {
+        if (hasPermissionsIncludeSupport(key)) {
+            List<Reservation> listReservations = service.getReservationByStatusBetweenDates(status, start, end);
+            if (listReservations.size() > 0) {
+                return new ResponseEntity<>(listReservations, HttpStatus.OK);
+            } else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
-    @PutMapping("/cancel-reservation")
-    public ResponseEntity<String> cancelReservation(@RequestBody ReservationAndKeyClient body) {
-        Boolean cancelledSuccessfully = services.cancelReservation(body.getReservation(), body.getKey());
+//    util methods
 
-        if (cancelledSuccessfully){
-            return new ResponseEntity<>("response", HttpStatus.CREATED);
-        }else {
-            return new ResponseEntity<>("response", HttpStatus.METHOD_NOT_ALLOWED);
-        }
+    /**
+     * Method in charge to evaluate the permissions of a client by its keyClient
+     *
+     * @param key to evaluate
+     * @return boolean value
+     */
+    private boolean hasPermissions(KeyClient key) {
+        return service.hasPermissions(key);
     }
-        
-    // - DELETE
 
+    /**
+     * Method in charge to evaluate the permissions of a client by its keyClient including support
+     *
+     * @param key to evaluate
+     * @return boolean value
+     */
+    private boolean hasPermissionsIncludeSupport(KeyClient key) {
+        return service.hasPermissionsIncludeSupport(key);
+    }
 
-    //----------------------RESOURCES
+    /**
+     * Method in charge to evaluate if the key correspond to who reserve the vehicle
+     *
+     * @param reservationDTO to evaluate
+     * @param key            to evaluate
+     * @return boolean value
+     */
+    private boolean isReservationOwner(ReservationDTO reservationDTO, KeyClient key) {
+        return service.isReservationOwner(reservationDTO, key);
+    }
 
-//    @GetMapping("/report-dates/{dateOne}/{dateTwo}")
-//    public List<Reservation> getReservasTiempo(@PathVariable("dateOne") String dateOne,
-//                                               @PathVariable("dateTwo") String dateTwo) {
-//        return services.reporteTiempoServicio(dateOne, dateTwo);
-//    }
-//
-//    @GetMapping("/report-clients")
-//    public List<CountClients> getClientes() {
-//        return services.reporteClientesServicio();
-//    }
-//
-//
-//    @GetMapping("/all")
-//    public List<Reservation> getReservation() {
-//        return services.getAll();
-//    }
-//
-//    @GetMapping("/{id}")
-//    public Optional<Reservation> getReservation(@PathVariable("id") int idReservation) {
-//        return services.getReservation(idReservation);
-//    }
-//
-//    @PostMapping("/save")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public Reservation save(@RequestBody Reservation reservation) {
-//        return services.save(reservation);
-//    }
-//
-//    @DeleteMapping("/delete/{id}")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public boolean delete(@PathVariable("id") int idReservation) {
-//        return services.deleteReservation(idReservation);
-//    }
+    /**
+     * Method in charge to evaluate if the key correspond to who reserve the vehicle
+     *
+     * @param code of the reservation to evaluate
+     * @param key  to evaluate
+     * @return boolean value
+     */
+    private boolean isReservationOwner(String code, KeyClient key) {
+        return service.isReservationOwner(code, key);
+    }
 
 }

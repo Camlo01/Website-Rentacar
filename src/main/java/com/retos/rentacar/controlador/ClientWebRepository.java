@@ -5,13 +5,13 @@ import com.retos.rentacar.modelo.DTO.Wrapper.ClientAndKeyClient;
 import com.retos.rentacar.modelo.Entity.Client.Client;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.servicios.ClientServices;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/client")
@@ -22,8 +22,6 @@ public class ClientWebRepository {
     @Autowired
     private ClientServices services;
 
-    // --- Peticiones HTTP Fijas
-
     // - GET
 
     @GetMapping("/all")
@@ -32,52 +30,95 @@ public class ClientWebRepository {
     }
 
     @GetMapping("/{id}")
-    public Optional<Client> getClientById(@PathVariable("id") int idClient, @RequestBody KeyClient keyClient) {
-        return services.getClientByIdWithAuthorization(idClient, keyClient);
+    public ResponseEntity<?> getClientById(@PathVariable("id") int idClient, @RequestBody KeyClient keyClient) {
+        if (hasPermissions(keyClient)) {
+            Optional<Client> clientOptional = services.getClientByIdWithAuthorization(idClient);
+            if (clientOptional.isPresent()) {
+                return new ResponseEntity<>(clientOptional.get(), HttpStatus.OK);
+            } else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     // - POST
 
     // If I want to create my own account
     @PostMapping("/create-account")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Client createClient(@RequestBody Client client) {
-        return services.createAccount(client);
+    public ResponseEntity<?> createClient(@RequestBody Client client) {
+        Client clientCreated = services.createAccount(client);
+        if (client.getId() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else return new ResponseEntity<>(clientCreated, HttpStatus.CREATED);
     }
-
 
     // create account as admin
     @PostMapping("/save")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Client saveClient(@RequestBody ClientAndKeyClient clientAndKey) {
-        return services.saveClient(clientAndKey.getClient(), clientAndKey.getKeyClient());
+    public ResponseEntity<?> saveClient(@RequestBody ClientAndKeyClient body) {
+        if (hasPermissions(body.getKeyClient())) {
+            Client client = services.saveClient(body.getClient());
+            return new ResponseEntity<>(client, HttpStatus.CREATED);
+        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     // - PUT
 
     @PutMapping("/update")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Client update(@RequestBody ClientAndKeyClient body) {
-        return services.updateClient(body.getClient(), body.getKeyClient());
-    }
-
-    // - DELETE
-
-    @DeleteMapping("/delete")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean delete(@RequestBody ClientAndKeyClient body) {
-        return services.deleteClient(body.getClient().getId(), body.getKeyClient());
+    public ResponseEntity<?> update(@RequestBody ClientAndKeyClient body) {
+        KeyClient whoRequest = new KeyClient(body.getKeyClient().getKeyClient());
+        boolean hasPermission = (hasPermissions(whoRequest) || isAccountOwner(body));
+        if (hasPermission) {
+            Client clientUpdated = services.updateClient(body.getClient());
+            return new ResponseEntity<>(clientUpdated, HttpStatus.CREATED);
+        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     // Login
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Client login(@RequestBody Client clientReceived) {
-        return services.login(clientReceived).get();
+    public ResponseEntity<?> login(@RequestBody Client clientReceived) {
+        Optional<Client> client = services.login(clientReceived);
+        if (client.isPresent()) {
+            return new ResponseEntity<>(client.get(), HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 
+    // - DELETE
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> delete(@RequestBody ClientAndKeyClient body) {
+        KeyClient whoRequest = body.getKeyClient();
+        boolean hasPermission = (hasPermissions(whoRequest) || isAccountOwner(body));
+
+        if (hasPermission) {
+            boolean wasDeleted = services.deleteClient(body.getClient().getId());
+            if (wasDeleted) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
 
     //Resources
+
+    /**
+     * Method in charge of validate the permissions of a keyClient
+     *
+     * @param key to evaluate
+     * @return boolean value
+     */
+    private boolean hasPermissions(KeyClient key) {
+        return services.hasPermissions(key, false);
+    }
+
+    /**
+     * Method in charge of evaluate if a keyClient belong to the client sent
+     *
+     * @param body object with Client to compare and KeyClient
+     * @return boolean value
+     */
+    private boolean isAccountOwner(ClientAndKeyClient body) {
+        return services.isAccountOwner(body.getClient(), body.getKeyClient());
+    }
 
 }
