@@ -51,7 +51,7 @@ public class ClientServicesTest {
     public void testGetAllClients_ShouldNotReturnNull() {
         KeyClient keyOfDeveloper = new KeyClient(clientDeveloper.getKeyClient());
 
-        Mockito.when(clientInterface.findByKeyClient(keyOfDeveloper.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(keyOfDeveloper.getKeyClient()))
                 .thenReturn(Optional.of(clientDeveloper));
 
         Mockito.when(clientRepository.getAll())
@@ -67,7 +67,7 @@ public class ClientServicesTest {
     public void testGetAllClients_AsSupport() {
         KeyClient keyOfSupport = new KeyClient(clientSupport.getKeyClient());
 
-        Mockito.when(clientInterface.findByKeyClient(keyOfSupport.getKeyClient())).thenReturn(Optional.of(clientSupport));
+        Mockito.when(clientInterface.findClientByKeyClient(keyOfSupport.getKeyClient())).thenReturn(Optional.of(clientSupport));
 
         Assertions.assertNull(clientService.getAllClientsWithAuthorization(keyOfSupport));
     }
@@ -77,7 +77,7 @@ public class ClientServicesTest {
     public void testGetAllClients_AsClient() {
         KeyClient keyOfClient = new KeyClient(clientClient.getKeyClient());
 
-        Mockito.when(clientInterface.findByKeyClient(keyOfClient.getKeyClient())).thenReturn(Optional.of(clientClient));
+        Mockito.when(clientInterface.findClientByKeyClient(keyOfClient.getKeyClient())).thenReturn(Optional.of(clientClient));
 
         Assertions.assertNull(clientService.getAllClientsWithAuthorization(keyOfClient));
     }
@@ -99,7 +99,7 @@ public class ClientServicesTest {
     public void testGetClientByIdWithAuthorization_AsClient() {
         String keyOfClient = clientClient.getKeyClient();
 
-        Mockito.when(clientInterface.findByKeyClient(keyOfClient))
+        Mockito.when(clientInterface.findClientByKeyClient(keyOfClient))
                 .thenReturn(Optional.of(clientClient));
 
         Assertions.assertEquals(Optional.empty(), clientService.getClientByIdWithAuthorization(2, new KeyClient(keyOfClient)));
@@ -111,7 +111,7 @@ public class ClientServicesTest {
         int idOfClient = 1;
         KeyClient keyAdmin = new KeyClient(clientAdmin.getKeyClient());
 
-        Mockito.when(clientInterface.findByKeyClient(keyAdmin.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(keyAdmin.getKeyClient()))
                 .thenReturn(Optional.of(clientAdmin));
 
         Mockito.when(clientRepository.getClientById(idOfClient))
@@ -131,7 +131,7 @@ public class ClientServicesTest {
 
         KeyClient keyDeveloper = new KeyClient(clientDeveloper.getKeyClient());
 
-        Mockito.when(clientInterface.findByKeyClient(keyDeveloper.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(keyDeveloper.getKeyClient()))
                 .thenReturn(Optional.of(clientDeveloper));
 
         Mockito.when(clientRepository.getClientById(idOfClient))
@@ -151,7 +151,7 @@ public class ClientServicesTest {
 
         KeyClient keySupport = new KeyClient(clientSupport.getKeyClient());
 
-        Mockito.when(clientInterface.findByKeyClient(keySupport.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(keySupport.getKeyClient()))
                 .thenReturn(Optional.of(clientSupport));
 
         Assertions.assertEquals(Optional.empty(), clientService.getClientByIdWithAuthorization(idOfClient, keySupport));
@@ -216,7 +216,7 @@ public class ClientServicesTest {
 
         KeyClient keyOfClient = new KeyClient(clientClient.getKeyClient());
 
-        Mockito.when(clientInterface.findByKeyClient(keyOfClient.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(keyOfClient.getKeyClient()))
                 .thenReturn(Optional.of(clientClient));
 
 
@@ -232,7 +232,7 @@ public class ClientServicesTest {
 
         KeyClient keyAdmin = new KeyClient(clientAdmin.getKeyClient());
 
-        Mockito.when(clientInterface.findByKeyClient(keyAdmin.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(keyAdmin.getKeyClient()))
                 .thenReturn(Optional.of(clientAdmin));
 
         Mockito.when(clientRepository.save(clientToSave))
@@ -250,7 +250,7 @@ public class ClientServicesTest {
 
         KeyClient keyDeveloper = new KeyClient(clientDeveloper.getKeyClient());
 
-        Mockito.when(clientInterface.findByKeyClient(keyDeveloper.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(keyDeveloper.getKeyClient()))
                 .thenReturn(Optional.of(clientDeveloper));
 
 
@@ -270,7 +270,7 @@ public class ClientServicesTest {
 
         KeyClient keySupport = new KeyClient(clientSupport.getKeyClient());
 
-        Mockito.when(clientInterface.findByKeyClient(keySupport.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(keySupport.getKeyClient()))
                 .thenReturn(Optional.of(clientSupport));
 
         Assertions.assertNull(clientService.saveClient(clientToSave, keySupport));
@@ -282,7 +282,7 @@ public class ClientServicesTest {
     public void testHasPermissions_IsAdmin() {
         KeyClient keyAdmin = new KeyClient(clientAdmin.getKeyClient());
 
-        Mockito.when(clientInterface.findByKeyClient(keyAdmin.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(keyAdmin.getKeyClient()))
                 .thenReturn(Optional.of(clientAdmin));
 
         Assertions.assertTrue(clientService.hasPermissions(keyAdmin, false));
@@ -293,7 +293,7 @@ public class ClientServicesTest {
     public void testHasPermissions_IsDeveloper() {
         KeyClient keyDeveloper = new KeyClient(clientDeveloper.getKeyClient());
 
-        Mockito.when(clientInterface.findByKeyClient(keyDeveloper.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(keyDeveloper.getKeyClient()))
                 .thenReturn(Optional.of(clientDeveloper));
 
         Assertions.assertTrue(clientService.hasPermissions(keyDeveloper, false));
@@ -304,7 +304,7 @@ public class ClientServicesTest {
     public void testHasPermissions_IsClient() {
         KeyClient keyClient = new KeyClient(clientClient.getKeyClient());
 
-        Mockito.when(clientInterface.findByKeyClient(keyClient.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(keyClient.getKeyClient()))
                 .thenReturn(Optional.of(clientClient));
 
         Assertions.assertFalse(clientService.hasPermissions(keyClient, true));
@@ -315,7 +315,7 @@ public class ClientServicesTest {
     public void testHasPermissions_IsSupportWithTrue() {
         KeyClient keySupport = new KeyClient(clientSupport.getKeyClient());
 
-        Mockito.when(clientInterface.findByKeyClient(keySupport.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(keySupport.getKeyClient()))
                 .thenReturn(Optional.of(clientSupport));
 
         Assertions.assertTrue(clientService.hasPermissions(keySupport, true));
@@ -326,7 +326,7 @@ public class ClientServicesTest {
     public void testHasPermissions_IsSupportWithFalse() {
         KeyClient keySupport = new KeyClient(clientSupport.getKeyClient());
 
-        Mockito.when(clientInterface.findByKeyClient(keySupport.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(keySupport.getKeyClient()))
                 .thenReturn(Optional.of(clientSupport));
 
         Assertions.assertFalse(clientService.hasPermissions(keySupport, false));
@@ -341,7 +341,7 @@ public class ClientServicesTest {
         Client clientUpdated = new Client(24, "QWERTY", "Daniel", "daniel123@mail.com", "K5u4T3*@ES4xt!dZ", Date.valueOf("2001-02-02"), ClientType.CLIENT);
         KeyClient key = new KeyClient("DIFFERENT_KEY");
 
-        Mockito.when(clientInterface.findByKeyClient(key.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(key.getKeyClient()))
                 .thenReturn(Optional.of(clientDB));
 
         Assertions.assertNull(clientService.updateClient(clientUpdated, key));
@@ -356,7 +356,7 @@ public class ClientServicesTest {
         Client clientUpdated = new Client(15, "ABCDEFG", "Jorgecito", "jorgecito123@mail.com", "14W76wA*uE1rs^%9", Date.valueOf("2000-01-01"), ClientType.CLIENT);
         KeyClient keyWhoRequest = new KeyClient(clientDB.getKeyClient());
 
-        Mockito.when(clientInterface.findByKeyClient(keyWhoRequest.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(keyWhoRequest.getKeyClient()))
                 .thenReturn(Optional.of(clientDB));
 
         Mockito.when(clientRepository.getClientById(clientUpdated.getId()))
@@ -377,7 +377,7 @@ public class ClientServicesTest {
         Client clientUpdated = new Client(234, "TW3NYT2", "Jose", "Joselito50@gmail.com", "53zY3$wpM1Rr^tRtJ", Date.valueOf("1985-01-01"), ClientType.ADMIN);
         KeyClient keyWhoRequest = new KeyClient(clientDB.getKeyClient());
 
-        Mockito.when(clientInterface.findByKeyClient(keyWhoRequest.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(keyWhoRequest.getKeyClient()))
                 .thenReturn(Optional.of(clientDB));
 
         Mockito.when(clientRepository.getClientById(clientUpdated.getId()))
@@ -397,7 +397,7 @@ public class ClientServicesTest {
         Client clientUpdated = new Client(99, "OLDQWNIDAW", "David", "David123@gmail.com ", "Lr141C#p!VgS", Date.valueOf("2004-01-01"), ClientType.CLIENT);
         KeyClient keyWhoRequest = new KeyClient(clientAdmin.getKeyClient());
 
-        Mockito.when(clientInterface.findByKeyClient(keyWhoRequest.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(keyWhoRequest.getKeyClient()))
                 .thenReturn(Optional.of(clientAdmin));
 
         Mockito.when(clientRepository.getClientById(clientUpdated.getId()))
@@ -417,7 +417,7 @@ public class ClientServicesTest {
         Client clientUpdated = new Client(99, "OLDQWNIDAW", "David", "David123@gmail.com ", "hugo", Date.valueOf("2004-01-01"), ClientType.CLIENT);
         KeyClient keyWhoRequest = new KeyClient(clientAdmin.getKeyClient());
 
-        Mockito.when(clientInterface.findByKeyClient(keyWhoRequest.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(keyWhoRequest.getKeyClient()))
                 .thenReturn(Optional.of(clientAdmin));
 
         Mockito.when(clientRepository.getClientById(clientUpdated.getId()))
@@ -440,7 +440,7 @@ public class ClientServicesTest {
         Mockito.when(clientRepository.getClientById(10))
                 .thenReturn(Optional.of(clientDB));
 
-        Mockito.when(clientInterface.findByKeyClient(client.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(client.getKeyClient()))
                 .thenReturn(Optional.of(client));
 
         Assertions.assertFalse(clientService.deleteClient(10, keyWhoRequest));
@@ -457,7 +457,7 @@ public class ClientServicesTest {
         Mockito.when(clientRepository.getClientById(10))
                 .thenReturn(Optional.of(clientDB));
 
-        Mockito.when(clientInterface.findByKeyClient(client.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(client.getKeyClient()))
                 .thenReturn(Optional.of(client));
 
         Assertions.assertTrue(clientService.deleteClient(10, keyWhoRequest));
@@ -474,7 +474,7 @@ public class ClientServicesTest {
         Mockito.when(clientRepository.getClientById(10))
                 .thenReturn(Optional.of(clientDB));
 
-        Mockito.when(clientInterface.findByKeyClient(client.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(client.getKeyClient()))
                 .thenReturn(Optional.of(client));
 
         Assertions.assertTrue(clientService.deleteClient(10, keyWhoRequest));
@@ -493,7 +493,7 @@ public class ClientServicesTest {
         Mockito.when(clientRepository.getClientById(40))
                 .thenReturn(Optional.of(clientDB));
 
-        Mockito.when(clientInterface.findByKeyClient(client.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(client.getKeyClient()))
                 .thenReturn(Optional.of(client));
 
         Assertions.assertTrue(clientService.deleteClient(40, keyWhoRequest));
@@ -512,7 +512,7 @@ public class ClientServicesTest {
         Mockito.when(clientRepository.getClientById(40))
                 .thenReturn(Optional.of(clientDB));
 
-        Mockito.when(clientInterface.findByKeyClient(client.getKeyClient()))
+        Mockito.when(clientInterface.findClientByKeyClient(client.getKeyClient()))
                 .thenReturn(Optional.of(client));
 
         Assertions.assertFalse(clientService.deleteClient(40, keyWhoRequest));
@@ -558,11 +558,6 @@ public class ClientServicesTest {
 
         Assertions.assertEquals(Optional.empty(), clientService.login(userToLogin));
 
-    }
-
-    @Test
-    public void emptyOptional() {
-        Assertions.assertEquals(Optional.empty(), Optional.empty());
     }
 
 }
