@@ -3,9 +3,7 @@ package com.retos.rentacar.servicios;
 import com.retos.rentacar.modelo.DTO.DAO.CarDTO;
 import com.retos.rentacar.modelo.Entity.Car.Car;
 import com.retos.rentacar.modelo.Entity.Car.CarStatus;
-import com.retos.rentacar.modelo.Entity.Client.Client;
-import com.retos.rentacar.modelo.Entity.Client.ClientType;
-import com.retos.rentacar.modelo.Entity.Client.KeyClient;
+import com.retos.rentacar.modelo.Entity.Gama.Gama;
 import com.retos.rentacar.repositorio.CarRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,17 +19,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
+
 @ExtendWith(MockitoExtension.class)
 class CarServicesTest {
 
     @Mock
-    private CarRepository carRepository;
+    private CarRepository reposity;
 
     @Mock
     private ClientServices clientServices;
 
     @InjectMocks
-    private CarServices carServices;
+    private CarServices service;
 
     private Car car1, car2, car3, car4, car5, car6;
 
@@ -54,6 +54,7 @@ class CarServicesTest {
 
         car5 = new Car("Mercedes", "Mercedes", 2023, "carro de prueba 5");
         car5.setCarStatus(CarStatus.BOOKABLE);
+        car5.setGama(new Gama("name", "description"));
         car5.setId(5);
 
         car6 = new Car("Porsche", "Porsche", 2023, "carro de prueba 6");
@@ -61,93 +62,105 @@ class CarServicesTest {
         listOfCars = Arrays.asList(car1, car2, car3, car4, car5, car6);
     }
 
-    @DisplayName("getAll() should not be null")
+    @DisplayName("getCarById() should not be null with that exist")
     @Test
-    public void testGetAll_ShouldNotReturnNull() {
-        Mockito.when(carRepository.getAll()).thenReturn(listOfCars);
-        Assertions.assertNotNull(carServices.getAll());
+    public void getById_shouldNotBeNull() {
+        int idOfCarToFind = 1;
+
+        Mockito.when(reposity.getCarById(idOfCarToFind))
+                .thenReturn(Optional.of(car1));
+
+        Assertions.assertTrue(service.getCarById(idOfCarToFind).isPresent());
     }
 
-    @DisplayName("getCar() should not be null")
+    @DisplayName("getCarById() should be null with a car that does not exist")
     @Test
-    public void testGetCar_ShouldReturnFifthCar() {
-        Mockito.when(carRepository.getCarById(5))
+    public void getById_ShouldBeNullIfDoesNotExist() {
+        int idOfCarToFind = 999;
+
+        Mockito.when(reposity.getCarById(idOfCarToFind))
+                .thenReturn(Optional.empty());
+
+        Assertions.assertTrue(service.getCarById(idOfCarToFind).isEmpty());
+    }
+
+    @DisplayName("getLastCarAddedBookable() should not be null")
+    @Test
+    public void getLastCarAddedBookable_shouldNotBeNull() {
+
+        Mockito.when(reposity.getLastCarAdded())
                 .thenReturn(Optional.of(car5));
-        Optional<Car> car5 = carRepository.getCarById(5);
-        Assertions.assertEquals(5, car5.get().getId());
+
+        Assertions.assertNotNull(service.getLastCarAdded().get());
+
     }
 
-    @DisplayName("saveVehicle() with a keyClient of a Client")
+    @DisplayName("getLastCarAdded() should not be null")
     @Test
-    public void testSaveVehicle_AsClient() {
-        KeyClient keyOfClient = new KeyClient("CLIENT");
-        Mockito.when(clientServices.hasPermissions(keyOfClient, false))
-                .thenReturn(false);
-        Assertions.assertNull(carServices.saveVehicle(car1, keyOfClient));
+    public void getLastCarAdded_ShouldNotBeNull() {
+
+        Mockito.when(reposity.getLastCarAdded())
+                .thenReturn(Optional.of(car5));
+
+        Assertions.assertNotNull(service.getLastCarAdded().get());
     }
 
-
-    @DisplayName("saveVehicle() by someone authorized")
+    @DisplayName("saveVehicle() return the same vehicle")
     @Test
-    public void testSaveVehicle_SomeoneAuthorized() {
-        KeyClient keyWhoRequest = new KeyClient("AUTHORIZED");
+    public void saveVehicle() {
 
-        Mockito.when(clientServices.hasPermissions(keyWhoRequest, false))
-                .thenReturn(true);
+        Mockito.when(reposity.save(car2))
+                .thenReturn(car2);
 
-        Mockito.when(carRepository.save(car1))
-                .thenReturn(car1);
-
-        Assertions.assertEquals(car1, carServices.saveVehicle(car1, keyWhoRequest));
+        Assertions.assertEquals(car2, service.saveVehicle(car2));
     }
 
-    @DisplayName("updateVehicle() with keyClient that doesn't exist")
+    @DisplayName("updateVehicle() should not be null with a correct car to update")
     @Test
-    public void testUpdateVehicle_withNonexistentKey() {
-        Car carToSave = new Car();
-        KeyClient key = new KeyClient("DOESNTEXIST");
+    public void updateVehicle_ShouldBeNotNull() {
 
-        Mockito.when(clientServices.hasPermissions(key, true)).thenReturn(false);
-        Assertions.assertNull(carServices.updateVehicle(carToSave, key));
+//        Consult the car in the DB
+        Mockito.when(reposity.getCarById(car5.getId()))
+                .thenReturn(Optional.of(car5));
+
+        Mockito.when(reposity.save(any(Car.class)))
+                .thenReturn(car5);
+
+        Assertions.assertNotNull(service.updateVehicle(car5));
     }
 
-    @DisplayName("updateVehicle() with a valid keyClient")
+    @DisplayName("updateVehicle() should return null if the car does not exist")
     @Test
-    public void testUpdateVehicle_invalidKeyClient() {
-        Car car2Updated = new Car(2);
-        KeyClient key = new KeyClient("QWERTY");
+    public void updateVehicle_CarThatDoesNotExist() {
 
-        Mockito.when(clientServices.hasPermissions(key, true))
-                .thenReturn(true);
+        Mockito.when(reposity.getCarById(car5.getId()))
+                .thenReturn(Optional.empty());
 
-        Mockito.when(carRepository.getCarById(car2Updated.getId()))
-                .thenReturn(Optional.of(car2Updated));
-
-        Mockito.when(carRepository.save(car2Updated))
-                .thenReturn(car2Updated);
-
-        Assertions.assertEquals(car2Updated, carServices.updateVehicle(car2Updated, key));
+        Assertions.assertNull(service.updateVehicle(car5));
     }
 
-    @DisplayName("deleteVehicle() with keyClient of a Client")
+    @DisplayName("deleteVehicle() car that exist")
     @Test
-    public void testDeleteVehicle_asClient() {
-        CarDTO carToDelete = new CarDTO();
-        carToDelete.setId(5);
+    public void deleteVehicle_CarThatExist() {
 
-        Car toDelete = new Car(carToDelete);
+        CarDTO carToDelete = new CarDTO(car1);
 
-        KeyClient key = new KeyClient("CLIENT");
-        Client client = new Client();
-        client.setType(ClientType.CLIENT);
+        Mockito.when(reposity.getCarById(carToDelete.getId()))
+                .thenReturn(Optional.of(car1));
 
-        Mockito.when(carRepository.getCarById(carToDelete.getId()))
-                .thenReturn(Optional.of(toDelete));
+        Mockito.doNothing().when(reposity).delete(any(Car.class));
 
-        Mockito.when(clientServices.hasPermissions(key, false))
-                .thenReturn(false);
-
-        Assertions.assertEquals(false, carServices.deleteVehicle(carToDelete, key));
+        Assertions.assertTrue(service.deleteVehicle(carToDelete));
     }
 
+    @DisplayName("deleteVehicle() car that does not exist")
+    @Test
+    public void deleteVehicle_CarDoesNotExist() {
+
+        CarDTO carToDelete = new CarDTO(car2);
+
+        Mockito.when(reposity.getCarById(carToDelete.getId())).thenReturn(Optional.empty());
+
+        Assertions.assertFalse(service.deleteVehicle(carToDelete));
+    }
 }
