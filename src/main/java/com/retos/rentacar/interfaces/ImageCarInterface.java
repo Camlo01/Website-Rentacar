@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * @author Camilo
+ */
 @Component
 public interface ImageCarInterface extends PagingAndSortingRepository<ImageCar, Integer> {
 

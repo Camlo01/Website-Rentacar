@@ -1,25 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package com.retos.rentacar.interfaces;
 
 import com.retos.rentacar.modelo.Entity.Client.Client;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
-
 /**
- * @author USUARIO
+ * @author Camilo
  */
 public interface ClientInterface extends JpaRepository<Client, Integer> {
 
     Optional<Client> findClientByEmail(String email);
 
-    //    @Query(value = "SELECT * FROM CLIENT WHERE KEY_CLIENT LIKE '?1' ", nativeQuery = true)
-    Optional<Client> findByKeyClient(String key);
+    @Query(value = "SELECT * FROM client WHERE key_client LIKE :key ", nativeQuery = true)
+    Optional<Client> findClientByKeyClient(@PathVariable("key") String key);
 
 }
