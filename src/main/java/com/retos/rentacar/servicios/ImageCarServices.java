@@ -45,33 +45,28 @@ public class ImageCarServices {
      * Method in charge of save a imageCar
      *
      * @param img to save
-     * @param key of who request
      * @return ImageCar if was successfully saved
      */
-    public ImageCar saveImageCar(ImageCarDTO img, KeyClient key) {
-        if (clientServices.hasPermissions(key, false)) {
-            ImageCar newImage = new ImageCar();
-            newImage.setUrl(img.getUrl());
-            newImage.setCar(carInterface.findById(img.getIdCar()).get());
-            return repository.save(newImage);
-        }
-        return null;
+    public ImageCar saveImageCar(ImageCarDTO img) {
+        ImageCar newImage = new ImageCar();
+        newImage.setUrl(img.getUrl());
+        newImage.setCar(carInterface.findById(img.getIdCar()).get());
+        return repository.save(newImage);
     }
 
     /**
      * Method in charge of delete a imageCar by its id
      *
      * @param img to delete
-     * @param key of who request
-     * @return true if was successfully deleted
      */
-    public boolean deleteImageCar(ImageCarDTO img, KeyClient key) {
-        if (clientServices.hasPermissions(key, false)) {
-            repository.deleteById(img.getId());
-            return true;
-        }
-        return false;
+    public void deleteImageCar(ImageCarDTO img) {
+        repository.deleteById(img.getId());
     }
 
+    // Util methods
+
+    public boolean hasPermissions(KeyClient key) {
+        return clientServices.hasPermissions(key, false);
+    }
 
 }

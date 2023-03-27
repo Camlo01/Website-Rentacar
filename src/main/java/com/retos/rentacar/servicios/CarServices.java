@@ -6,13 +6,12 @@ import com.retos.rentacar.modelo.Entity.Car.Car;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.modelo.Entity.Gama.Gama;
 import com.retos.rentacar.repositorio.CarRepository;
-
-import java.util.List;
-import java.util.Optional;
-
 import com.retos.rentacar.repositorio.GamaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CarServices {
@@ -64,45 +63,34 @@ public class CarServices {
      * Method in charge to save a vehicle
      *
      * @param car to save
-     * @param key of who request
      * @return null if the car could not be saved
      */
-    public Car saveVehicle(Car car, KeyClient key) {
-        if (clientServices.hasPermissions(key, false)) {
-            return carRepository.save(car);
-        }
-        return null;
+    public Car saveVehicle(Car car) {
+        return carRepository.save(car);
     }
 
     /**
      * Method in charge to update a vehicle
      *
      * @param car updated
-     * @param key of who request
      * @return null if it could not be updated
      */
-    public Car updateVehicle(Car car, KeyClient key) {
-        if (clientServices.hasPermissions(key, true)) {
-            return update(car);
-        }
-        return null;
+    public Car updateVehicle(Car car) {
+        return update(car);
     }
 
     /**
-     * Method in charge to delete a vehicle after verify who request has permissions
+     * Method in charge to delete a vehicle
      *
      * @param car to delete
-     * @param key of who request
      * @return true if was successfully deleted
      */
-    public boolean deleteVehicle(CarDTO car, KeyClient key) {
+    public boolean deleteVehicle(CarDTO car) {
         Optional<Car> vehicleToDeleteObtained = carRepository.getCarById(car.getId());
         if (vehicleToDeleteObtained.isPresent()) {
-            if (clientServices.hasPermissions(key, false)) {
-                Car vehicleToDelete = vehicleToDeleteObtained.get();
-                carRepository.delete(vehicleToDelete);
-                return true;
-            }
+            Car vehicleToDelete = vehicleToDeleteObtained.get();
+            carRepository.delete(vehicleToDelete);
+            return true;
         }
         return false;
     }
@@ -143,6 +131,16 @@ public class CarServices {
             return carRepository.save(carInDB);
         }
         return null;
+    }
+
+    /**
+     * Method in charge of validate the permissions of a client by its keyClient
+     *
+     * @param key to evaluate
+     * @return boolean value
+     */
+    public boolean hasPermissions(KeyClient key) {
+        return clientServices.hasPermissions(key, false);
     }
 
 

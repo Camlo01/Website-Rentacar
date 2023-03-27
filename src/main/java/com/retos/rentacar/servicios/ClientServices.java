@@ -3,6 +3,11 @@ package com.retos.rentacar.servicios;
 
 import com.retos.rentacar.interfaces.ClientInterface;
 import com.retos.rentacar.modelo.Entity.Client.Client;
+import com.retos.rentacar.modelo.Entity.Client.ClientType;
+import com.retos.rentacar.modelo.Entity.Client.KeyClient;
+import com.retos.rentacar.repositorio.ClientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
@@ -10,13 +15,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.retos.rentacar.modelo.Entity.Client.ClientType;
-import com.retos.rentacar.modelo.Entity.Client.KeyClient;
-import com.retos.rentacar.repositorio.ClientRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class ClientServices {
@@ -50,17 +48,23 @@ public class ClientServices {
     }
 
     /**
-     * Method in charge of return a client by its Id if who make the request have permission
+     * Method in charge of get a Client by KeyClient
      *
-     * @param id  of client to find
-     * @param key of who make the request
-     * @return the client if exist
+     * @param key of client to find
+     * @return Optional of Client
      */
-    public Optional<Client> getClientByIdWithAuthorization(int id, KeyClient key) {
-        if (hasPermissions(key, false)) {
-            return getClientById(id);
-        }
-        return Optional.empty();
+    public Optional<Client> getClientByKey(String key) {
+        return clientRepository.getClientByKey(key);
+    }
+
+    /**
+     * Method in charge of return a client by its id
+     *
+     * @param id of client to find
+     * @return Optional of Client
+     */
+    public Optional<Client> getClientByIdWithAuthorization(int id) {
+        return getClientById(id);
     }
 
     /**
@@ -85,11 +89,10 @@ public class ClientServices {
      * Method that allows Admins and Developers to create accounts
      *
      * @param account account to create
-     * @param key     key of who make the request
      * @return the client if it was successfully saved
      */
-    public Client saveClient(Client account, KeyClient key) {
-        if (hasPermissions(key, false) && isValidClient(account)) {
+    public Client saveClient(Client account) {
+        if (isValidClient(account)) {
             account.setKeyClient(new KeyClient().getKeyClient());
             return clientRepository.save(account);
         }
@@ -103,14 +106,10 @@ public class ClientServices {
      * or if the person making the request is the owner of the account
      *
      * @param client to update already updated
-     * @param key    of who make the request
      * @return the client if was successfully updated
      */
-    public Client updateClient(Client client, KeyClient key) {
-        if (hasPermissions(key, false) || isAccountOwner(client, key)) {
-            return update(client);
-        }
-        return null;
+    public Client updateClient(Client client) {
+        return update(client);
     }
 
     /**
@@ -118,17 +117,14 @@ public class ClientServices {
      * or has Admin or Developer permissions
      *
      * @param idClient to delete
-     * @param key      of who make the request
      * @return true if it was successfully deleted
      */
-    public boolean deleteClient(int idClient, KeyClient key) {
+    public boolean deleteClient(int idClient) {
         Optional<Client> accountToDelete = clientRepository.getClientById(idClient);
         if (accountToDelete.isPresent()) {
             Client account = accountToDelete.get();
-            if (hasPermissions(key, false) || isAccountOwner(account, key)) {
-                clientRepository.delete(account);
-                return true;
-            }
+            clientRepository.delete(account);
+            return true;
         }
         return false;
     }
@@ -204,6 +200,45 @@ public class ClientServices {
     //--------- UTILS
 
     /**
+     * Method in charge of verifying that the key of the person making the requests is the
+     * same as the client that is sent, this is achieved by verifying both keyClient
+     *
+     * @param client received
+     * @param key    of whom made the query
+     * @return true if the key is the same of the client
+     */
+    public boolean isAccountOwner(Client client, KeyClient key) {
+        return (Objects.equals(client.getKeyClient(), key.getKeyClient()));
+    }
+
+    /**
+     * Method that find user by the Client´s Key to validate if the Type of Client
+     * has permissions of ADMIN or DEVELOPER
+     *
+     * @param keyClientToEvaluate keyClient of the client to validate its permissions
+     * @param includeSupport      value to consider in case a Support type client has permissions
+     * @return true if type client is ADMIN or DEVELOPER and
+     * in case that includeSupport was passed as true, if is SUPPORT
+     */
+    public boolean hasPermissions(KeyClient keyClientToEvaluate, Boolean includeSupport) {
+
+        Optional<Client> clientObtained = clientInterface.findClientByKeyClient(keyClientToEvaluate.getKeyClient());
+
+        if (clientObtained.isEmpty()) {
+            return false;
+        } else {
+
+            ClientType type = clientObtained.get().getType();
+
+            if (type == ClientType.CLIENT) {
+                return false;
+            } else if (type == ClientType.ADMIN || type == ClientType.DEVELOPER) {
+                return true;
+            } else return includeSupport && type == ClientType.SUPPORT;
+        }
+    }
+
+    /**
      * Method responsible for validating a password that meets the following requirements
      * <p>
      * - at least one digit
@@ -265,42 +300,5 @@ public class ClientServices {
         return daysElapsed >= 6575;
     }
 
-    /**
-     * Method in charge of verifying that the key of the person making the requests is the
-     * same as the client that is sent, this is achieved by verifying both keyClient
-     *
-     * @param client received
-     * @param key    of whom made the query
-     * @return true if the key is the same of the client
-     */
-    private Boolean isAccountOwner(Client client, KeyClient key) {
-        return (Objects.equals(client.getKeyClient(), key.getKeyClient()));
-    }
 
-    /**
-     * Method that find user by the Client´s Key to validate if the Type of Client
-     * has permissions of ADMIN or DEVELOPER
-     *
-     * @param keyClientToEvaluate keyClient of the client to validate its permissions
-     * @param includeSupport      value to consider in case a Support type client has permissions
-     * @return true if type client is ADMIN or DEVELOPER and
-     * in case that includeSupport was passed as true, if is SUPPORT
-     */
-    public boolean hasPermissions(KeyClient keyClientToEvaluate, Boolean includeSupport) {
-
-        Optional<Client> clientObtained = clientInterface.findByKeyClient(keyClientToEvaluate.getKeyClient());
-
-        if (clientObtained.isEmpty()) {
-            return false;
-        } else {
-
-            ClientType type = clientObtained.get().getType();
-
-            if (type == ClientType.CLIENT) {
-                return false;
-            } else if (type == ClientType.ADMIN || type == ClientType.DEVELOPER) {
-                return true;
-            } else return includeSupport && type == ClientType.SUPPORT;
-        }
-    }
 }
