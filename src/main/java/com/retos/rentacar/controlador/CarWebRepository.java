@@ -2,17 +2,18 @@
 package com.retos.rentacar.controlador;
 
 import com.retos.rentacar.interfaces.CarInterface;
-import com.retos.rentacar.modelo.Entity.Car.Car;
 import com.retos.rentacar.modelo.DTO.Wrapper.CarAndKeyClient;
+import com.retos.rentacar.modelo.Entity.Car.Car;
+import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.servicios.CarServices;
-
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/car")
@@ -21,11 +22,9 @@ import org.springframework.web.bind.annotation.*;
 public class CarWebRepository {
 
     @Autowired
-    private CarServices carServices;
+    private CarServices service;
     @Autowired
     private CarInterface carInterface;
-
-    // --- Peticiones HTTP Fijas
 
     // - GET
 
@@ -36,42 +35,64 @@ public class CarWebRepository {
 
     @GetMapping("/lastCarAddedBookable")
     public Optional<Car> getLastCarAddedBookable() {
-        return carServices.getLastCarAddedBookable();
+        return service.getLastCarAddedBookable();
     }
 
     @GetMapping("/lastCarAdded")
     public Optional<Car> getLastCarAdded() {
-        return carServices.getLastCarAdded();
+        return service.getLastCarAdded();
     }
 
     @PostMapping("/save")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Car saveVehicleWithAuthorization(@RequestBody CarAndKeyClient carAndKeyclient) {
-        Car carToSave = new Car(carAndKeyclient.getCar());
-        return carServices.saveVehicle(carToSave, carAndKeyclient.getKey());
+    public ResponseEntity<?> saveVehicleWithAuthorization(@RequestBody CarAndKeyClient body) {
+
+        if (hasPermission(body.getKey())) {
+            Car carToSave = new Car(body.getCar());
+            Car carSaved = service.saveVehicle(carToSave);
+            if (carSaved.getId() == null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            } else return new ResponseEntity<>(carSaved, HttpStatus.CREATED);
+        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @PutMapping("/update")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Car updateVehicle(@RequestBody CarAndKeyClient body) {
-        Car car = new Car(body.getCar());
-        return carServices.updateVehicle(car, body.getKey());
+    public ResponseEntity<?> updateVehicle(@RequestBody CarAndKeyClient body) {
+        if (hasPermission(body.getKey())) {
+            Car car = new Car(body.getCar());
+            Car carUpdated = service.updateVehicle(car);
+            return new ResponseEntity<>(carUpdated, HttpStatus.CREATED);
+        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @DeleteMapping("/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteVehicle(@RequestBody CarAndKeyClient body) {
-        carServices.deleteVehicle(body.getCar(), body.getKey());
+    public ResponseEntity<?> deleteVehicle(@RequestBody CarAndKeyClient body) {
+        if (hasPermission(body.getKey())) {
+            boolean wasDeleted = service.deleteVehicle(body.getCar());
+            if (wasDeleted) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @GetMapping("/all")
     public List<Car> getCar() {
-        return carServices.getAll();
+        return service.getAll();
     }
 
     @GetMapping("/pageable")
     List<Car> getCarPageable(@RequestParam int page, @RequestParam int size) {
         return carInterface.findAll(PageRequest.of(page, size)).getContent();
+    }
+
+    /**
+     * Method in charge to evaluate the permissions a client by its keyClient
+     *
+     * @param key to evaluate
+     * @return boolean value
+     */
+    private boolean hasPermission(KeyClient key) {
+        return service.hasPermissions(key);
     }
 
 }
