@@ -1,24 +1,23 @@
 package com.retos.rentacar.modelo.DTO.Wrapper;
 
+import com.retos.rentacar.modelo.DTO.ReservationDTO;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
-import com.retos.rentacar.modelo.Entity.Reservation.Reservation;
 
 public class ReservationAndKeyClient {
 
-    private Reservation reservation;
+    private ReservationDTO reservation;
     private KeyClient key;
 
-
-    public ReservationAndKeyClient(Reservation reservation, KeyClient keyClient) {
+    public ReservationAndKeyClient(ReservationDTO reservation, KeyClient keyClient) {
         this.reservation = reservation;
         this.key = keyClient;
     }
 
-    public Reservation getReservation() {
+    public ReservationDTO getReservation() {
         return reservation;
     }
 
-    public void setReservation(Reservation reservation) {
+    public void setReservation(ReservationDTO reservation) {
         this.reservation = reservation;
     }
 
@@ -33,7 +32,7 @@ public class ReservationAndKeyClient {
     @Override
     public String toString() {
         return "ReservationAndKeyclient{" +
-                "reservation=" + reservation.getClient() +
+                "reservation=" + reservation.getClient_id() +
                 ", keyClient=" + key.getKeyClient() +
                 '}';
     }
