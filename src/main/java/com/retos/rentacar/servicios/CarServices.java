@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -107,7 +108,7 @@ public class CarServices {
 
         int idOfCarToUpdate = car.getId();
 
-        Optional<Car> carObtained = carRepository.getCarById(idOfCarToUpdate);
+        Optional<Car> carObtained = getCarById(idOfCarToUpdate);
 
         if (carObtained.isPresent()) {
             Car carInDB = carObtained.get();
@@ -119,13 +120,16 @@ public class CarServices {
             carInDB.setDescription(car.getDescription());
             carInDB.setCarStatus(car.getCarStatus());
 
-            try {
+//          validate if there is a new gama to set
+            if (!Objects.equals(car.getGama().getId(), carInDB.getGama().getId())) {
+                try {
 //                Try to set a new Gama
-                int newGamaId = car.getGama().getId();
-                Gama newGama = gamaRepository.getGamaById(newGamaId).get();
-                carInDB.setGama(newGama);
+                    int newGamaId = car.getGama().getId();
+                    Gama newGama = gamaRepository.getGamaById(newGamaId).get();
+                    carInDB.setGama(newGama);
 
-            } catch (NullPointerException ignored) {
+                } catch (NullPointerException ignored) {
+                }
             }
 
             return carRepository.save(carInDB);
