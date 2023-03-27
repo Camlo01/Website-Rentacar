@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Message implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_message",nullable = false)
+    @Column(name = "id_message", nullable = false)
     private Integer id;
     @Column(name = "message_text")
     private String messageText;
