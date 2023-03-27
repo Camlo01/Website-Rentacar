@@ -1,9 +1,5 @@
 package com.retos.rentacar.modelo.DTO;
 
-import java.util.Date;
-
-import com.retos.rentacar.modelo.Entity.Reservation.ReservationCode;
-
 public class ReservationDTO {
 
     private String startDate;
@@ -13,16 +9,12 @@ public class ReservationDTO {
     private int client_id;
 
     public ReservationDTO(String startDate, String devolutionDate, int car_id, int client_id) {
-        this.startDate =startDate;
+        this.startDate = startDate;
         this.devolutionDate = devolutionDate;
-        this.code = new ReservationCode().generateReservationCode();
         this.car_id = car_id;
         this.client_id = client_id;
     }
 
-
-    public ReservationDTO() {
-    }
 
     public String getStartDate() {
         return startDate;
@@ -64,7 +56,7 @@ public class ReservationDTO {
         this.client_id = client_id;
     }
 
-    public boolean isNull(){
+    public boolean isNull() {
         return code == null;
     }
 }
