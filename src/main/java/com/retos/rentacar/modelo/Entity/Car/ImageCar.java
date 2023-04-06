@@ -24,6 +24,11 @@ public class ImageCar {
     public ImageCar() {
     }
 
+    public ImageCar(Integer id, String url) {
+        this.id = id;
+        this.url = url;
+    }
+
     public ImageCar(String url) {
         this.url = url;
     }
