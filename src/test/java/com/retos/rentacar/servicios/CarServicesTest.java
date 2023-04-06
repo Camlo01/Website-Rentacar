@@ -25,7 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 class CarServicesTest {
 
     @Mock
-    private CarRepository reposity;
+    private CarRepository repository;
 
     @Mock
     private ClientServices clientServices;
@@ -67,7 +67,7 @@ class CarServicesTest {
     public void getById_shouldNotBeNull() {
         int idOfCarToFind = 1;
 
-        Mockito.when(reposity.getCarById(idOfCarToFind))
+        Mockito.when(repository.getCarById(idOfCarToFind))
                 .thenReturn(Optional.of(car1));
 
         Assertions.assertTrue(service.getCarById(idOfCarToFind).isPresent());
@@ -78,7 +78,7 @@ class CarServicesTest {
     public void getById_ShouldBeNullIfDoesNotExist() {
         int idOfCarToFind = 999;
 
-        Mockito.when(reposity.getCarById(idOfCarToFind))
+        Mockito.when(repository.getCarById(idOfCarToFind))
                 .thenReturn(Optional.empty());
 
         Assertions.assertTrue(service.getCarById(idOfCarToFind).isEmpty());
@@ -87,8 +87,7 @@ class CarServicesTest {
     @DisplayName("getLastCarAddedBookable() should not be null")
     @Test
     public void getLastCarAddedBookable_shouldNotBeNull() {
-
-        Mockito.when(reposity.getLastCarAdded())
+        Mockito.when(repository.getLastCarAdded())
                 .thenReturn(Optional.of(car5));
 
         Assertions.assertNotNull(service.getLastCarAdded().get());
@@ -98,8 +97,7 @@ class CarServicesTest {
     @DisplayName("getLastCarAdded() should not be null")
     @Test
     public void getLastCarAdded_ShouldNotBeNull() {
-
-        Mockito.when(reposity.getLastCarAdded())
+        Mockito.when(repository.getLastCarAdded())
                 .thenReturn(Optional.of(car5));
 
         Assertions.assertNotNull(service.getLastCarAdded().get());
@@ -108,8 +106,7 @@ class CarServicesTest {
     @DisplayName("saveVehicle() return the same vehicle")
     @Test
     public void saveVehicle() {
-
-        Mockito.when(reposity.save(car2))
+        Mockito.when(repository.save(car2))
                 .thenReturn(car2);
 
         Assertions.assertEquals(car2, service.saveVehicle(car2));
@@ -118,12 +115,10 @@ class CarServicesTest {
     @DisplayName("updateVehicle() should not be null with a correct car to update")
     @Test
     public void updateVehicle_ShouldBeNotNull() {
-
-//        Consult the car in the DB
-        Mockito.when(reposity.getCarById(car5.getId()))
+        Mockito.when(repository.getCarById(car5.getId()))
                 .thenReturn(Optional.of(car5));
 
-        Mockito.when(reposity.save(any(Car.class)))
+        Mockito.when(repository.save(any(Car.class)))
                 .thenReturn(car5);
 
         Assertions.assertNotNull(service.updateVehicle(car5));
@@ -132,8 +127,7 @@ class CarServicesTest {
     @DisplayName("updateVehicle() should return null if the car does not exist")
     @Test
     public void updateVehicle_CarThatDoesNotExist() {
-
-        Mockito.when(reposity.getCarById(car5.getId()))
+        Mockito.when(repository.getCarById(car5.getId()))
                 .thenReturn(Optional.empty());
 
         Assertions.assertNull(service.updateVehicle(car5));
@@ -142,13 +136,12 @@ class CarServicesTest {
     @DisplayName("deleteVehicle() car that exist")
     @Test
     public void deleteVehicle_CarThatExist() {
-
         CarDTO carToDelete = new CarDTO(car1);
 
-        Mockito.when(reposity.getCarById(carToDelete.getId()))
+        Mockito.when(repository.getCarById(carToDelete.getId()))
                 .thenReturn(Optional.of(car1));
 
-        Mockito.doNothing().when(reposity).delete(any(Car.class));
+        Mockito.doNothing().when(repository).delete(any(Car.class));
 
         Assertions.assertTrue(service.deleteVehicle(carToDelete));
     }
@@ -156,10 +149,9 @@ class CarServicesTest {
     @DisplayName("deleteVehicle() car that does not exist")
     @Test
     public void deleteVehicle_CarDoesNotExist() {
-
         CarDTO carToDelete = new CarDTO(car2);
 
-        Mockito.when(reposity.getCarById(carToDelete.getId())).thenReturn(Optional.empty());
+        Mockito.when(repository.getCarById(carToDelete.getId())).thenReturn(Optional.empty());
 
         Assertions.assertFalse(service.deleteVehicle(carToDelete));
     }
