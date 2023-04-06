@@ -10,13 +10,14 @@ import com.retos.rentacar.repositorio.GamaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class GamaServices {
 
     @Autowired
-    private GamaRepository gamaRepository;
+    private GamaRepository repository;
 
     @Autowired
     private ClientServices clientServices;
@@ -27,7 +28,7 @@ public class GamaServices {
      * @return Iterable of Gama
      */
     public Iterable<Gama> getAll() {
-        return gamaRepository.getAll();
+        return repository.getAll();
     }
 
     /**
@@ -37,28 +38,26 @@ public class GamaServices {
      * @return Optional of Gama
      */
     public Optional<Gama> getGamaById(int id) {
-        return gamaRepository.getGamaById(id);
+        return repository.getGamaById(id);
     }
 
     /**
      * Method in charge to save a new gama
      *
      * @param gama to save
-     * @param key  of who request
      * @return the gama if was successfully saved
      */
-    public Gama saveGama(Gama gama, KeyClient key) {
-        return gamaRepository.save(gama);
+    public Gama saveGama(Gama gama) {
+        return repository.save(gama);
     }
 
     /**
      * Method in charge to update a gama
      *
      * @param gama updated to set
-     * @param key  of who request
      * @return null if it could not be updated
      */
-    public Gama updateGama(Gama gama, KeyClient key) {
+    public Gama updateGama(Gama gama) {
         return update(gama);
     }
 
@@ -66,14 +65,13 @@ public class GamaServices {
      * Method in charge to delete a gama by its id
      *
      * @param gama to delete
-     * @param key  of who request
      * @return true if was successfully deleted
      */
-    public boolean deleteGama(Gama gama, KeyClient key) {
-        Optional<Gama> gamaToDeleteObtained = gamaRepository.getGamaById(gama.getId());
+    public boolean deleteGama(Gama gama) {
+        Optional<Gama> gamaToDeleteObtained = repository.getGamaById(gama.getId());
         if (gamaToDeleteObtained.isPresent()) {
             Gama gamaToDelete = gamaToDeleteObtained.get();
-            gamaRepository.deleteById(gamaToDelete.getId());
+            repository.deleteById(gamaToDelete.getId());
             return true;
         }
         return false;
@@ -90,14 +88,23 @@ public class GamaServices {
     private Gama update(Gama gama) {
         int idOfGamaToUpdate = gama.getId();
 
-        Optional<Gama> gamaObtained = gamaRepository.getGamaById(idOfGamaToUpdate);
+        Optional<Gama> gamaObtained = repository.getGamaById(idOfGamaToUpdate);
 
         if (gamaObtained.isPresent()) {
             Gama gamaInDB = gamaObtained.get();
+            boolean isThereAnyChange = false;
 
-            gamaInDB.setName(gama.getName());
-            gamaInDB.setDescription(gama.getDescription());
-            return gamaRepository.save(gamaInDB);
+            if (Objects.equals(gama.getName(), gamaInDB.getName())) {
+                gamaInDB.setName(gama.getName());
+                isThereAnyChange = true;
+            }
+
+            if (Objects.equals(gama.getDescription(), gamaInDB.getDescription())) {
+                gamaInDB.setDescription(gama.getDescription());
+                isThereAnyChange = true;
+            }
+
+            return (isThereAnyChange) ? repository.save(gamaInDB) : null;
         }
         return null;
     }
