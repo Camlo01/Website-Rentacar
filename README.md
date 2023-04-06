@@ -29,13 +29,17 @@ Sistema de gestión para reservas de vehículos particulares para alquiler y adm
 3. Por terminal navegar hasta el directorio de raíz del proyecto
 4. Compilar y empaquetar el proyecto con el siguiente comando:
 
+```
 ./mvnw clean package
+```
 
-Este comando un archivo JAR en la carpeta "target"
+este comando un archivo JAR en la carpeta "target"
 
 5. Ejecutar la aplicación con el siguiente comando
 
+```
 java -jar target/nombre-archivo-generado.jar
+```
 
 6. la aplicación se ejecuta en el puerto 8080
 
