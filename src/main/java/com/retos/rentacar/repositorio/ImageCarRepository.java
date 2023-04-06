@@ -14,7 +14,7 @@ public class ImageCarRepository {
     @Autowired
     private ImageCarInterface imageInterface;
 
-    public Optional<ImageCar> getImageCar(int id) {
+    public Optional<ImageCar> getImageCarById(int id) {
         return imageInterface.findById(id);
     }
 
@@ -31,7 +31,7 @@ public class ImageCarRepository {
     }
 
     public void delete(int idImg) {
-        Boolean aBoolean = getImageCar(idImg).map(img -> {
+        Boolean aBoolean = getImageCarById(idImg).map(img -> {
             imageInterface.delete(img);
             return true;
         }).orElse(false);
