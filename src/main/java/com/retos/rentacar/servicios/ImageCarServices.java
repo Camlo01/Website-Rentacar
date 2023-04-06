@@ -2,6 +2,7 @@ package com.retos.rentacar.servicios;
 
 import com.retos.rentacar.interfaces.CarInterface;
 import com.retos.rentacar.modelo.DTO.DAO.ImageCarDTO;
+import com.retos.rentacar.modelo.Entity.Car.Car;
 import com.retos.rentacar.modelo.Entity.Car.ImageCar;
 import com.retos.rentacar.modelo.Entity.Client.KeyClient;
 import com.retos.rentacar.repositorio.ImageCarRepository;
@@ -28,7 +29,7 @@ public class ImageCarServices {
      * @return Optional of imageCar
      */
     public Optional<ImageCar> getImageCarById(int id) {
-        return repository.getImageCar(id);
+        return repository.getImageCarById(id);
     }
 
     /**
@@ -49,8 +50,21 @@ public class ImageCarServices {
      */
     public ImageCar saveImageCar(ImageCarDTO img) {
         ImageCar newImage = new ImageCar();
+
+        String url = img.getUrl();
+
+//        validate there is not empty fields
+        if (url.length() == 0) {
+            return null;
+        }
+//        validate that the car what is being assigned the image exists
+        Optional<Car> carToSetImage = getCarById(img.getIdCar());
+        if (carToSetImage.isEmpty()) {
+            return null;
+        }
+
         newImage.setUrl(img.getUrl());
-        newImage.setCar(carInterface.findById(img.getIdCar()).get());
+        newImage.setCar(carToSetImage.get());
         return repository.save(newImage);
     }
 
@@ -59,11 +73,20 @@ public class ImageCarServices {
      *
      * @param img to delete
      */
-    public void deleteImageCar(ImageCarDTO img) {
-        repository.deleteById(img.getId());
+    public boolean deleteImageCar(ImageCarDTO img) {
+        Optional<ImageCar> imgToDelete = getImageCarById(img.getId());
+
+        if (imgToDelete.isPresent()) {
+            repository.deleteById(img.getId());
+            return true;
+        } else return false;
     }
 
     // Util methods
+
+    private Optional<Car> getCarById(int id) {
+        return carInterface.findById(id);
+    }
 
     public boolean hasPermissions(KeyClient key) {
         return clientServices.hasPermissions(key, false);
