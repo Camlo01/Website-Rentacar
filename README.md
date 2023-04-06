@@ -1,41 +1,61 @@
 # PROYECTO RENTACAR 💻🚗
 
+## Introducción
+
 ![image](https://user-images.githubusercontent.com/96300875/166296288-80259517-ab8d-494a-a943-93041473ae5d.png)
 
+Proyecto Backend realizado como parte del programa de formación Misión TIC 2022 - ciclo
+3️⃣ [Ciclo 3, Desarrollo de Software con Lenguaje de Programación Java 🎓]
 
-Proyecto sitio web "Rentacar"el programa de formación MisionTIC en el ciclo 3️⃣ [Ciclo 3, Desarrollo de Software con Lenguaje de Programación Java 🎓] con el objetivo de aprender a realizar el BACKEND con Java ☕ haciendo uso del framework Spring 🍃 utilizando una base de datos MySQL 
+## Descripción
 
-<!--Imagen logo de Spring -->
-![image](https://user-images.githubusercontent.com/96300875/166296186-23eeb329-acf1-4be2-ba91-4855a4793531.png)
+Sistema de gestión para reservas de vehículos particulares para alquiler y administración según permisos de usuario.
 
-<!--Imagen logo de MySQL->
-![image](https://user-images.githubusercontent.com/96300875/182455252-500111a8-0935-482e-924c-bfab30c8f53c.png)
+- Client: crear y cancelar reservaciones
+- Support: Consultas sobre reservaciones con información restringida
+- Admin: crear y cancelar reservaciones de clientes y consultas más complejas
+- Developer: Permisos de Admin y demás funcionalidades
 
+## Requerimientos
 
-En el FRONTEND se utilizó únicamente HTML y se estulizó haciendo uso CSS
-haciendo uso de JavaScript y peticiones con Ajax 
+- Java 11 o superior
+- Spring Boot 2.5.5 o superior
+- MySQL 8.0.32
 
-<!--Imagen HTML, CSS y JS -->
-![image](https://user-images.githubusercontent.com/96300875/166295388-940e3e09-d4f1-49bb-8ab7-94c06fafdba0.png)
-![image](https://user-images.githubusercontent.com/96300875/166296026-e430ddfc-f859-48a7-ae47-6e5a26a79b2c.png)
+## Instalación (Paso a paso)
 
+1. Verificar el cumplimiento de los requerimientos
+2. Descargar el proyecto de el repositorio
+3. Por terminal navegar hasta el directorio de raíz del proyecto
+4. Compilar y empaquetar el proyecto con el siguiente comando:
 
-## Contenido 📖
+./mvnw clean package
 
-- 
+Este comando un archivo JAR en la carpeta "target"
 
-## Puntos a destacar ⚡
+5. Ejecutar la aplicación con el siguiente comando
 
-- 
+java -jar target/nombre-archivo-generado.jar
 
-## Próximo a implementar 🚧🔧🔨
-
-- 
+6. la aplicación se ejecuta en el puerto 8080
 
 ------------------------------------
 
-## Links 🖱
+# Adicional
 
-Link: 
+## Interfaz de usuario
 
-Mi Linkedin: https://www.linkedin.com/in/camilo-beltran-c/
+La aplicación está basada en una arquitectura cliente-servidor, para acceder al cliente puedes hacerlo por medio del
+siguiente link
+
+- Cliente web [Sitio web]:
+
+Si deseas conocer más acerca del código fuente puedes acceder al repositorio por medio del siguiente link
+
+- Repositorio fronted [nombre-repositorio]:
+
+## Información adicional
+
+Si deseas conocer más sobre mi puedes acceder a mi Linkedin
+
+[Linkedin] : https://www.linkedin.com/in/camilo-beltran-c/
