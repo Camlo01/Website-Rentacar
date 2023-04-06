@@ -34,7 +34,7 @@ public class GamaWebRepository {
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody GamaAndKeyClient body) {
         if (hasPermissions(body.getKey())) {
-            Gama newGama = service.saveGama(body.getGama(), body.getKey());
+            Gama newGama = service.saveGama(body.getGama());
             return new ResponseEntity<>(newGama, HttpStatus.CREATED);
         } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
@@ -42,7 +42,7 @@ public class GamaWebRepository {
     @PutMapping("/update")
     public ResponseEntity<?> update(@RequestBody GamaAndKeyClient body) {
         if (hasPermissions(body.getKey())) {
-            Gama gamaUpdated = service.updateGama(body.getGama(), body.getKey());
+            Gama gamaUpdated = service.updateGama(body.getGama());
             return new ResponseEntity<>(gamaUpdated, HttpStatus.CREATED);
         } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
@@ -51,7 +51,7 @@ public class GamaWebRepository {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@RequestBody GamaAndKeyClient body) {
         if (hasPermissions(body.getKey())) {
-            boolean wasDeleted = service.deleteGama(body.getGama(), body.getKey());
+            boolean wasDeleted = service.deleteGama(body.getGama());
             if (wasDeleted) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
