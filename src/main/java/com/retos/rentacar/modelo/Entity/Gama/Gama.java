@@ -1,13 +1,12 @@
 package com.retos.rentacar.modelo.Entity.Gama;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.retos.rentacar.modelo.DTO.DAO.GamaDTO;
 import com.retos.rentacar.modelo.Entity.Car.Car;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.*;
 
 @Entity
 @Table(name = "gama")
@@ -21,13 +20,14 @@ public class Gama implements Serializable {
     @Column(name = "description")
     private String description;
 
-//    @JsonIgnore
+    //    @JsonIgnore
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "gama")
     @JsonIgnoreProperties("gama")
     private List<Car> cars;
 
     public Gama() {
     }
+
     public Gama(GamaDTO gamaDTO) {
         this.id = gamaDTO.getId();
         this.name = gamaDTO.getName();
@@ -78,7 +78,11 @@ public class Gama implements Serializable {
         this.cars = cars;
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return "Gama{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
