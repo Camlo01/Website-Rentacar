@@ -46,8 +46,11 @@ public class ImageCarWebRepository {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<?> deleteImageCar(@RequestBody ImageCarAndKeyClient body) {
         if (hasPermissions(body.getKey())) {
-            service.deleteImageCar(body.getImage());
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            boolean wasDeletedSuccessfully = service.deleteImageCar(body.getImage());
+
+            return (wasDeletedSuccessfully) ?
+                    new ResponseEntity<>(HttpStatus.NO_CONTENT) :
+                    new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
     }
