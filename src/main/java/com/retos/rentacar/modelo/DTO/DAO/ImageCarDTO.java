@@ -1,5 +1,7 @@
 package com.retos.rentacar.modelo.DTO.DAO;
 
+import com.retos.rentacar.modelo.Entity.Car.ImageCar;
+
 public class ImageCarDTO {
 
     private int id;
@@ -17,6 +19,12 @@ public class ImageCarDTO {
         this.id = id;
         this.url = url;
         this.idCar = idCar;
+    }
+
+    public ImageCarDTO(ImageCar img) {
+        this.id = img.getId();
+        this.url = img.getUrl();
+        this.idCar = img.getCar().getId();
     }
 
     public int getId() {
