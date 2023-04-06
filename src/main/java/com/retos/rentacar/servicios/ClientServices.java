@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 public class ClientServices {
 
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientRepository repository;
     @Autowired
     private ClientInterface clientInterface;
 
@@ -32,7 +32,7 @@ public class ClientServices {
      */
     public List<Client> getAllClientsWithAuthorization(KeyClient key) {
         if (hasPermissions(key, false)) {
-            return clientRepository.getAll();
+            return repository.getAll();
         }
         return null;
     }
@@ -44,7 +44,7 @@ public class ClientServices {
      * @return client if exists
      */
     public Optional<Client> getClientById(int id) {
-        return clientRepository.getClientById(id);
+        return repository.getClientById(id);
     }
 
     /**
@@ -54,7 +54,7 @@ public class ClientServices {
      * @return Optional of Client
      */
     public Optional<Client> getClientByKey(String key) {
-        return clientRepository.getClientByKey(key);
+        return repository.getClientByKey(key);
     }
 
     /**
@@ -80,7 +80,7 @@ public class ClientServices {
         if (isValidClient(clientToCreate)) {
             clientToCreate.setType(ClientType.CLIENT);
             clientToCreate.setKeyClient(new KeyClient().getKeyClient());
-            return clientRepository.save(clientToCreate);
+            return repository.save(clientToCreate);
         }
         return null;
     }
@@ -94,7 +94,7 @@ public class ClientServices {
     public Client saveClient(Client account) {
         if (isValidClient(account)) {
             account.setKeyClient(new KeyClient().getKeyClient());
-            return clientRepository.save(account);
+            return repository.save(account);
         }
         return null;
     }
@@ -109,7 +109,10 @@ public class ClientServices {
      * @return the client if was successfully updated
      */
     public Client updateClient(Client client) {
-        return update(client);
+        if (isValidClient(client)) {
+            return update(client);
+        }
+        return null;
     }
 
     /**
@@ -120,10 +123,10 @@ public class ClientServices {
      * @return true if it was successfully deleted
      */
     public boolean deleteClient(int idClient) {
-        Optional<Client> accountToDelete = clientRepository.getClientById(idClient);
+        Optional<Client> accountToDelete = repository.getClientById(idClient);
         if (accountToDelete.isPresent()) {
             Client account = accountToDelete.get();
-            clientRepository.delete(account);
+            repository.delete(account);
             return true;
         }
         return false;
@@ -136,20 +139,23 @@ public class ClientServices {
      * @return full client if credentials were correct
      */
     public Optional<Client> login(Client clientToLogin) {
-        Optional<Client> clientObtained = clientRepository.getClientByEmail(clientToLogin.getEmail());
 
-        //Check if the account doesn't exist
-        if (clientObtained.isEmpty()) {
-            return Optional.empty();
-        }
-        boolean hasSameEmail = Objects.equals(clientObtained.get().getEmail(), clientToLogin.getEmail());
-        boolean hasSamePassword = Objects.equals(clientObtained.get().getPassword(), clientToLogin.getPassword());
+        if (isValidEmail(clientToLogin)) {
 
-        if (hasSameEmail && hasSamePassword) {
-            return clientObtained;
-        } else {
-            return Optional.empty();
+            Optional<Client> clientObtained = repository.getClientByEmail(clientToLogin.getEmail());
+
+            //Check if the account doesn't exist
+            if (clientObtained.isEmpty()) {
+                return Optional.empty();
+            }
+            boolean hasSameEmail = Objects.equals(clientObtained.get().getEmail(), clientToLogin.getEmail());
+            boolean hasSamePassword = Objects.equals(clientObtained.get().getPassword(), clientToLogin.getPassword());
+
+            if (hasSameEmail && hasSamePassword) {
+                return clientObtained;
+            }
         }
+        return Optional.empty();
     }
 
     //Resources
@@ -168,7 +174,7 @@ public class ClientServices {
 
         int idOfClientToUpdate = clientUpdated.getId();
 
-        Optional<Client> clientObtained = clientRepository.getClientById(idOfClientToUpdate);
+        Optional<Client> clientObtained = repository.getClientById(idOfClientToUpdate);
 
         if (clientObtained.isPresent()) {
             boolean isAnyChange = false;
@@ -192,7 +198,7 @@ public class ClientServices {
                 clientInDB.setPassword(clientUpdated.getPassword());
                 isAnyChange = true;
             }
-            if (isAnyChange) return clientRepository.save(clientInDB);
+            if (isAnyChange) return repository.save(clientInDB);
         }
         return null;
     }
@@ -258,7 +264,7 @@ public class ClientServices {
     }
 
     /**
-     * Validate if age and email are valid
+     * Validate if age, email and password of a client are valid
      *
      * @param client to evaluate age and email
      * @return true if both are valid
